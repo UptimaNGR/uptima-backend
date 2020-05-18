@@ -1,0 +1,15 @@
+{
+  "development": {
+    "ENV": "UPTIMA_POSTGRES_DEV_URL"
+  },
+  "test": {
+    "ENV": "UPTIMA_POSTGRES_TEST_URL"
+  },
+  "production": {
+    "ENV": "UPTIMA_DATABASE_URL"
+  },
+  "defaultEnv": {
+    "ENV": "UPTIMA_NODE_ENV"
+  },
+  "sql-file": true
+}
