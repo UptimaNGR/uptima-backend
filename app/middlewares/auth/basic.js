@@ -2,7 +2,7 @@
 import { Helper, genericErrors, constants, ApiError } from '../../utils';
 // import StaffService from '../../services/staff';
 
-// const { fetchByEmail } = StaffService;
+const { fetchByEmail } = StaffService;
 const { errorResponse, verifyToken } = Helper;
 const { EMAIL_CONFLICT, STAFF_EMAIL_EXIST_VERIFICATION_FAIL_MSG } = constants;
 
