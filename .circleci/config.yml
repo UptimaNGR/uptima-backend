@@ -14,4 +14,4 @@ jobs:
 workflows:
     build-and-lint:
       jobs:
-        - build-and-test
+        - build-and-lint
