@@ -6,13 +6,15 @@ export default {
       phone_number,
       company_name,
       facility_type,
-      numberoftanks,
+      number_of_tanks,
       message
     )VALUES ($1, $2, $3, $4, $5, $6, $7)
     RETURNING *`,
 
   getContactUsMsgs: `
-    SELECT * FROM contact_us;
+    SELECT * FROM contact_us
+    OFFSET $1
+    LIMIT $2;
   `,
 
   getContactUsMsgsCount: `

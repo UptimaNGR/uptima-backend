@@ -24,7 +24,7 @@ class ContactUsModel {
     this.phone_number = options.phoneNumber;
     this.company_name = options.companyName;
     this.facility_type = options.facilityType;
-    this.numberoftanks = options.numberOfTanks;
+    this.number_of_tanks = options.numberOfTanks;
     this.message = options.message;
   }
 
@@ -42,7 +42,7 @@ class ContactUsModel {
         this.phone_number,
         this.company_name,
         this.facility_type,
-        this.numberoftanks,
+        this.number_of_tanks,
         this.message
       ]);
     } catch (e) {

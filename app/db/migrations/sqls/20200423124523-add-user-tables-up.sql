@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS contact_us(
   email VARCHAR(150)  NOT NULL,
   phone_number VARCHAR(30) NOT NULL,
   message TEXT NOT NULL,
-  numberoftanks INTEGER NOT NULL,
+  number_of_tanks INTEGER NOT NULL,
   facility_type VARCHAR(50) NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()

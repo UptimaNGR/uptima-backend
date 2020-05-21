@@ -53,4 +53,8 @@ export default {
     SELECT *
     FROM user_info
     WHERE email=($1)`,
+
+  getUserByCompanyId: `
+    SELECT * FROM user_info
+    WHERE company_id=($1);`
 };

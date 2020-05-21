@@ -13,7 +13,7 @@ const { FETCH_UNAVAILABLE_ITEM_FAIL } = constants;
 class ContactUsService {
   /**
    * Fetches a paginate list of all contact us messages
-   * @memberof UnavailableItemsService
+   * @memberof ContactUsService
    * @returns { Promise<Array | Error> } A promise that resolves or rejects
    * with an Array of the contact us resource or a DB Error.
    */

@@ -10,13 +10,13 @@ const { errorResponse } = Helper;
  */
 class ContactUsMiddleware {
   /**
-   * Validates user's login credentials.
+   * Validates contact request credentials.
    * @static
    * @param { Object } req - The request from the endpoint.
    * @param { Object } res - The response returned by the method.
    * @param { function } next - Calls the next handle.
    *@returns { JSON | Null } - Returns error response if validation fails or Null if otherwise.
-   * @memberof AuthMiddleware
+   * @memberof ContactUsMiddleware
    *
    */
   static async validateContactUsFields(req, res, next) {

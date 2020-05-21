@@ -8,7 +8,7 @@ const {
 
 const BASE_URL = NODE_ENV === 'production'
   ? UPTIMA_BASE_URL
-  : `http://localhost:${PORT || 3500}`;
+  : `http://localhost:${PORT || 6500}`;
 
 export default {
   INTERNAL_SERVER_ERROR: 'Oops, something broke on the server!!!',
@@ -91,5 +91,7 @@ export default {
   CONTACT_US_MSG_CREATED_SUCCESSFULLY: 'Created message successfully',
   CONTACT_US_MSG_CREATED_ERROR: 'Error submitting message',
   FETCH_CONTACT_US_MSG_SUCCESSFULLY: 'Successfully retrieved messages',
-  FETCH_CONTACT_US_MSG_ERROR: 'Error retrieving messages'
+  FETCH_CONTACT_US_MSG_ERROR: 'Error retrieving messages',
+  CREATE_COMPANY_ERROR: 'Error creating company',
+  CREATE_COMPANY_SUCCESS: 'Success creating company',
 };

@@ -50,7 +50,7 @@ class ContactUsController {
   }
 
   /**
-   * Controllers used for all existing unavailable items
+   * Controllers used for all existing contact us msgs
    * @static
    * @param {Request} req - The request from the endpoint.
    * @param {Response} res - The response returned by the method.
@@ -58,7 +58,7 @@ class ContactUsController {
    * @returns { JSON } A JSON response containing the details of the unavailable items
    * @memberof UnavailableItemsController
    */
-  static async getUnavailableItems(req, res, next) {
+  static async fetchContactUs(req, res, next) {
     try {
       const data = await getAllContactUsMsg(req.query);
       return successResponse(res, {
