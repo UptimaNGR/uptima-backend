@@ -61,14 +61,14 @@ class AuthMiddleware {
    * @memberof AuthMiddleware
    *
    */
-  static async validateLoginFields(req, res, next) {
-    try {
-      await loginSchema.validateAsync(req.body);
-      next();
-    } catch (error) {
-      errorResponse(req, res, genericErrors.inValidLogin);
-    }
-  }
+  // static async validateLoginFields(req, res, next) {
+  //   try {
+  //     await loginSchema.validateAsync(req.body);
+  //     next();
+  //   } catch (error) {
+  //     errorResponse(req, res, genericErrors.inValidLogin);
+  //   }
+  // }
 
   /**
    * Checks if a specific already exist for a staff account.
@@ -82,8 +82,9 @@ class AuthMiddleware {
    */
   static async signUpEmailValidator(req, res, next) {
     try {
-      const staff = await fetchByEmail(req.body.email);
-      if (staff) {
+      // const staff = await fetchByEmail(req.body.email);
+      const de = true;
+      if (de) {
         return errorResponse(
           req,
           res,
@@ -118,7 +119,8 @@ class AuthMiddleware {
    */
   static async StaffLoginEmailvalidator(req, res, next) {
     try {
-      const staff = await fetchByEmail(req.body.email);
+      // const staff = await fetchByEmail(req.body.email);
+      const staff = true;
       if (!staff) {
         return errorResponse(req, res, genericErrors.inValidLogin);
       }

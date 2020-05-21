@@ -1,9 +1,9 @@
-import db, { redisDB } from '../db';
-import queries from '../db/queries/auth';
+import db from '../db';
+import queries from '../db/queries/user';
 import { Helper, constants, DBError } from '../utils';
 
 
-const { REDIS_KEYS: { staffLocation } } = constants;
+// const {CREATE_STAFF_SUCCESSFULLY} = constants;
 
 /**
  * Contains a schema that describes the staff resource on the app.
@@ -19,16 +19,13 @@ class StaffModel {
       * @constructor StaffModel
       */
   constructor(options) {
-    const { hash, salt } = Helper.hashPassword(
-      options.password || constants.STAFF_DEFAULT_PASSWORD
-    );
     this.id = Helper.generateId();
     this.staff_id = options.staff_id;
     this.first_name = options.first_name;
     this.last_name = options.last_name;
     this.email = options.email;
-    this.password = hash;
-    this.salt = salt;
+    this.password = options.hash;
+    this.salt = options.salt;
     this.role = options.role;
     this.location_id = options.locationId;
     this.phone = options.phone;
@@ -42,10 +39,6 @@ class StaffModel {
      */
   async save() {
     try {
-      // Todo
-      // Create a job for deleting keys [ sets, hashes and strings ]
-      // Create a job that adds key values [sets, hashes and strings]
-      await redisDB.delAsync(staffLocation(this.location_id));
       return db.one(queries.createStaff,
         [
           this.id,

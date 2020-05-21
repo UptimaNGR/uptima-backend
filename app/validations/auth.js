@@ -8,4 +8,4 @@ const loginSchema = Joi.object({
     .required()
 });
 
-export default loginSchema;n
+export default loginSchema;
