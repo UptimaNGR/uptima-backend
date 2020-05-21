@@ -19,7 +19,7 @@ class CompanyModel {
    * @constructor CompanyModel
    */
   constructor(options) {
-    this.id = options.id;
+    this.id = Helper.generateId();
     this.company_name = options.companyName;
     this.address = options.address;
     this.email = options.email;

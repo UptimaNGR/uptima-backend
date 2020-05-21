@@ -34,6 +34,8 @@ class CompanyController {
         data: { id, ...Company }
       });
     } catch (e) {
+      console.log(e);
+      
       const dbError = new DBError({
         status: CREATE_COMPANY_ERROR,
         message: e.message
