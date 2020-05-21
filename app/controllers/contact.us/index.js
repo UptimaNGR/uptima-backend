@@ -1,4 +1,4 @@
-import ContactUsModel from '../../models/contact.us';
+import { ContactUsModel } from '../../models';
 import ContactUsService from '../../services/contact.us';
 import { Helper, constants, ApiError, DBError } from '../../utils';
 

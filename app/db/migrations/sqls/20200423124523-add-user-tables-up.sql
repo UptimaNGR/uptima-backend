@@ -1,5 +1,6 @@
 /* Replace with your SQL commands */
 
+
 CREATE TABLE IF NOT EXISTS company(
   id uuid PRIMARY KEY,
   company_name VARCHAR(100) UNIQUE NOT NULL,
@@ -28,7 +29,7 @@ CREATE TABLE IF NOT EXISTS tank(
   company_id uuid REFERENCES company(id) NOT NULL,
   facility_id INTEGER REFERENCES facility(id)  NOT NULL,
   serial_number INTEGER UNIQUE NOT NULL,
-  fluid VARCHAR(150) NOT NULL,
+  fluid_type VARCHAR(150) NOT NULL,
   structure_type VARCHAR(150) NOT NULL,
   height INTEGER NOT NULL,
   surface_area INTEGER NOT NULL,
@@ -75,7 +76,7 @@ CREATE TABLE IF NOT EXISTS device(
   facility_id INTEGER REFERENCES facility(id)  NOT NULL,
   tank_id INTEGER REFERENCES tank(id)  NOT NULL,
   serial_number INTEGER UNIQUE NOT NULL,
-  dfttd INTEGER NOT NULL,
+  dist_to_device INTEGER NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -92,8 +93,9 @@ CREATE TABLE IF NOT EXISTS activity_logs(
 );
 
 CREATE TABLE IF NOT EXISTS tank_data(
-  id uuid PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   company_id uuid REFERENCES company(id) NOT NULL,
+  device_id uuid REFERENCES device(id) NOT NULL,
   tank_id INTEGER REFERENCES tank(id) NOT NULL,
   volume INTEGER NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),

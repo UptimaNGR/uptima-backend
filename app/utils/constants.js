@@ -86,7 +86,6 @@ export default {
 
   REDIS_RUNNING: 'Redis server is running',
   UPTIMA_RUNNING: 'Uptima is running on PORT',
-  REF_NUM_ERROR: 'Error, please try again!',
   STAFF_ID_ERROR: 'Error, please try again!',
   CONTACT_US_MSG_CREATED_SUCCESSFULLY: 'Created message successfully',
   CONTACT_US_MSG_CREATED_ERROR: 'Error submitting message',
@@ -94,4 +93,7 @@ export default {
   FETCH_CONTACT_US_MSG_ERROR: 'Error retrieving messages',
   CREATE_COMPANY_ERROR: 'Error creating company',
   CREATE_COMPANY_SUCCESS: 'Success creating company',
+  PHONE_ERROR: 'Phone number registered already',
+  GENERIC_ERROR: 'Sorry, something went wrong',
+  CREATE_DEVICE_ERROR: 'Error creating device'
 };
