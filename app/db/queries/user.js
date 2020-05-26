@@ -28,9 +28,10 @@ export default {
         salt=($5),
         user_type=($6),
         email=($7),
-        phone_number=($8)
+        phone_number=($8),
+        company_id=($9)
       WHERE
-        username=($9)
+        username=($10)
       RETURNING
         id,
         first_name,

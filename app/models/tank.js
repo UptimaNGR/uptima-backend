@@ -19,6 +19,7 @@ class TankModel {
    * @constructor TankModel
    */
   constructor(options) {
+    this.id = Helper.generateId();
     this.company_id = options.companyId;
     this.facility_id = options.facilityId;
     this.fluid_type = options.fluidType;
@@ -38,6 +39,7 @@ class TankModel {
   async save() {
     try {
       return db.one(createTank, [
+        this.id,
         this.company_id,
         this.facility_id,
         this.serial_number,
