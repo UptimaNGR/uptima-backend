@@ -10,5 +10,5 @@ export default {
           dist_to_device
         )
     VALUES ($1, $2, $3, $4, $5, $6)
-    RETURNING *`
+    RETURNING *`,
 };

@@ -19,8 +19,8 @@ class TankDataModel {
    * @constructor TankDataModel
    */
   constructor(options) {
-    this.company_id = options.companyId;
-    this.tank_id = options.tankId;
+    this.company_id = options.company_id;
+    this.tank_id = options.tank_id;
     this.device_id = options.deviceId;
     this.volume = options.volume;
   }

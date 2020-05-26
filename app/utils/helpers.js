@@ -90,7 +90,7 @@ class Helper {
    * @param {String} salt - A random string.
    * @param {String} plain - A users' plain password or some sensitive data to be hashed.
    * @memberof Helper
-   * @returns {String} - A hexidecimal string which is the hash value of
+   * @returns {String} - A hexadecimal string which is the hash value of
    *  the plain text passed as the second positional argument.
    */
   static generateHash(salt, plain) {
@@ -172,7 +172,6 @@ class Helper {
     };
   }
 
-
   /**
    * Parses data if it is a string as a javascript object or returns it if it is an object.
    * @static
@@ -199,7 +198,6 @@ class Helper {
       .execAsync();
   }
 
-
   /**
    * Creates DB Error object and logs it with respective error message and status.
    * @static
@@ -215,7 +213,6 @@ class Helper {
     Helper.moduleErrLogMessager(dbError);
     return dbError;
   }
-
 
   /**
    * Converts a shopify graphql id to rest id equivalent.
@@ -247,7 +244,6 @@ class Helper {
       original: moment(date).format('YYYY-MM-DD')
     };
   }
-
 
   /**
    * Generates a JSON response for success scenarios.
@@ -357,6 +353,18 @@ class Helper {
   static calcPages(total, limit) {
     const displayPage = Math.floor(total / limit);
     return total % limit ? displayPage + 1 : displayPage;
+  }
+
+  /**
+   * calculate volume of a tank
+   * @static
+   * @param { Number } surfaceArea - Total surface area of a tank.
+   * @param { Number } distance - The distance of the device to the tank.
+   * @memberof Helper
+   * @returns { Number } - Returns the display page value.
+   */
+  static calcVolume(surfaceArea, distance) {
+    return surfaceArea * distance;
   }
 }
 
