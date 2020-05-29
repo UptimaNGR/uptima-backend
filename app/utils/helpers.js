@@ -8,7 +8,7 @@ import genericError from './error/generic';
 import config from '../../config/env';
 import constants from './constants';
 import DBError from './error/db.error';
-import db, { redisDB } from '../db';
+// import db, { redisDB } from '../db';
 
 const { SECRET } = config;
 const { serverError } = genericError;
@@ -183,20 +183,20 @@ class Helper {
     return typeof data === 'string' ? JSON.parse(data) : data;
   }
 
-  /**
-   * Saves or creates a set and a string through a transaction in Redis.
-   * @static
-   * @param { String | Object } data - The data.
-   * @memberof Helper
-   * @returns { Promise<Null> } - It returns a promise
-   */
-  static multiSaveStringSet(data) {
-    return redisDB
-      .multi()
-      .setex(data.strKey, constants['2HRS'], data.strData)
-      .sadd(data.setKey, data.setData)
-      .execAsync();
-  }
+  // /**
+  //  * Saves or creates a set and a string through a transaction in Redis.
+  //  * @static
+  //  * @param { String | Object } data - The data.
+  //  * @memberof Helper
+  //  * @returns { Promise<Null> } - It returns a promise
+  //  */
+  // static multiSaveStringSet(data) {
+  //   return redisDB
+  //     .multi()
+  //     .setex(data.strKey, constants['2HRS'], data.strData)
+  //     .sadd(data.setKey, data.setData)
+  //     .execAsync();
+  // }
 
   /**
    * Creates DB Error object and logs it with respective error message and status.
