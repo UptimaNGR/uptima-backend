@@ -5,22 +5,29 @@ import config from '../../../config/env';
 // promisfies redis to enable the use of ES6 promises features.
 promisifyAll(redis);
 
-const { NODE_ENV, REDIS_URL } = config;
-console.log(REDIS_URL);
+const { NODE_ENV, redisHost, redisPort, redisAuth } = config;
+
 
 // eslint-disable-next-line import/no-mutable-exports
 let redisDB;
 
 if (NODE_ENV === 'production') {
-  console.log('prod');
-  redisDB = redis.createClient(REDIS_URL);
+  redisDB = redis.createClient({
+    port: redisPort,
+    host: redisHost
+  });
+
+  redisDB.auth(redisAuth, (err, response) => {
+    if (err) {
+      throw err;
+    }
+    return response;
+  });
 }
 if (NODE_ENV === 'development') {
-  console.log('dev');
   redisDB = redis.createClient();
 }
 if (NODE_ENV === 'test') {
-  console.log('test');
   redisDB.select(3, async (err) => {
     if (err) {
       logger.error(`An Error occurred while spawning a 
