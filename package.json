@@ -6,10 +6,10 @@
   "scripts": {
     "test": "cross-env UPTIMA_NODE_ENV=test mocha -c -r esm test/**/*.test.js --timeout 12000 --exit",
     "pretest": "cross-env UPTIMA_NODE_ENV=test npm run migrate:reset && cross-env UPTIMA_NODE_ENV=test npm run migrate up && npm run lint",
-    "prestart": "npm install && npm run migrate:up",
+    "prestart": "npm run migrate:up",
     "start": "node -r esm .",
     "dev": "cross-env UPTIMA_NODE_ENV=development nodemon -r esm .",
-    "migrate": "db-migrate --migrations-dir ./app/db/migrations",
+    "migrate": "node node_modules/db-migrate/bin/db-migrate --migrations-dir ./app/db/migrations",
     "migrate:up": "npm run migrate up",
     "migrate:down": "npm run migrate down",
     "migrate:reset": "npm run migrate reset",
