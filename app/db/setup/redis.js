@@ -12,12 +12,15 @@ console.log(REDIS_URL);
 let redisDB;
 
 if (NODE_ENV === 'production') {
+  console.log('prod');
   redisDB = redis.createClient(REDIS_URL);
 }
 if (NODE_ENV === 'development') {
+  console.log('dev');
   redisDB = redis.createClient();
 }
 if (NODE_ENV === 'test') {
+  console.log('test');
   redisDB.select(3, async (err) => {
     if (err) {
       logger.error(`An Error occurred while spawning a 
