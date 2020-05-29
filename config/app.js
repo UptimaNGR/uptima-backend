@@ -47,6 +47,7 @@ const appConfig = (app) => {
   // checks redis server for successful connection.
   // initialize the port constant
   const port = config.PORT || 6500;
+  logger.info(port);
   // server listens for connections
   app.listen(port, () => {
     logger.info(`${'UPTIMA'} ${port}`);
