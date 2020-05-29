@@ -6,7 +6,7 @@ import config from '../../../config/env';
 promisifyAll(redis);
 
 const { NODE_ENV, REDIS_URL } = config;
-
+console.log(REDIS_URL);
 
 // Creates an instance of a Redis client.
 const redisDB = REDIS_URL ? redis.createClient(REDIS_URL) : redis.createClient();
