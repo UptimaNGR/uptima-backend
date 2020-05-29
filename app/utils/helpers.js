@@ -8,7 +8,7 @@ import genericError from './error/generic';
 import config from '../../config/env';
 import constants from './constants';
 import DBError from './error/db.error';
-// import db, { redisDB } from '../db';
+import db from '../db';
 
 const { SECRET } = config;
 const { serverError } = genericError;
