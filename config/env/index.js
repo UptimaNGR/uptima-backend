@@ -4,7 +4,6 @@ import test from './test';
 import production from './production';
 
 const {
-  UPTIMA_PORT: PORT,
   UPTIMA_SECRET: SECRET,
   UPTIMA_NODE_ENV: NODE_ENV
 } = process.env;
@@ -19,7 +18,6 @@ export default {
   ...process.env,
   ...currentEnv,
   rootPath,
-  PORT,
   SECRET,
   NODE_ENV
 };
