@@ -6,7 +6,6 @@ import cors from 'cors';
 import helmet from 'helmet';
 import apiV1Routes from '../app/routes/v1';
 import config from './env';
-import { redisDB } from '../app/db/setup/redis';
 import { Helper, genericErrors, constants } from '../app/utils';
 
 const { errorResponse, successResponse } = Helper;
@@ -47,7 +46,6 @@ const appConfig = (app) => {
   // handles all forwarded errors
   app.use((err, req, res, next) => errorResponse(req, res, err));
   // checks redis server for successful connection.
-  // redisDB.on('connect', () => logger.info(REDIS_RUNNING));
   // initialize the port constant
   const port = config.PORT || 6500;
   // server listens for connections
