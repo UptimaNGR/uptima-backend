@@ -8,10 +8,15 @@ promisifyAll(redis);
 const { NODE_ENV, REDIS_URL } = config;
 console.log(REDIS_URL);
 
-// Creates an instance of a Redis client.
-const redisDB = REDIS_URL ? redis.createClient(REDIS_URL) : redis.createClient();
+// eslint-disable-next-line import/no-mutable-exports
+let redisDB;
 
-// Selects a different database while in the testing environment
+if (NODE_ENV === 'production') {
+  redisDB = redis.createClient(REDIS_URL);
+}
+if (NODE_ENV === 'development') {
+  redisDB = redis.createClient();
+}
 if (NODE_ENV === 'test') {
   redisDB.select(3, async (err) => {
     if (err) {
@@ -22,7 +27,9 @@ if (NODE_ENV === 'test') {
       try {
         await redisDB.flushdbAsync();
       } catch (e) {
-        logger.error(`An Error occurred while removing test keys with the message: ${e.message}`);
+        logger.error(
+          `An Error occurred while removing test keys with the message: ${e.message}`
+        );
       }
     }
   });
@@ -32,6 +39,4 @@ if (NODE_ENV === 'test') {
 // the same configuration as the client above with an option to change configurations.
 const cloneRedisDB = (options = {}) => redisDB.duplicateAsync(options);
 
-export {
-  redisDB, cloneRedisDB
-};
+export { redisDB, cloneRedisDB };
