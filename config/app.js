@@ -47,7 +47,7 @@ const appConfig = (app) => {
   // handles all forwarded errors
   app.use((err, req, res, next) => errorResponse(req, res, err));
   // checks redis server for successful connection.
-  redisDB.on('connect', () => logger.info(REDIS_RUNNING));
+  // redisDB.on('connect', () => logger.info(REDIS_RUNNING));
   // initialize the port constant
   const port = config.PORT || 6500;
   // server listens for connections
