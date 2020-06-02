@@ -95,9 +95,13 @@ export default {
   CREATE_COMPANY_SUCCESS: 'Success creating company',
   PHONE_ERROR: 'Phone number registered already',
   GENERIC_ERROR: 'Sorry, something went wrong',
+  COMPANY_NOT_FOUND: 'Company does not exist',
   CREATE_DEVICE_ERROR: 'Error creating device',
+  CREATE_DEVICE_SUCCESS: 'Device created successfully',
   CREATE_USER_ERROR: 'Error creating user',
   CREATE_TANK_ERROR: 'Error creating tank',
+  CREATE_FACILITY_ERROR: 'Error creating facility',
+  CREATE_FACILITY_SUCCESS: 'Facility created successfully',
   CREATE_TANK_DATA_ERROR: 'Error creating tank data',
   TANK_DATA_CREATED_SUCCESSFULLY: 'Success creating tank data'
 };

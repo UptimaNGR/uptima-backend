@@ -4,7 +4,8 @@ import db from '../../db';
 
 const {
   fetchCompanyByEmail,
-  fetchCompanyByPhone
+  fetchCompanyByPhone,
+  fetchCompanyById
 } = queries;
 
 // const { fetchResourceByPage, calcPages, moduleErrLogMessager } = Helper;
@@ -35,6 +36,17 @@ class CompanyService {
    */
   static getCompanyByPhone(phone) {
     return db.oneOrNone(fetchCompanyByPhone, [phone]);
+  }
+
+  /**
+   * Fetches a company by id
+   * @memberof CompanyService
+   * @param {string} id - id of company
+   * @returns { Promise<Array | Error> } A promise that resolves or rejects
+   * with an Array of the company resource or a DB Error.
+   */
+  static getCompanyById(id) {
+    return db.oneOrNone(fetchCompanyById, [id]);
   }
 }
 
