@@ -7,7 +7,7 @@ import helmet from 'helmet';
 import apiV1Routes from '../app/routes/v1';
 import config from './env';
 import { Helper, genericErrors, constants } from '../app/utils';
-import { redisDB } from '../app/db/setup/redis';
+import redisDB from '../app/db/setup/redis';
 
 const { errorResponse, successResponse } = Helper;
 const { notFoundApi } = genericErrors;
