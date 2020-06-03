@@ -15,7 +15,7 @@ const { CREATE_COMPANY_ERROR, CREATE_COMPANY_SUCCESS } = constants;
  */
 class CompanyController {
   /**
-   * Controllers used for adding unavailable item patterns
+   * Controllers used for adding companies
    * @static
    * @param {Request} req - The request from the endpoint.
    * @param {Response} res - The response returned by the method.

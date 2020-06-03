@@ -30,6 +30,7 @@ class UserModel {
     this.user_type = options.userType;
     this.salt = options.salt;
     this.middle_name = options.middleName;
+    this.is_admin = options.isAdmin ? options.isAdmin : false;
   }
 
   /**
@@ -51,7 +52,8 @@ class UserModel {
         this.user_type,
         this.email,
         this.phone_number,
-        this.company_id
+        this.company_id,
+        this.is_admin
       ]);
     } catch (e) {
       const dbError = new DBError({

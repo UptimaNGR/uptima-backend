@@ -12,9 +12,10 @@ export default {
           user_type,
           email,
           phone_number,
-          company_id
+          company_id,
+          is_admin
         )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
       RETURNING *`,
 
   updateUser: `
@@ -45,17 +46,22 @@ export default {
         phone_number,
     `,
 
-  checkIfUserExists: `
+  fetchUserByUsername: `
     SELECT *
     FROM user_info
     WHERE username=($1)`,
 
-  checkIfEmailExists: `
+  fetchUserByEmail: `
     SELECT *
     FROM user_info
     WHERE email=($1)`,
 
-  getUserByCompanyId: `
+  fetchUserByPhone: `
+    SELECT *
+    FROM user_info
+    WHERE username=($1)`,
+
+  fetchUserById: `
     SELECT * FROM user_info
-    WHERE company_id=($1);`
+    WHERE id=($1);`
 };

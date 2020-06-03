@@ -38,8 +38,8 @@ class FacilityModel {
         this.id,
         this.company_id,
         this.gps_coordinate,
-        this.facility_type,
-        this.facility_name
+        this.facility_name,
+        this.facility_type
       ]);
     } catch (e) {
       const dbError = new DBError({

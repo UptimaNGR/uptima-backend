@@ -23,7 +23,7 @@ export default {
   '8HRS': 28800,
   BASE_URL,
   STAFF_DEFAULT_PASSWORD: 'admin',
-  ROLE_ARRAY: ['store', 'super', 'staff'],
+  ROLE_ARRAY: ['owner', 'manager', 'basic'],
   ACCESS_FIELD_REQUIRED: 'access field is required as boolean',
   ADMIN_TO_ADMIN_NOT_ALLOWED:
     'You cannot remove an admin within your rank unless you are the owner of the app',
@@ -99,6 +99,7 @@ export default {
   CREATE_DEVICE_ERROR: 'Error creating device',
   CREATE_DEVICE_SUCCESS: 'Device created successfully',
   CREATE_USER_ERROR: 'Error creating user',
+  CREATE_USER_SUCCESS: 'Created user successfully',
   CREATE_TANK_ERROR: 'Error creating tank',
   CREATE_FACILITY_ERROR: 'Error creating facility',
   CREATE_FACILITY_SUCCESS: 'Facility created successfully',

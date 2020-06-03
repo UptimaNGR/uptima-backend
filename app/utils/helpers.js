@@ -8,7 +8,7 @@ import genericError from './error/generic';
 import config from '../../config/env';
 import constants from './constants';
 import DBError from './error/db.error';
-import db from '../db';
+import db, { redisDB } from '../db';
 
 const { SECRET } = config;
 const { serverError } = genericError;
@@ -123,7 +123,7 @@ class Helper {
    * @memberof Helper
    * @returns {string} - JWT Token
    */
-  static generateToken(payload, expiresIn = '2h') {
+  static generateToken(payload, expiresIn = '4h') {
     return jwt.sign(payload, SECRET, { expiresIn });
   }
 
@@ -148,26 +148,22 @@ class Helper {
    * @returns {object } - A new object containing essential user properties and jwt token.
    */
   static addTokenToData(user, is_admin = false) {
-    const { id, is_active, location_id, role, email, shopify_id } = user;
+    const { id, facility_id, user_type, email } = user;
     const token = Helper.generateToken({
       id,
-      is_active,
-      location_id,
-      role,
+      facility_id,
+      user_type,
       email,
-      shopify_id,
       is_admin,
-      isOwner: role === 'super' && !location_id
+      isOwner: user_type === 'manager' && !facility_id
     });
     return {
       id,
       first_name: user.first_name,
       last_name: user.last_name,
-      is_active,
-      location_id,
-      role,
+      facility_id,
+      user_type,
       email,
-      shopify_id,
       token
     };
   }
@@ -177,26 +173,26 @@ class Helper {
    * @static
    * @param { String | Object } data - The data.
    * @memberof Helper
-   * @returns { string } - It returns the storename.
+   * @returns { string } - It returns the facility ame.
    */
   static parseOrReturnData(data) {
     return typeof data === 'string' ? JSON.parse(data) : data;
   }
 
-  // /**
-  //  * Saves or creates a set and a string through a transaction in Redis.
-  //  * @static
-  //  * @param { String | Object } data - The data.
-  //  * @memberof Helper
-  //  * @returns { Promise<Null> } - It returns a promise
-  //  */
-  // static multiSaveStringSet(data) {
-  //   return redisDB
-  //     .multi()
-  //     .setex(data.strKey, constants['2HRS'], data.strData)
-  //     .sadd(data.setKey, data.setData)
-  //     .execAsync();
-  // }
+  /**
+   * Saves or creates a set and a string through a transaction in Redis.
+   * @static
+   * @param { String | Object } data - The data.
+   * @memberof Helper
+   * @returns { Promise<Null> } - It returns a promise
+   */
+  static multiSaveStringSet(data) {
+    return redisDB
+      .multi()
+      .setex(data.strKey, constants['2HRS'], data.strData)
+      .sadd(data.setKey, data.setData)
+      .execAsync();
+  }
 
   /**
    * Creates DB Error object and logs it with respective error message and status.
@@ -212,17 +208,6 @@ class Helper {
     });
     Helper.moduleErrLogMessager(dbError);
     return dbError;
-  }
-
-  /**
-   * Converts a shopify graphql id to rest id equivalent.
-   * @static
-   * @param { String } graphId - A shopify graphql id.
-   * @memberof Helper
-   * @returns { string } - It returns a string equivalent.
-   */
-  static currentDate() {
-    return moment(new Date().toISOString()).format('YYYY-MM-DD');
   }
 
   /**

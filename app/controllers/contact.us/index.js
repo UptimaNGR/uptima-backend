@@ -20,7 +20,7 @@ const { getAllContactUsMsg } = ContactUsService;
  */
 class ContactUsController {
   /**
-   * Controllers used for adding unavailable item patterns
+   * Controllers used for adding contact us messages
    * @static
    * @param {Request} req - The request from the endpoint.
    * @param {Response} res - The response returned by the method.
@@ -55,8 +55,8 @@ class ContactUsController {
    * @param {Request} req - The request from the endpoint.
    * @param {Response} res - The response returned by the method.
    * @param {Next} next
-   * @returns { JSON } A JSON response containing the details of the unavailable items
-   * @memberof UnavailableItemsController
+   * @returns { JSON } A JSON response containing the details of the contact us messages
+   * @memberof ContactUsController
    */
   static async fetchContactUs(req, res, next) {
     try {
