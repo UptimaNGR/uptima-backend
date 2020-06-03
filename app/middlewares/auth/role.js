@@ -62,7 +62,7 @@ class RoleMiddleware {
   }
 
   /**
-    * Checks store admin does not attempt to remove a super admin.
+    * Checks basic admin does not attempt to remove a manager admin.
     * @static
     * @param { Object } req - The request from the endpoint.
     * @param { Object } res - The response returned by the method.
@@ -71,8 +71,8 @@ class RoleMiddleware {
     * @returns { JSON | Null } - Returns error response if validation fails
     * or fires the next function if otherwise.
     */
-  static noStoreToSuperModify(req, res, next) {
-    return req.data.role === 'store' && req.user.role === 'super'
+  static noBasicToManagerModify(req, res, next) {
+    return req.data.role === 'basic' && req.user.role === 'manager'
       ? errorResponse(req, res, new ApiError({
         status: 403,
         message: constants.STORE_TO_SUPER_NOT_ALLOWED
@@ -82,8 +82,8 @@ class RoleMiddleware {
 
 
   /**
-    * Checks that a created super-admin isn't trying
-    * to revoke the access of the app owner or any other super-admin.
+    * Checks that a created manager isn't trying
+    * to revoke the access of the app owner or any other manager
     * @static
     * @param { Object } req - The request from the endpoint.
     * @param { Object } res - The response returned by the method.
@@ -127,7 +127,7 @@ class RoleMiddleware {
   }
 
   /**
-    * Verifies that user has access to location
+    * Verifies that user has access to facility
     * @static
     * @param { Object } req - The request from the endpoint.
     * @param { Object } res - The response returned by the method.
@@ -136,12 +136,12 @@ class RoleMiddleware {
     * @returns { JSON | Function } - Returns error response if validation fails
     * or fires the next function if otherwise.
     */
-  static locationAccessValidator(req, res, next) {
-    const { data: { role, location_id }, params: { locationId } } = req;
-    return role === 'super' || location_id === locationId ? next()
+  static facilityAccessValidator(req, res, next) {
+    const { data: { role, facility_id }, params: { facilityId } } = req;
+    return role === 'manager' || facility_id === facilityId ? next()
       : errorResponse(req, res, new ApiError({
         status: 403,
-        message: constants.ROLE_NOT_SUFFICIENT_LOCATION
+        message: constants.ROLE_NOT_SUFFICIENT_FACILITY
       }));
   }
 }

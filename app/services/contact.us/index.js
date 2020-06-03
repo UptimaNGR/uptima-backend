@@ -4,7 +4,7 @@ import { Helper, DBError, constants } from '../../utils';
 const { getContactUsMsgs, getContactUsMsgsCount } = queries;
 
 const { fetchResourceByPage, calcPages, moduleErrLogMessager } = Helper;
-const { FETCH_UNAVAILABLE_ITEM_FAIL } = constants;
+const { FETCH_CONTACT_US_MSG_ERROR } = constants;
 /**
  * Contains a collection of service methods for managing contact us messages resource on the app.
  * @class ContactUsService
@@ -33,7 +33,7 @@ class ContactUsService {
       };
     } catch (error) {
       const dbError = new DBError({
-        status: FETCH_UNAVAILABLE_ITEM_FAIL,
+        status: FETCH_CONTACT_US_MSG_ERROR,
         message: error.message,
       });
       moduleErrLogMessager(dbError);

@@ -5,6 +5,7 @@ import DeviceModel from './device';
 import TankDataModel from './tank.data';
 import TankModel from './tank';
 import FacilityModel from './facility';
+import UserModel from './user';
 
 export {
   StaffModel,
@@ -13,5 +14,6 @@ export {
   DeviceModel,
   TankDataModel,
   TankModel,
-  FacilityModel
+  FacilityModel,
+  UserModel
 };

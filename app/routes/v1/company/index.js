@@ -18,5 +18,5 @@ router.post(
   checkCompanyPhoneData,
   addCompany
 );
-// router.get('/', getUnavailableItems);
+
 export default router;
