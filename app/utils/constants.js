@@ -22,8 +22,14 @@ export default {
   '2HRS': 7200,
   '8HRS': 28800,
   BASE_URL,
+  events: {
+    SEND_PASSWORD_TO_EMAIL: 'SEND_PASSWORD_TO_EMAIL'
+  },
   STAFF_DEFAULT_PASSWORD: 'admin',
   ROLE_ARRAY: ['owner', 'manager', 'basic'],
+  INVALID_ROLE_PARAMETER: 'Invalid role value',
+  INVALID_TYPE_PARAMETER: 'Invalid facility type value',
+  FACILITY_TYPE_ARRAY: ['isolated', 'tanker', 'station'],
   ACCESS_FIELD_REQUIRED: 'access field is required as boolean',
   ADMIN_TO_ADMIN_NOT_ALLOWED:
     'You cannot remove an admin within your rank unless you are the owner of the app',
@@ -104,5 +110,6 @@ export default {
   CREATE_FACILITY_ERROR: 'Error creating facility',
   CREATE_FACILITY_SUCCESS: 'Facility created successfully',
   CREATE_TANK_DATA_ERROR: 'Error creating tank data',
-  TANK_DATA_CREATED_SUCCESSFULLY: 'Success creating tank data'
+  TANK_DATA_CREATED_SUCCESSFULLY: 'Success creating tank data',
+  FAILED_CREATE_JOB: 'Failed to create job'
 };
