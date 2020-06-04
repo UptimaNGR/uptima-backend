@@ -34,8 +34,9 @@ const appConfig = (app) => {
   app.use(urlencoded({ extended: true }));
   // adds a heartbeat route for the culture
   app.get('/', (req, res) => successResponse(res, { message: WELCOME }));
-  // Serves kue UI for viewing Jobs
-  app.use('/kue-ui', Kue.app);
+
+  // // Serves kue UI for viewing Jobs
+  // app.use('/kue-ui', Kue.app);
 
   // serves v1 api routes
   app.use(v1, apiV1Routes);
