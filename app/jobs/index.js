@@ -8,11 +8,13 @@ const { FAILED_CREATE_JOB } = constants;
 
 // create queue to save jobs in
 export const queue = Kue.createQueue({
+  prefix: 'q',
   redis: {
     port: config.redisPort,
     host: config.redisHost,
     auth: config.redisAuth
   },
+  db: 3,
   jobEvents: false
 });
 
