@@ -35,7 +35,7 @@ const appConfig = (app) => {
   // adds a heartbeat route for the culture
   app.get('/', (req, res) => successResponse(res, { message: WELCOME }));
   // Serves kue UI for viewing Jobs
-  // app.use('/kue-ui', Kue.app);
+  app.use('/kue-ui', Kue.app);
 
   // serves v1 api routes
   app.use(v1, apiV1Routes);
@@ -43,15 +43,6 @@ const appConfig = (app) => {
   app.use((req, res, next) => {
     next(notFoundApi);
   });
-
-  Kue.createQueue({
-    redis: {
-      port: config.redisPort,
-      host: config.redisHost,
-      auth: config.redisAuth
-    }
-  });
-  app.use('/kue-ui', Kue.app);
 
   // handles all forwarded errors
   app.use((err, req, res, next) => errorResponse(req, res, err));

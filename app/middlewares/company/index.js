@@ -9,7 +9,7 @@ const { PHONE_ERROR, EMAIL_CONFLICT, GENERIC_ERROR, COMPANY_NOT_FOUND } = consta
 
 /**
  * A collection of middleware methods used to validates
- * contact us requests.
+ * company requests.
  * @class CompanyMiddleware
  */
 class CompanyMiddleware {

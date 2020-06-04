@@ -6,12 +6,13 @@ export default {
             company_id,
             gps_coordinate,
             facility_name,
-            facility_type
+            facility_type,
+            address
         )
-    VALUES ($1, $2, $3, $4, $5)
+    VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *`,
 
-  updateCompanyDetails: `
+  updateFacilityDetails: `
     UPDATE
         facility
     SET
@@ -19,8 +20,9 @@ export default {
         gps_coordinate=($2),
         facility_name=($3),
         facility_type=($4),
+        address=($5)
     WHERE
-        id=($5)
+        id=($6)
     RETURNING
         id,
         company_id,

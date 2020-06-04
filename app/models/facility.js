@@ -24,6 +24,7 @@ class FacilityModel {
     this.gps_coordinate = options.gpsCoordinate;
     this.facility_name = options.facilityName;
     this.facility_type = options.facilityType;
+    this.address = options.address;
   }
 
   /**
@@ -39,7 +40,8 @@ class FacilityModel {
         this.company_id,
         this.gps_coordinate,
         this.facility_name,
-        this.facility_type
+        this.facility_type,
+        this.address
       ]);
     } catch (e) {
       const dbError = new DBError({

@@ -27,7 +27,7 @@ class UserModel {
     this.email = options.email;
     this.phone_number = options.phoneNumber;
     this.password = options.password;
-    this.user_type = options.userType;
+    this.role = options.role;
     this.salt = options.salt;
     this.middle_name = options.middleName;
     this.is_admin = options.isAdmin ? options.isAdmin : false;
@@ -49,7 +49,7 @@ class UserModel {
         this.username,
         this.password,
         this.salt,
-        this.user_type,
+        this.role,
         this.email,
         this.phone_number,
         this.company_id,
