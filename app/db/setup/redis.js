@@ -23,6 +23,9 @@ if (NODE_ENV === 'production') {
     }
     return response;
   });
+
+  redisDB.set('foo_rand000000000000', 'OK');
+  redisDB.set('foo_rand00000000000', 'OK');
 }
 if (NODE_ENV === 'development') {
   redisDB = redis.createClient();
