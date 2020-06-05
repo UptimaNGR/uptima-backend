@@ -2,6 +2,9 @@
   "name": "uptima-backend",
   "version": "1.0.0",
   "description": "A backend service for uptima.",
+  "engines": {
+    "node": "12.x"
+  },
   "main": "index.js",
   "scripts": {
     "test": "cross-env UPTIMA_NODE_ENV=test mocha -c -r esm test/**/*.test.js --timeout 12000 --exit",
