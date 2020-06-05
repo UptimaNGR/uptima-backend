@@ -43,7 +43,8 @@ class ContactUsMiddleware {
    * or fires the next function if otherwise.
    */
   static facilityTypeValueValidator(req, res, next) {
-    return constants.FACILITY_TYPE_ARRAY.includes(req.body.facilityType)
+    const { facilityType } = req.body;
+    return facilityType.every(e => constants.FACILITY_TYPE_ARRAY.includes(e))
       ? next()
       : errorResponse(
         req,
