@@ -6,13 +6,13 @@ const { createMsg } = queries;
 const { CONTACT_US_MSG_CREATED_ERROR } = constants;
 
 /**
- * Contains a schema that describes the staff resource on the app.
+ * Contains a schema that describes the contact us resource on the app.
  * @class ContactUsModel
  *
  */
 class ContactUsModel {
   /**
-   * This is a constructor for creating a staff.
+   * This is a constructor for creating a contact us .
    * @param { Object } options - contains the required properties for creating a
    * contact us instance.
    * @returns { ContactUsModel } - An instance of the contact us Model.
@@ -29,7 +29,7 @@ class ContactUsModel {
   }
 
   /**
-   * Persists a new staff to the DB.
+   * Persists a new contact us  to the DB.
    * @memberof ContactUsModel
    * @returns { Promise<Object | Error> } A promise that resolves or rejects
    * with a contact us object or a DB Error.

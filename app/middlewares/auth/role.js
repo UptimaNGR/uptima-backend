@@ -21,7 +21,7 @@ class RoleMiddleware {
     * or fires the next function if otherwise.
     */
   static ownerValidator(req, res, next) {
-    return req.data.id === req.params.staffId
+    return req.data.id === req.params.userId
       ? next()
       : errorResponse(req, res, genericErrors.unAuthorized);
   }
@@ -94,7 +94,7 @@ class RoleMiddleware {
     */
   static appOwnerSecureAccessValidator(req, res, next) {
     if (req.data.isOwner) {
-      if (req.data.id === req.params.staffId) {
+      if (req.data.id === req.params.userId) {
         return errorResponse(req, res, new ApiError({
           status: 403,
           message: constants.OWNER_REMOVAL_NOT_SUPPORTED

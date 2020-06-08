@@ -1,3 +1,4 @@
+
 import config from '../../config/env';
 
 const {
@@ -8,7 +9,7 @@ const {
 
 const BASE_URL = NODE_ENV === 'production'
   ? UPTIMA_BASE_URL
-  : `http://localhost:${PORT || 6500}`;
+  : `http://localhost:${PORT || 3000}`;
 
 export default {
   INTERNAL_SERVER_ERROR: 'Oops, something broke on the server!!!',
@@ -23,9 +24,9 @@ export default {
   '8HRS': 28800,
   BASE_URL,
   events: {
-    SEND_PASSWORD_TO_EMAIL: 'SEND_PASSWORD_TO_EMAIL'
+    SEND_PASSWORD_TO_EMAIL: 'SEND_PASSWORD_TO_EMAIL',
+    SEND_CONTACT_US_MSG: 'SEND_CONTACT_US_MSG'
   },
-  STAFF_DEFAULT_PASSWORD: 'admin',
   ROLE_ARRAY: ['owner', 'manager', 'basic'],
   INVALID_ROLE_PARAMETER: 'Invalid role value',
   INVALID_TYPE_PARAMETER: 'Invalid facility type value',
@@ -47,52 +48,49 @@ export default {
   DB_ERROR: 'A database error occurred, either in redis or postgres',
   MODULE_ERROR: 'A module error occurred',
   FAILED_TO_SAVE_ACCESS_TOKEN: 'FAILED_TO_SAVE_ACCESS_TOKEN',
-  FETCH_STAFFS_FAIL: 'FETCH_STAFFS_FAIL',
-  ADD_STAFF_TO_LOCATION_FAIL: 'ADD_STAFF_TO_LOCATION_FAIL',
-  FETCH_STAFFS_BY_LOCATION_FAIL: 'FETCH_STAFFS_BY_LOCATION_FAIL',
-  DELETE_STAFF_FAIL: 'DELETE_STAFF_FAIL',
-  UPDATE_STAFF_LOCATION_FAIL: 'UPDATE_STAFF_LOCATION_FAIL',
+  ADD_USER_TO_FACILITY_FAIL: 'ADD_USER_TO_FACILITY_FAIL',
+  FETCH_USERS_BY_FACILITY_FAIL: 'FETCH_USERS_BY_FACILITY_FAIL',
+  DELETE_USER_FAIL: 'DELETE_USER_FAIL',
+  UPDATE_USER_FACILITY_FAIL: 'UPDATE_USER_FACILITY_FAIL',
   FAILED_TO_RECORD_ACTIVITY: 'FAILED_TO_RECORD_ACTIVITY',
   FETCH_PRODUCTS_FAIL: 'FETCH_PRODUCTS_FAIL',
-  LOCATION_ACCESS_DENIED:
-    'You are not allowed to access resources for other locations',
-  STAFF_EMAIL_EXIST_VERIFICATION_FAIL: 'STAFF_EMAIL_EXIST_VERIFICATION_FAIL',
-  FETCH_SALES_BY_LOCATION_FAIL: 'FETCH_SALES_BY_LOCATION_FAIL',
-  STAFF_EMAIL_EXIST_VERIFICATION_FAIL_MSG:
+  FACILITY_ACCESS_DENIED:
+    'You are not allowed to access resources for other Facilities',
+  USER_EMAIL_EXIST_VERIFICATION_FAIL: 'USER_EMAIL_EXIST_VERIFICATION_FAIL',
+  USER_EMAIL_EXIST_VERIFICATION_FAIL_MSG:
     'Error verifying existence of email, try again.',
-  STAFF_NOT_FOUND_MSG: 'A staff with the id provided was not found',
-  STAFF_NOT_FOUND: 'STAFF_NOT_FOUND',
-  CREATE_STAFF_SUCCESSFULLY: 'Successfully registered staff to location.',
-  CREATE_STAFF_FAILED: 'Error registering staff',
+  USER_NOT_FOUND_MSG: 'A USER with the id provided was not found',
+  USER_NOT_FOUND: 'USER_NOT_FOUND',
+  CREATE_USER_SUCCESSFULLY: 'Successfully registered USER to FACILITY.',
+  CREATE_USER_FAILED: 'Error registering USER',
   LOGIN_USER_SUCCESSFULLY: 'Successfully logged in user',
-  FETCH_STAFFS_SUCCESSFULLY: 'Successfully retrieved staffs',
-  FETCH_STAFF_SUCCESSFULLY: 'Successfully retrieved staff',
-  UPDATE_STAFF_SUCCESSFULLY: 'Successfully updated Staff',
-  VALIDATE_STAFF_ID_FAIL: 'Error validating staff id',
-  ERROR_FETCHING_STAFFS: 'Error fetching staffs',
-  ERROR_UPDATING_STAFF: 'Error updating Staff',
+  FETCH_USERS_SUCCESSFULLY: 'Successfully retrieved USERs',
+  FETCH_USER_SUCCESSFULLY: 'Successfully retrieved USER',
+  UPDATE_USER_SUCCESSFULLY: 'Successfully updated USER',
+  VALIDATE_USER_ID_FAIL: 'Error validating USER id',
+  ERROR_FETCHING_USERS: 'Error fetching USERs',
+  ERROR_UPDATING_USER: 'Error updating USER',
   FAILED_TO_START_END_OF_DAY: 'Error ending day',
   SUCCESSFULLY_STARTED_END_OF_DAY:
     'End of day has been initialized successfully',
-  SUCCESSFULLY_GRANT_ACCESS: 'Successfully granted staff access',
-  SUCCESSFULLY_REVOKED_ACCESS: 'Successfully revoked staff access',
-  FETCH_LOCATIONS_SUCCESSFULLY: 'Successfully retrieved locations',
-  FETCH_LOCATION_SUCCESSFULLY: 'Successfully retrieved location',
-  UPDATE_STAFF_PASSWORD_SUCCESSFULLY: 'Successfully changed password',
+  SUCCESSFULLY_GRANT_ACCESS: 'Successfully granted USER access',
+  SUCCESSFULLY_REVOKED_ACCESS: 'Successfully revoked USER access',
+  FETCH_FACILITIES_SUCCESSFULLY: 'Successfully retrieved Facilities',
+  FETCH_FACILITY_SUCCESSFULLY: 'Successfully retrieved FACILITY',
+  UPDATE_USER_PASSWORD_SUCCESSFULLY: 'Successfully changed password',
   ERROR_UPDATING_PASSWORD: 'Error changing password',
-  UPDATED_STAFF_ACCESS_FAILED_MSG: 'Error updating staff access',
-  SUCCESSFULLY_UPDATED_LOCATION: 'Successfully updated staff location',
-  STAFF_LOCATION_UPDATE_FAILED: 'Error updating staff location',
-  SUCCESSFULLY_UPDATED_ROLE: 'Successfully updated staff role',
-  STAFF_ROLE_UPDATE_FAILED: 'Error updating staff role',
-  SUCCESSFULLY_REMOVED_STAFF: 'Successfully removed staff from location',
-  ERROR_REMOVING_STAFF: 'Error removing staff from location',
-  ROLE_NOT_SUFFICIENT_LOCATION:
-    'You do not have sufficient permission to interact with this location resource',
+  UPDATED_USER_ACCESS_FAILED_MSG: 'Error updating USER access',
+  SUCCESSFULLY_UPDATED_FACILITY: 'Successfully updated USER FACILITY',
+  USER_FACILITY_UPDATE_FAILED: 'Error updating USER FACILITY',
+  SUCCESSFULLY_UPDATED_ROLE: 'Successfully updated USER role',
+  USER_ROLE_UPDATE_FAILED: 'Error updating USER role',
+  SUCCESSFULLY_REMOVED_USER: 'Successfully removed USER from FACILITY',
+  ERROR_REMOVING_USER: 'Error removing USER from FACILITY',
+  ROLE_NOT_SUFFICIENT_FACILITY:
+    'You do not have sufficient permission to interact with this FACILITY resource',
 
   REDIS_RUNNING: 'Redis server is running',
   UPTIMA_RUNNING: 'Uptima is running on PORT',
-  STAFF_ID_ERROR: 'Error, please try again!',
   CONTACT_US_MSG_CREATED_SUCCESSFULLY: 'Created message successfully',
   CONTACT_US_MSG_CREATED_ERROR: 'Error submitting message',
   FETCH_CONTACT_US_MSG_SUCCESSFULLY: 'Successfully retrieved messages',
@@ -100,6 +98,7 @@ export default {
   CREATE_COMPANY_ERROR: 'Error creating company',
   CREATE_COMPANY_SUCCESS: 'Success creating company',
   PHONE_ERROR: 'Phone number registered already',
+  USERNAME_ERROR: 'Username registered already',
   GENERIC_ERROR: 'Sorry, something went wrong',
   COMPANY_NOT_FOUND: 'Company does not exist',
   CREATE_DEVICE_ERROR: 'Error creating device',

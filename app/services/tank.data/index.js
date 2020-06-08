@@ -30,16 +30,16 @@ class TankDataService {
    * @returns { Promise<Array | Error> } A promise that resolves or rejects
    * with volume of Tank.
    */
-  static async calcVolumeByDeviceId({ deviceId, distance }) {
+  static async calcVolumeByDeviceId({ serialNumber, distance }) {
     const {
       surface_area,
       company_id,
       tank_id,
       total_volume
-    } = await db.oneOrNone(fetchTankSurfaceAreaByDeviceId, [deviceId]);
+    } = await db.oneOrNone(fetchTankSurfaceAreaByDeviceId, [serialNumber]);
     const volumeUsed = await calcVolume(surface_area, distance);
     const volume = total_volume - volumeUsed;
-    return { deviceId, company_id, tank_id, volume };
+    return { serialNumber, company_id, tank_id, volume };
   }
 }
 
