@@ -21,7 +21,7 @@ class TankDataModel {
   constructor(options) {
     this.company_id = options.company_id;
     this.tank_id = options.tank_id;
-    this.device_id = options.deviceId;
+    this.device_serial_number = options.serialNumber;
     this.volume = options.volume;
   }
 
@@ -35,7 +35,7 @@ class TankDataModel {
     try {
       return db.one(createTankData, [
         this.company_id,
-        this.device_id,
+        this.device_serial_number,
         this.tank_id,
         this.volume
       ]);

@@ -3,7 +3,7 @@ export default {
     INSERT INTO
       tank_data(
         company_id,
-        device_id,
+        device_serial_number,
         tank_id,
         volume
       )
@@ -20,6 +20,6 @@ export default {
   ON  
     tank.id = device.tank_id
   WHERE 
-    device.id=$1;
+    device.serial_number=$1;
   `
 };

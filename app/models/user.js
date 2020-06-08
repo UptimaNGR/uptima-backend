@@ -20,17 +20,18 @@ class UserModel {
    */
   constructor(options) {
     this.id = Helper.generateId();
-    this.username = options.userName;
+    this.username = options.username;
     this.first_name = options.firstName;
     this.company_id = options.companyId;
     this.last_name = options.lastName;
     this.email = options.email;
     this.phone_number = options.phoneNumber;
-    this.password = options.password;
+    this.password = options.hash;
     this.role = options.role;
     this.salt = options.salt;
     this.middle_name = options.middleName;
     this.is_admin = options.isAdmin ? options.isAdmin : false;
+    this.facility_id = options.facilityId;
   }
 
   /**
@@ -53,7 +54,8 @@ class UserModel {
         this.email,
         this.phone_number,
         this.company_id,
-        this.is_admin
+        this.is_admin,
+        this.facility_id
       ]);
     } catch (e) {
       const dbError = new DBError({

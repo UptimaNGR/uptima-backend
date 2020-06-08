@@ -1,10 +1,14 @@
-// import { loginSchema } from '../../validations/auth';
+import loginSchema from '../../validations/auth';
 import { Helper, genericErrors, constants, ApiError } from '../../utils';
-// import StaffService from '../../services/staff';
+import UserService from '../../services/user';
 
-// const { fetchByEmail } = StaffService;
+const { getUserByEmail, getUserByUsername } = UserService;
 const { errorResponse, verifyToken } = Helper;
-const { EMAIL_CONFLICT, STAFF_EMAIL_EXIST_VERIFICATION_FAIL_MSG } = constants;
+const {
+  EMAIL_CONFLICT,
+  USER_EMAIL_EXIST_VERIFICATION_FAIL_MSG,
+  USER_EMAIL_EXIST_VERIFICATION_FAIL
+} = constants;
 
 /**
  * A collection of middleware methods used to verify the authenticity
@@ -61,17 +65,21 @@ class AuthMiddleware {
    * @memberof AuthMiddleware
    *
    */
-  // static async validateLoginFields(req, res, next) {
-  //   try {
-  //     await loginSchema.validateAsync(req.body);
-  //     next();
-  //   } catch (error) {
-  //     errorResponse(req, res, genericErrors.inValidLogin);
-  //   }
-  // }
+  static async validateLoginFields(req, res, next) {
+    try {
+      await loginSchema.validateAsync(req.body);
+      next();
+    } catch (error) {
+      const apiError = new ApiError({
+        status: 400,
+        message: error.details[0].message
+      });
+      errorResponse(req, res, apiError);
+    }
+  }
 
   /**
-   * Checks if a specific already exist for a staff account.
+   * Checks if a specific already exist for a user account.
    * @static
    * @param { Object } req - The request from the endpoint.
    * @param { Object } res - The response returned by the method.
@@ -82,9 +90,8 @@ class AuthMiddleware {
    */
   static async signUpEmailValidator(req, res, next) {
     try {
-      // const staff = await fetchByEmail(req.body.email);
-      const de = true;
-      if (de) {
+      const user = await getUserByEmail(req.body.email);
+      if (user) {
         return errorResponse(
           req,
           res,
@@ -96,18 +103,18 @@ class AuthMiddleware {
       }
       next();
     } catch (e) {
-      e.status = constants.STAFF_EMAIL_EXIST_VERIFICATION_FAIL;
+      e.status = USER_EMAIL_EXIST_VERIFICATION_FAIL;
       Helper.moduleErrLogMessager(e);
       errorResponse(
         req,
         res,
-        new ApiError({ message: STAFF_EMAIL_EXIST_VERIFICATION_FAIL_MSG })
+        new ApiError({ message: USER_EMAIL_EXIST_VERIFICATION_FAIL_MSG })
       );
     }
   }
 
   /**
-   * Validates staff's login credentials, with emphasis on the
+   * Validates user's login credentials, with emphasis on the
    * existence of a user with the provided email address.
    * @static
    * @param { Object } req - The request from the endpoint.
@@ -117,22 +124,23 @@ class AuthMiddleware {
    * @memberof AuthMiddleware
    *
    */
-  static async StaffLoginEmailvalidator(req, res, next) {
+  static async loginEmailValidator(req, res, next) {
     try {
-      // const staff = await fetchByEmail(req.body.email);
-      const staff = true;
-      if (!staff) {
+      const { email, username } = req.body;
+      const user = await getUserByEmail(email);
+      const userName = await getUserByUsername(username);
+      if (!user && !userName) {
         return errorResponse(req, res, genericErrors.inValidLogin);
       }
-      req.user = staff;
+      req.user = user || userName;
       next();
     } catch (e) {
-      e.status = constants.STAFF_EMAIL_EXIST_VERIFICATION_FAIL;
+      e.status = USER_EMAIL_EXIST_VERIFICATION_FAIL;
       Helper.moduleErrLogMessager(e);
       errorResponse(
         req,
         res,
-        new ApiError({ message: STAFF_EMAIL_EXIST_VERIFICATION_FAIL_MSG })
+        new ApiError({ message: USER_EMAIL_EXIST_VERIFICATION_FAIL_MSG })
       );
     }
   }
@@ -162,7 +170,7 @@ class AuthMiddleware {
   }
 
   /**
-   * Generates password for staff and hashes it.
+   * Generates password for user and hashes it.
    * @static
    * @param { Object } req - The request from the endpoint.
    * @param { Object } res - The response returned by the method.
@@ -172,20 +180,15 @@ class AuthMiddleware {
    *
    */
   static async generatePassword(req, res, next) {
-    const { role } = req.body;
-    if (role === 'staff') {
+    try {
+      const password = Helper.generateUniquePassword();
+      const { hash, salt } = await Helper.hashPassword(password);
+      req.body.salt = salt;
+      req.body.hash = hash;
+      req.body.plainPassword = password;
       next();
-    } else {
-      try {
-        const password = Helper.generateUniquePassword();
-        const { hash, salt } = await Helper.hashPassword(password);
-        req.body.salt = salt;
-        req.body.hash = hash;
-        req.body.plainPassword = password;
-        next();
-      } catch (err) {
-        errorResponse(req, res, genericErrors.authRequired);
-      }
+    } catch (err) {
+      errorResponse(req, res, genericErrors.authRequired);
     }
   }
 }

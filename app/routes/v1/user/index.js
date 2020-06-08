@@ -23,7 +23,7 @@ const {
 } = AuthMiddleware;
 
 const {
-  adminAccessValidator,
+  adminAccessValidator
 } = RoleMiddleware;
 
 const router = Router();

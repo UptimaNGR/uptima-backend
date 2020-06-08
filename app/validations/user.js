@@ -1,15 +1,15 @@
 import Joi from '@hapi/joi';
 
 const userSchema = Joi.object().keys({
-  first_name: Joi.string().required(),
-  last_name: Joi.string().required(),
+  firstName: Joi.string().min(3).required(),
+  lastName: Joi.string().min(3).required(),
   username: Joi.string().min(4).required(),
-  phone_number: Joi.string().required(),
+  phoneNumber: Joi.string().min(10).required(),
   role: Joi.string().required(),
-  company_id: Joi.number().required(),
+  companyId: Joi.string().required(),
   email: Joi.string().email().required(),
-  password: Joi.string().min(8).required(),
-  middle_name: Joi.string()
+  middleName: Joi.string().min(1),
+  facilityId: Joi.string()
 });
 
 export default userSchema;
