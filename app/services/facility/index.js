@@ -3,9 +3,10 @@ import db from '../../db';
 // import { Helper, DBError, constants } from '../../utils';
 
 const {
-  fetchFacilityByFacilityId,
+  fetchFacilityByCompanyId,
   fetchFacilityByGps,
-  fetchFacilityById
+  fetchFacilityById,
+  fetchAllFacilities
 } = queries;
 
 // const { fetchResourceByPage, calcPages, moduleErrLogMessager } = Helper;
@@ -35,7 +36,7 @@ class FacilityService {
    * with an Array of the Facility resource or a DB Error.
    */
   static getFacilityByCompanyId(companyId) {
-    return db.oneOrNone(fetchFacilityByFacilityId, [companyId]);
+    return db.manyOrNone(fetchFacilityByCompanyId, [companyId]);
   }
 
   /**
@@ -47,6 +48,16 @@ class FacilityService {
    */
   static getFacilityById(id) {
     return db.oneOrNone(fetchFacilityById, [id]);
+  }
+
+  /**
+   * Fetches all Facilities
+   * @memberof FacilityService
+   * @returns { Promise<Array | Error> } A promise that resolves or rejects
+   * with an Array of the Facility resource or a DB Error.
+   */
+  static getAllFacility() {
+    return db.oneOrNone(fetchAllFacilities);
   }
 }
 

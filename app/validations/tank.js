@@ -1,8 +1,8 @@
 import Joi from '@hapi/joi';
 
 const tankSchema = Joi.object().keys({
-  companyId: Joi.string().required(),
-  facilityId: Joi.string().required(),
+  companyId: Joi.string(),
+  facilityId: Joi.string(),
   serialNumber: Joi.number().required(),
   fluidType: Joi.string().required(),
   surfaceArea: Joi.number().required(),

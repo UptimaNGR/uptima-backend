@@ -1,4 +1,5 @@
 import queries from '../../db/queries/user';
+import authQueries from '../../db/queries/auth';
 import db from '../../db';
 import { Helper, DBError, constants } from '../../utils';
 
@@ -13,10 +14,17 @@ const {
   updateRoleById,
   updateUserById,
   getUsersPaginated,
-  countPages
+  countPages,
+  fetchAllManagersWithLocation
 } = queries;
 
-const { UPDATE_USER_FACILITY_FAIL, DELETE_USER_FAIL, FETCH_USERS_FAIL } = constants;
+const { fetchAdminById } = authQueries;
+
+const {
+  UPDATE_USER_FACILITY_FAIL,
+  DELETE_USER_FAIL,
+  FETCH_USERS_FAIL
+} = constants;
 
 const {
   moduleErrLogMessager,
@@ -39,7 +47,21 @@ class UserService {
    * with an Array of the User resource or a DB Error.
    */
   static getUserByEmail(email) {
-    return db.oneOrNone(fetchUserByEmail, [email]);
+    const host = email.split('@')[1];
+    return host.includes('uptima')
+      ? db.oneOrNone(fetchAdminById, [email])
+      : db.oneOrNone(fetchUserByEmail, [email]);
+  }
+
+  /**
+   * Fetches a managers in a company
+   * @memberof UserService
+   * @param {string} companyId - company id
+   * @returns { Promise<Array | Error> } A promise that resolves or rejects
+   * with an Array of the User resource or a DB Error.
+   */
+  static getAllUserByCompanyId(companyId) {
+    return db.oneOrNone(fetchAllManagersWithLocation, [companyId]);
   }
 
   /**
@@ -89,7 +111,7 @@ class UserService {
   }
 
   /**
-   * Updates the store Facility id of a specific User.
+   * Updates the Facility id of a specific User.
    * @memberof UserService
    * @param { Object } data - The data of the specific User before update.
    * @param { String } newFacilityId - The FacilityId to be used for the update.
@@ -110,12 +132,12 @@ class UserService {
   }
 
   /**
-     * Deletes a specific User from the DB.
-     * @memberof UserService
-     * @param { Object } data - The data of the specific User to be deleted.
-     * @returns { Promise< Null | Error> } A promise that resolves or rejects
-     * with a null value or a DB Error Object.
-     */
+   * Deletes a specific User from the DB.
+   * @memberof UserService
+   * @param { Object } data - The data of the specific User to be deleted.
+   * @returns { Promise< Null | Error> } A promise that resolves or rejects
+   * with a null value or a DB Error Object.
+   */
   static async deleteById(data) {
     try {
       await db.none(deleteUser, [data.id]);
@@ -130,13 +152,13 @@ class UserService {
   }
 
   /**
-     * Update the role of a User.
-     * @memberof UserService
-     * @param { Object } data - An object representation of the User.
-     * @param { String } newRole - The new role to assign the User.
-     * @returns { Promise< Null | Error> } A promise that resolves or rejects
-     * with a null value or a DB Error Object.
-     */
+   * Update the role of a User.
+   * @memberof UserService
+   * @param { Object } data - An object representation of the User.
+   * @param { String } newRole - The new role to assign the User.
+   * @returns { Promise< Null | Error> } A promise that resolves or rejects
+   * with a null value or a DB Error Object.
+   */
   static async updateUserRole(data, newRole) {
     try {
       await db.none(updateRoleById, [data.id, newRole]);
@@ -151,11 +173,11 @@ class UserService {
   }
 
   /**
-     * Fetches a paginate list of all Users in .
-     * @memberof UserService
-     * @returns { Promise<Array | Error> } A promise that resolves or rejects
-     * with an Array of the User resource or a DB Error.
-     */
+   * Fetches a paginate list of all Users in .
+   * @memberof UserService
+   * @returns { Promise<Array | Error> } A promise that resolves or rejects
+   * with an Array of the User resource or a DB Error.
+   */
   static async fetchAll({ page = 1, limit = 30, facilityId }) {
     try {
       const [count, resources] = await fetchResourceByPage({
@@ -190,9 +212,20 @@ class UserService {
    * @returns { Promise<Object | Error> } A promise that resolves or rejects
    * with a User resource or a DB Error.
    */
-  static async updateById(oldData, reqData) {
+  static async updateUserById(oldData, reqData) {
     const data = { ...oldData, ...reqData };
-    return db.oneOrNone(updateUserById, [data.first_name, data.last_name, data.phone, oldData.id]);
+    return db.oneOrNone(updateUserById, [
+      data.first_name,
+      data.last_name,
+      data.middle_name,
+      data.role,
+      data.email,
+      data.phone_number,
+      data.company_id,
+      data.username,
+      data.facility_id,
+      oldData.id
+    ]);
   }
 }
 

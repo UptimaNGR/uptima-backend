@@ -1,5 +1,5 @@
 // import UserService from '../../services/user';
-import { Helper, constants } from '../../utils';
+import { Helper, constants, genericErrors } from '../../utils';
 
 // const { successResponse } = Helper;
 // const { CREATE_COMPANY_ERROR, CREATE_COMPANY_SUCCESS } = constants;
@@ -33,7 +33,7 @@ class AuthController {
       return Helper.errorResponse(
         req,
         res,
-        constants.genericErrors.inValidLogin
+        genericErrors.inValidLogin
       );
     }
     if (user.role === 'basic') {

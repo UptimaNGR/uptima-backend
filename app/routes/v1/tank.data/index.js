@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import TankDataController from '../../../controllers/tank.data';
 import TankController from '../../../controllers/tank';
 import FacilityController from '../../../controllers/facility';
+import TankDataController from '../../../controllers/tank.data';
 import TankMiddleware from '../../../middlewares/tank';
 import DeviceController from '../../../controllers/device';
 import DeviceMiddleware from '../../../middlewares/device';

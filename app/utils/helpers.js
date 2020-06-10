@@ -148,14 +148,15 @@ class Helper {
    * @returns {object } - A new object containing essential user properties and jwt token.
    */
   static addTokenToData(user, is_admin = false) {
-    const { id, facility_id, role, email } = user;
+    const { id, facility_id, role, email, company_id } = user;
     const token = Helper.generateToken({
       id,
       facility_id,
       role,
       email,
       is_admin,
-      isOwner: role === 'manager' && !facility_id
+      company_id,
+      uptimaAdmin: !role && is_admin
     });
     return {
       id,

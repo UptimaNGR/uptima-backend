@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import morgan from 'morgan';
-import Kue from 'kue';
 import { json, urlencoded } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -34,9 +33,6 @@ const appConfig = (app) => {
   app.use(urlencoded({ extended: true }));
   // adds a heartbeat route for the culture
   app.get('/', (req, res) => successResponse(res, { message: WELCOME }));
-
-  // // Serves kue UI for viewing Jobs
-  // app.use('/kue-ui', Kue.app);
 
   // serves v1 api routes
   app.use(v1, apiV1Routes);

@@ -12,4 +12,10 @@ const userSchema = Joi.object().keys({
   facilityId: Joi.string()
 });
 
-export default userSchema;
+const passwordSchema = Joi.string()
+  .trim()
+  .min(8)
+  .max(25)
+  .required();
+
+export { userSchema, passwordSchema };
