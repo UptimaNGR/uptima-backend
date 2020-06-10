@@ -34,5 +34,6 @@ export default {
   fetchFacilityByCompanyId: 'SELECT * FROM facility WHERE company_id=$1',
   fetchFacilityByFacilityName: 'SELECT * FROM facility WHERE facility_name=$1',
   fetchFacilityById: 'SELECT * FROM facility WHERE id=$1',
-  fetchFacilityByGps: 'SELECT * FROM facility WHERE gps_coordinate=$1'
+  fetchFacilityByGps: 'SELECT * FROM facility WHERE gps_coordinate=$1',
+  fetchAllFacilities: 'SELECT * FROM facility;'
 };

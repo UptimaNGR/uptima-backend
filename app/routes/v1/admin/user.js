@@ -1,21 +1,32 @@
 import { Router } from 'express';
-// import AuthMiddleware from '../../../middlewares/auth/basic';
-// import RoleMiddleware from '../../../middlewares/auth/role';
+import AuthMiddleware from '../../../middlewares/auth/basic';
+import UserController from '../../../controllers/user';
+import UserMiddleware from '../../../middlewares/user';
+import RoleMiddleware from '../../../middlewares/auth/role';
 
-// const { authenticate } = AuthMiddleware;
+const { authenticate } = AuthMiddleware;
+const { updateUserPassword, updateUserProfile } = UserController;
+const { checkUserIdData, validateUserPasswordField } = UserMiddleware;
 
-// const {
-//   adminAccessValidator,
-//   ownerValidator,
-//   roleValueValidator,
-//   appOwnerSecureAccessValidator,
-//   roleAccessValidator,
-//   noStoreToSuperModify
-// } = RoleMiddleware;
+const { ownerValidator } = RoleMiddleware;
 
 const router = Router();
 
-// router.use(authenticate, adminAccessValidator);
+router.use(authenticate);
+
+router.patch(
+  '/:userId',
+  ownerValidator,
+  checkUserIdData,
+  validateUserPasswordField,
+  updateUserPassword
+);
+
+router.put('/:userId', checkUserIdData, updateUserProfile);
+
+// profileUpdateValidator,
+// profileUpdateCheck,
+
 // router.get('/', fetchStaffs);
 // router.patch(
 //   '/:staffId/access',
@@ -43,20 +54,7 @@ const router = Router();
 //   updateStaffLocation
 // );
 // router.get('/:staffId', validateId, fetchStaff);
-// router.put(
-//   '/:staffId',
-//   validateId,
-//   profileUpdateValidator,
-//   profileUpdateCheck,
-//   updateStaffById
-// );
-// router.patch(
-//   '/:staffId',
-//   validateId,
-//   ownerValidator,
-//   passwordUpdateValidator,
-//   updateStaffPassword
-// );
+
 // router.delete(
 //   '/:staffId',
 //   roleAccessValidator(['super', 'store']),

@@ -110,5 +110,15 @@ export default {
   CREATE_FACILITY_SUCCESS: 'Facility created successfully',
   CREATE_TANK_DATA_ERROR: 'Error creating tank data',
   TANK_DATA_CREATED_SUCCESSFULLY: 'Success creating tank data',
-  FAILED_CREATE_JOB: 'Failed to create job'
+  FAILED_CREATE_JOB: 'Failed to create job',
+  TANK_VOLUME_ERROR: 'Error calculating volume',
+  SERIAL_NUMBER_ERROR: 'Serial number exists already',
+  TANK_DEVICE_ERROR: 'Tank has a device already',
+  ERROR_FETCHING_FACILITIES: 'Error fetching facilities',
+  ERROR_FETCHING_TANK: 'Error fetching tank',
+  FETCH_TANK_SUCCESSFULLY: 'Successfully retrieved tank',
+  ERROR_FETCHING_TANK_DATA: 'Error fetching tank data',
+  FETCH_TANK_DATA_SUCCESSFULLY: 'Successfully retrieved tank data',
+  ERROR_UPDATING_PROFILE: 'Error updating profile',
+  UPDATE_USER_PROFILE_SUCCESSFULLY: 'Profile updated Successfully'
 };

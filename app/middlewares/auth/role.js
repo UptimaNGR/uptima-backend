@@ -56,7 +56,7 @@ class RoleMiddleware {
     * or fires the next function if otherwise.
     */
   static adminAccessValidator(req, res, next) {
-    return req.data.is_admin
+    return req.data.uptimaAdmin
       ? next()
       : errorResponse(req, res, genericErrors.unAuthorized);
   }

@@ -1,11 +1,22 @@
 import { Helper, ApiError, constants } from '../../utils';
-import validation from '../../validations/user';
+import { userSchema, passwordSchema } from '../../validations/user';
 import UserServices from '../../services/user';
 
-const { getUserByEmail, getUserByPhone, getUserById, getUserByUsername } = UserServices;
+const {
+  getUserByEmail,
+  getUserByPhone,
+  getUserById,
+  getUserByUsername
+} = UserServices;
 
 const { errorResponse } = Helper;
-const { PHONE_ERROR, EMAIL_CONFLICT, GENERIC_ERROR, USER_NOT_FOUND, USERNAME_ERROR } = constants;
+const {
+  PHONE_ERROR,
+  EMAIL_CONFLICT,
+  GENERIC_ERROR,
+  USER_NOT_FOUND,
+  USERNAME_ERROR
+} = constants;
 
 /**
  * A collection of middleware methods used to validates
@@ -25,7 +36,30 @@ class UserMiddleware {
    */
   static async validateUserFields(req, res, next) {
     try {
-      await validation.validateAsync(req.body);
+      await userSchema.validateAsync(req.body);
+      next();
+    } catch (error) {
+      const apiError = new ApiError({
+        status: 400,
+        message: error.details[0].message
+      });
+      errorResponse(req, res, apiError);
+    }
+  }
+
+  /**
+   * Validates User password.
+   * @static
+   * @param { Object } req - The request from the endpoint.
+   * @param { Object } res - The response returned by the method.
+   * @param { function } next - Calls the next handle.
+   *@returns { JSON | Null } - Returns error response if validation fails or Null if otherwise.
+   * @memberof UserMiddleware
+   *
+   */
+  static async validateUserPasswordField(req, res, next) {
+    try {
+      await passwordSchema.validateAsync(req.body.password);
       next();
     } catch (error) {
       const apiError = new ApiError({
@@ -145,6 +179,7 @@ class UserMiddleware {
   static async checkUserIdData(req, res, next) {
     try {
       const data = await getUserById(req.params.userId);
+      req.user = data;
       return data
         ? next()
         : errorResponse(

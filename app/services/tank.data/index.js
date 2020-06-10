@@ -2,7 +2,11 @@ import queries from '../../db/queries/tank.data';
 import db from '../../db';
 import { Helper } from '../../utils';
 
-const { fetchTankSurfaceAreaByDeviceId } = queries;
+const {
+  fetchTankSurfaceAreaByDeviceId,
+  getSingleTankDataCurrentDay,
+  getSingleTankDataDaily
+} = queries;
 
 const { calcVolume } = Helper;
 
@@ -40,6 +44,20 @@ class TankDataService {
     const volumeUsed = await calcVolume(surface_area, distance);
     const volume = total_volume - volumeUsed;
     return { serialNumber, company_id, tank_id, volume };
+  }
+
+  /**
+   * Fetches a TankData by tank id for the day
+   * @memberof TankDataService
+   * @param {string} tankId - id of the Tank
+   * @param {string} on - filter for tank data
+   * @returns { Promise<Array | Error> } A promise that resolves or rejects
+   * with an Array of the TankData resource or a DB Error.
+   */
+  static getTankDataByTankIdDaily(tankId, on) {
+    return on
+      ? db.manyOrNone(getSingleTankDataDaily, [tankId, on])
+      : db.manyOrNone(getSingleTankDataCurrentDay, [tankId]);
   }
 }
 

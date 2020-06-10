@@ -9,10 +9,12 @@ const {
   CREATE_USER_SUCCESS,
   ERROR_UPDATING_PASSWORD,
   UPDATE_USER_PASSWORD_SUCCESSFULLY,
+  ERROR_UPDATING_PROFILE,
+  UPDATE_USER_PROFILE_SUCCESSFULLY,
   events: { SEND_PASSWORD_TO_EMAIL }
 } = constants;
 
-const { updatePassword } = UserService;
+const { updatePassword, updateUserById } = UserService;
 
 /**
  * A collection of methods that controls the success response
@@ -64,13 +66,35 @@ class UserController {
    */
   static async updateUserPassword(req, res, next) {
     try {
-      const data = await updatePassword(req.data.id, req.body.password);
+      const data = await updatePassword(req.data.id, req.body.password.trim());
       return successResponse(res, {
         message: UPDATE_USER_PASSWORD_SUCCESSFULLY,
         data
       });
     } catch (e) {
       next(new ApiError({ message: ERROR_UPDATING_PASSWORD }));
+    }
+  }
+
+  /**
+   * Updates a User's profile.
+   *
+   * @static
+   * @param {Request} req - The request from the endpoint.
+   * @param {Response} res - The response returned by the method.
+   * @param { Function } next - Calls the next handler.
+   * @returns { JSON } A JSON response with the user's details and.
+   * @memberof  UserController
+   */
+  static async updateUserProfile(req, res, next) {
+    try {
+      const data = await updateUserById(req.user, req.body);
+      return successResponse(res, {
+        message: UPDATE_USER_PROFILE_SUCCESSFULLY,
+        data
+      });
+    } catch (e) {
+      next(new ApiError({ message: ERROR_UPDATING_PROFILE }));
     }
   }
 }

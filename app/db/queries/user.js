@@ -19,32 +19,31 @@ export default {
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
       RETURNING *`,
 
-  updateUser: `
-      UPDATE
+  updateUserById: `
+    UPDATE
       user_info
-      SET
+    SET
         first_name=($1),
         last_name=($2),
         middle_name=($3),
-        password=($4),
-        salt=($5),
-        role=($6),
-        email=($7),
-        phone_number=($8),
-        company_id=($9)
-      WHERE
-        username=($10)
-      RETURNING
+        role=($4),
+        email=($5),
+        phone_number=($6),
+        company_id=($7),
+        username=($8),
+        facility_id=($9),
+        updated_at=NOW()
+    WHERE 
+      id=($10)
+    RETURNING
         id,
         first_name,
         last_name,
         middle_name,
         username,
-        password,
-        salt,
         role,
         email,
-        phone_number,
+        phone_number
   `,
 
   getUsersPaginated: `SELECT 
@@ -93,7 +92,7 @@ export default {
     password=$2,
     salt=$3
     WHERE id=$1
-    RETURNING id, first_name, last_name, email, role, facility_id, phone
+    RETURNING id, first_name, last_name, email, role, facility_id
     ;`,
   updateUserFacility: `
     UPDATE user_info
@@ -111,5 +110,21 @@ export default {
     SET
     role=$2
     WHERE id=$1
+  ;`,
+
+  fetchAllManagersWithLocation: `
+  SELECT
+    u.id,
+    u.first_name || ' ' || u.last_name as name,
+    f.address , u.role
+    FROM user_info u
+  INNER JOIN 
+    facility f
+  ON 
+    u.facility_id = f.id
+  WHERE 
+    u.role = 'manager'
+  AND
+    u.company_id = $1
   ;`
 };
