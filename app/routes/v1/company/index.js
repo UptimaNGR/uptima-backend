@@ -15,19 +15,22 @@ const { addCompany } = CompanyController;
 const {
   validateCompanyFields,
   checkCompanyEmailData,
-  checkCompanyPhoneData
+  checkCompanyPhoneData,
+  checkCompanyIdData
 } = CompanyMiddleware;
 
 const { addTank, fetchTankByFacilityId } = TankController;
 const {
   validateTankFields,
   calcTotalTankVolume,
-  checkIfSerialNumberExistsInFacility
+  checkIfSerialNumberExistsInFacility,
+  fetchTankById
 } = TankMiddleware;
 
 const {
   validateFacilityFields,
-  fetchFacilityBasedOnAccess
+  fetchFacilityBasedOnAccess,
+  fetchFacilityById
 } = FacilityMiddleware;
 const { addFacility, fetchAllFacility } = FacilityController;
 
@@ -46,6 +49,9 @@ const { adminAccessValidator } = RoleMiddleware;
 const router = Router();
 
 router.use(authenticate);
+router.use('/:companyId', checkCompanyIdData);
+router.use('/:companyId/facility/:facilityId', fetchFacilityById);
+router.use('/:companyId/facility/:facilityId/tank/:tankId', fetchTankById);
 
 router.post(
   '/',
@@ -56,7 +62,12 @@ router.post(
   addCompany
 );
 
-router.post('/:companyId/facility', adminAccessValidator, validateFacilityFields, addFacility);
+router.post(
+  '/:companyId/facility',
+  adminAccessValidator,
+  validateFacilityFields,
+  addFacility
+);
 router.get(
   '/:companyId/facility',
   fetchFacilityBasedOnAccess,

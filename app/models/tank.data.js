@@ -22,7 +22,11 @@ class TankDataModel {
     this.company_id = options.company_id;
     this.tank_id = options.tank_id;
     this.device_serial_number = options.serialNumber;
-    this.volume = options.volume;
+    this.volume_left = options.volumeLeft;
+    this.volume_used = options.volumeUsed > 0 ? options.volumeUsed : 0;
+    this.longitude = options.longitude;
+    this.latitude = options.latitude;
+    this.volume_added = options.volumeUsed < 0 ? Math.abs(options.volumeUsed) : 0;
   }
 
   /**
@@ -37,7 +41,11 @@ class TankDataModel {
         this.company_id,
         this.device_serial_number,
         this.tank_id,
-        this.volume
+        this.volume_left,
+        this.volume_used,
+        this.longitude,
+        this.latitude,
+        this.volume_added
       ]);
     } catch (e) {
       const dbError = new DBError({

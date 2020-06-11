@@ -5,9 +5,13 @@ export default {
         company_id,
         device_serial_number,
         tank_id,
-        volume
+        volume_left,
+        volume_used,
+        longitude,
+        latitude,
+        volume_added
       )
-    VALUES ($1, $2, $3, $4)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING *`,
 
   fetchTankSurfaceAreaByDeviceId: `
@@ -25,7 +29,7 @@ export default {
 
   getSingleTankDataCurrentDay: `
   SELECT 
-    volume, EXTRACT(HOUR FROM created_at), created_at AS hour
+    volume_left, volume_used, EXTRACT(HOUR FROM created_at) AS hour, created_at 
   FROM 
     tank_data
   WHERE 
@@ -37,12 +41,18 @@ export default {
 
   getSingleTankDataDaily: `
   SELECT 
-    volume, EXTRACT(HOUR FROM created_at) AS hour, created_at 
+  volume_left, volume_used, EXTRACT(HOUR FROM created_at) AS hour, created_at 
   FROM 
     tank_data
   WHERE 
     tank_id = $1 
   AND 
   DATE_TRUNC('DAY', created_at) = $2
-  ORDER BY hour;`
+  ORDER BY hour;`,
+
+  getLastVolumeLeft: `
+  SELECT volume_left FROM tank_data 
+  WHERE device_serial_number =$1 
+  ORDER BY created_at DESC
+  LIMIT 1;`
 };

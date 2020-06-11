@@ -57,7 +57,7 @@ class FacilityService {
    * with an Array of the Facility resource or a DB Error.
    */
   static getAllFacility() {
-    return db.oneOrNone(fetchAllFacilities);
+    return db.manyOrNone(fetchAllFacilities);
   }
 }
 
