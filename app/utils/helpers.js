@@ -1,7 +1,6 @@
 /* eslint-disable no-useless-escape */
 import { sha256 } from 'js-sha256';
 import { v4 as uuidV4 } from 'uuid';
-import moment from 'moment';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import genericError from './error/generic';
@@ -209,26 +208,6 @@ class Helper {
     });
     Helper.moduleErrLogMessager(dbError);
     return dbError;
-  }
-
-  /**
-   * Adds a specific number of days to a date.
-   * @static
-   * @param { String } date - A date string.
-   * @param { Number } number - Number of days.
-   * @memberof Helper
-   * @returns { Object } - It returns an object containing
-   * original and adjusted dates in yyyy-mm-dd format.
-   */
-  static incrementDay(date, number) {
-    const adjusted = moment(date)
-      .clone()
-      .add(number, 'days')
-      .format('YYYY-MM-DD');
-    return {
-      adjusted,
-      original: moment(date).format('YYYY-MM-DD')
-    };
   }
 
   /**

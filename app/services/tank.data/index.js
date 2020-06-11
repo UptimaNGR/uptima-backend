@@ -5,7 +5,8 @@ import { Helper } from '../../utils';
 const {
   fetchTankSurfaceAreaByDeviceId,
   getSingleTankDataCurrentDay,
-  getSingleTankDataDaily
+  getSingleTankDataDaily,
+  getLastVolumeLeft
 } = queries;
 
 const { calcVolume } = Helper;
@@ -34,16 +35,33 @@ class TankDataService {
    * @returns { Promise<Array | Error> } A promise that resolves or rejects
    * with volume of Tank.
    */
-  static async calcVolumeByDeviceId({ serialNumber, distance }) {
+  static async calcVolumeByDeviceId({
+    serialNumber,
+    distance,
+    longitude,
+    latitude
+  }) {
     const {
       surface_area,
       company_id,
       tank_id,
       total_volume
     } = await db.oneOrNone(fetchTankSurfaceAreaByDeviceId, [serialNumber]);
-    const volumeUsed = await calcVolume(surface_area, distance);
-    const volume = total_volume - volumeUsed;
-    return { serialNumber, company_id, tank_id, volume };
+    const lastVolume = await db.oneOrNone(getLastVolumeLeft, [
+      serialNumber
+    ]);
+    const volume = calcVolume(surface_area, distance);
+    const volumeLeft = total_volume - volume;
+    const volumeUsed = lastVolume ? lastVolume.volume_left - volumeLeft : volume;
+    return {
+      serialNumber,
+      company_id,
+      tank_id,
+      volumeLeft,
+      volumeUsed,
+      longitude,
+      latitude
+    };
   }
 
   /**

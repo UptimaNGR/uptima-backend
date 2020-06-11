@@ -120,5 +120,7 @@ export default {
   ERROR_FETCHING_TANK_DATA: 'Error fetching tank data',
   FETCH_TANK_DATA_SUCCESSFULLY: 'Successfully retrieved tank data',
   ERROR_UPDATING_PROFILE: 'Error updating profile',
-  UPDATE_USER_PROFILE_SUCCESSFULLY: 'Profile updated Successfully'
+  UPDATE_USER_PROFILE_SUCCESSFULLY: 'Profile updated Successfully',
+  FACILITY_NOT_FOUND: 'Facility not found',
+  TANK_NOT_FOUND: 'Tank not found'
 };
