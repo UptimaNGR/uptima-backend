@@ -1,26 +1,13 @@
 import { Router } from 'express';
-import TankController from '../../../controllers/tank';
-import FacilityController from '../../../controllers/facility';
 import TankDataController from '../../../controllers/tank.data';
-import TankMiddleware from '../../../middlewares/tank';
-import DeviceController from '../../../controllers/device';
-import DeviceMiddleware from '../../../middlewares/device';
-import FacilityMiddleware from '../../../middlewares/facility';
+import TankDataMiddleware from '../../../middlewares/tank.data';
 
 const { addTankData } = TankDataController;
-const { addTank } = TankController;
-const { addFacility } = FacilityController;
-const { addDevice } = DeviceController;
+const { fetchDeviceBySerialNumber } = TankDataMiddleware;
 
 const router = Router();
 
-router.get('/', addTankData);
-router.post('/tank', TankMiddleware.validateTankFields, addTank);
-router.post(
-  '/facility',
-  FacilityMiddleware.validateFacilityFields,
-  addFacility
-);
-router.post('/device', DeviceMiddleware.validateDeviceFields, addDevice);
+router.get('/', fetchDeviceBySerialNumber, addTankData);
+
 
 export default router;

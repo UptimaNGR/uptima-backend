@@ -113,6 +113,7 @@ export default {
   FAILED_CREATE_JOB: 'Failed to create job',
   TANK_VOLUME_ERROR: 'Error calculating volume',
   SERIAL_NUMBER_ERROR: 'Serial number exists already',
+  SERIAL_NUMBER_NOT_FOUND: 'Device not found',
   TANK_DEVICE_ERROR: 'Tank has a device already',
   ERROR_FETCHING_FACILITIES: 'Error fetching facilities',
   ERROR_FETCHING_TANK: 'Error fetching tank',
@@ -122,5 +123,10 @@ export default {
   ERROR_UPDATING_PROFILE: 'Error updating profile',
   UPDATE_USER_PROFILE_SUCCESSFULLY: 'Profile updated Successfully',
   FACILITY_NOT_FOUND: 'Facility not found',
-  TANK_NOT_FOUND: 'Tank not found'
+  TANK_NOT_FOUND: 'Tank not found',
+  GET_ALL_COMPANY_ERROR: 'Error getting all companies',
+  GET_ALL_COMPANY_SUCCESS: 'Retrieved all companies successfully',
+  GET_ONE_COMPANY_ERROR: 'Error getting company',
+  GET_ONE_COMPANY_SUCCESS: 'Retrieved company successfully',
+  UPDATE_COMPANY_PROFILE_SUCCESSFULLY: 'Successfully updated company profile'
 };

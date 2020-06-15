@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import { json, urlencoded } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import Ddos from 'ddos';
 import apiV1Routes from '../app/routes/v1';
 import config from './env';
 import { Helper, genericErrors, constants } from '../app/utils';
@@ -11,6 +12,7 @@ import redisDB from '../app/db/setup/redis';
 const { errorResponse, successResponse } = Helper;
 const { notFoundApi } = genericErrors;
 const { WELCOME, v1, WEBHOOK, REDIS_RUNNING } = constants;
+const ddos = new Ddos({ burst: 10, limit: 15 });
 
 const appConfig = (app) => {
   // integrate winston logger with morgan
@@ -19,6 +21,8 @@ const appConfig = (app) => {
   app.use(helmet());
   // adds middleware for cross-origin resource sharing configuration
   app.use(cors());
+  // add middleware for ddos
+  app.use(ddos.express);
   // adds middleware that parses requests whose content-type is application/json
   app.use(
     json({

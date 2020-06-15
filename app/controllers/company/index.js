@@ -1,11 +1,20 @@
 import { CompanyModel } from '../../models';
-// import CompanyService from '../../services/company';
+import CompanyService from '../../services/company';
 import { Helper, constants, ApiError, DBError } from '../../utils';
 
 const { successResponse } = Helper;
-const { CREATE_COMPANY_ERROR, CREATE_COMPANY_SUCCESS } = constants;
+const {
+  CREATE_COMPANY_ERROR,
+  CREATE_COMPANY_SUCCESS,
+  GET_ALL_COMPANY_SUCCESS,
+  GET_ALL_COMPANY_ERROR,
+  UPDATE_COMPANY_PROFILE_SUCCESSFULLY,
+  ERROR_UPDATING_PROFILE,
+  GET_ONE_COMPANY_SUCCESS,
+  GET_ONE_COMPANY_ERROR
+} = constants;
 
-// const {} = CompanyService;
+const { getAllCompany, updateCompanyById, getCompanyById } = CompanyService;
 
 /**
  * A collection of methods that controls the success response
@@ -41,6 +50,78 @@ class CompanyController {
       Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: CREATE_COMPANY_ERROR }));
       throw dbError;
+    }
+  }
+
+  /**
+   * Controllers used for getting all companies
+   * @static
+   * @param {Request} req - The request from the endpoint.
+   * @param {Response} res - The response returned by the method.
+   * @param {Next} next
+   * @returns { JSON } A JSON response containing the details of the contact us added
+   * @memberof CompanyController
+   */
+  static async fetchAllCompany(req, res, next) {
+    try {
+      const data = await getAllCompany();
+      return successResponse(res, {
+        message: GET_ALL_COMPANY_SUCCESS,
+        data
+      });
+    } catch (e) {
+      const dbError = new DBError({
+        status: GET_ALL_COMPANY_ERROR,
+        message: e.message
+      });
+      Helper.moduleErrLogMessager(dbError);
+      next(new ApiError({ message: GET_ALL_COMPANY_ERROR }));
+      throw dbError;
+    }
+  }
+
+  /**
+   * Updates a Company's profile.
+   *
+   * @static
+   * @param {Request} req - The request from the endpoint.
+   * @param {Response} res - The response returned by the method.
+   * @param { Function } next - Calls the next handler.
+   * @returns { JSON } A JSON response with the Company's details and.
+   * @memberof  CompanyController
+   */
+  static async updateCompanyProfile(req, res, next) {
+    try {
+      const company = await getCompanyById(req.params.companyId);
+      const data = await updateCompanyById(company, req.body);
+      return successResponse(res, {
+        message: UPDATE_COMPANY_PROFILE_SUCCESSFULLY,
+        data
+      });
+    } catch (e) {
+      next(new ApiError({ message: ERROR_UPDATING_PROFILE }));
+    }
+  }
+
+  /**
+   * get a Company's profile.
+   *
+   * @static
+   * @param {Request} req - The request from the endpoint.
+   * @param {Response} res - The response returned by the method.
+   * @param { Function } next - Calls the next handler.
+   * @returns { JSON } A JSON response with the Company's details and.
+   * @memberof  CompanyController
+   */
+  static async getCompanyProfile(req, res, next) {
+    try {
+      const data = await getCompanyById(req.params.companyId);
+      return successResponse(res, {
+        message: GET_ONE_COMPANY_SUCCESS,
+        data
+      });
+    } catch (e) {
+      next(new ApiError({ message: GET_ONE_COMPANY_ERROR }));
     }
   }
 }
