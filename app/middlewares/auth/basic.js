@@ -127,16 +127,12 @@ class AuthMiddleware {
   static async loginEmailValidator(req, res, next) {
     try {
       const { email, username } = req.body;
-      if (!email && username) {
-        const userName = await getUserByUsername(username);
-        (req.user = userName);
-        return userName ? next() : errorResponse(req, res, genericErrors.inValidLogin);
-      }
-      if (email && !username) {
-        const user = await getUserByEmail(email);
-        req.user = user;
-        return user ? next() : errorResponse(req, res, genericErrors.inValidLogin);
-      }
+      req.user = email
+        ? await getUserByEmail(email)
+        : await getUserByUsername(username);
+      return req.user
+        ? next()
+        : errorResponse(req, res, genericErrors.inValidLogin);
     } catch (e) {
       e.status = USER_EMAIL_EXIST_VERIFICATION_FAIL;
       Helper.moduleErrLogMessager(e);
