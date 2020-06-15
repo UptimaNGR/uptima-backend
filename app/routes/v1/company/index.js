@@ -11,7 +11,12 @@ import DeviceMiddleware from '../../../middlewares/device';
 import AuthMiddleware from '../../../middlewares/auth/basic';
 import RoleMiddleware from '../../../middlewares/auth/role';
 
-const { addCompany } = CompanyController;
+const {
+  addCompany,
+  fetchAllCompany,
+  updateCompanyProfile,
+  getCompanyProfile
+} = CompanyController;
 const {
   validateCompanyFields,
   checkCompanyEmailData,
@@ -61,6 +66,9 @@ router.post(
   checkCompanyPhoneData,
   addCompany
 );
+router.get('/', adminAccessValidator, fetchAllCompany);
+router.get('/:companyId', getCompanyProfile);
+router.put('/:companyId', adminAccessValidator, updateCompanyProfile);
 
 router.post(
   '/:companyId/facility',

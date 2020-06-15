@@ -14,7 +14,7 @@ export default {
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *`,
 
-  updateCompanyDetails: `
+  updateCompanyById: `
     UPDATE
       company
     SET
@@ -23,9 +23,10 @@ export default {
         email=($3),
         subscription_type=($4),
         subscription_status=($5),
-        logo=($6)
+        logo=($6),
+        phone_number=($7)
     WHERE
-        id=($7)
+        id=($8)
     RETURNING
         id,
         company_name,
@@ -40,5 +41,6 @@ export default {
   fetchCompanyByEmail: 'SELECT * FROM company WHERE email=$1',
   fetchCompanyByPhone: 'SELECT * FROM company WHERE phone_number=$1',
   fetchCompanyById: 'SELECT * FROM company WHERE id=$1',
-  fetchCompanyByName: 'SELECT * FROM company WHERE company_name=$1'
+  fetchCompanyByName: 'SELECT * FROM company WHERE company_name=$1',
+  fetchAllCompany: 'SELECT id, company_name  FROM company;'
 };

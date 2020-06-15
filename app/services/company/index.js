@@ -5,7 +5,9 @@ import db from '../../db';
 const {
   fetchCompanyByEmail,
   fetchCompanyByPhone,
-  fetchCompanyById
+  fetchCompanyById,
+  fetchAllCompany,
+  updateCompanyById
 } = queries;
 
 // const { fetchResourceByPage, calcPages, moduleErrLogMessager } = Helper;
@@ -47,6 +49,38 @@ class CompanyService {
    */
   static getCompanyById(id) {
     return db.oneOrNone(fetchCompanyById, [id]);
+  }
+
+  /**
+   * Fetches all company
+   * @memberof CompanyService
+   * @returns { Promise<Array | Error> } A promise that resolves or rejects
+   * with an Array of the company resource or a DB Error.
+   */
+  static getAllCompany() {
+    return db.manyOrNone(fetchAllCompany);
+  }
+
+  /**
+   * Updates a Company by id.
+   * @memberof CompanyService
+   * @param { Object } oldData - The details of Company before update.
+   * @param { Object } reqData - The data to be used to update a specific Company.
+   * @returns { Promise<Object | Error> } A promise that resolves or rejects
+   * with a Company resource or a DB Error.
+   */
+  static async updateCompanyById(oldData, reqData) {
+    const data = { ...oldData, ...reqData };
+    return db.oneOrNone(updateCompanyById, [
+      data.company_name,
+      data.address,
+      data.email,
+      data.subscription_type,
+      data.subscription_status,
+      data.logo,
+      data.phone_number,
+      oldData.id
+    ]);
   }
 }
 
