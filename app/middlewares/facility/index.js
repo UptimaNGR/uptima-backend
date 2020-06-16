@@ -46,13 +46,13 @@ class FacilityMiddleware {
    */
   static async fetchFacilityBasedOnAccess(req, res, next) {
     try {
-      const { facility_id, company_id } = req.data;
+      const { facility_id } = req.data;
       if (facility_id) {
         const data = await getFacilityById(facility_id);
         req.facility = data;
         return next();
       }
-      const data = await getFacilityByCompanyId(company_id);
+      const data = await getFacilityByCompanyId(req.params.companyId);
       req.facility = data;
       return next();
     } catch (error) {
@@ -74,7 +74,7 @@ class FacilityMiddleware {
    * @memberof FacilityMiddleware
    *
    */
-  static async fetchFacilityById(req, res, next) {
+  static async checkFacilityById(req, res, next) {
     try {
       const data = await getFacilityById(req.params.facilityId);
       return data

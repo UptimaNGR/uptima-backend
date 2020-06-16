@@ -6,7 +6,8 @@ const {
   fetchFacilityByCompanyId,
   fetchFacilityByGps,
   fetchFacilityById,
-  fetchAllFacilities
+  fetchAllFacilities,
+  updateFacilityById
 } = queries;
 
 // const { fetchResourceByPage, calcPages, moduleErrLogMessager } = Helper;
@@ -58,6 +59,26 @@ class FacilityService {
    */
   static getAllFacility() {
     return db.manyOrNone(fetchAllFacilities);
+  }
+
+  /**
+   * Updates a Facility by id.
+   * @memberof FacilityService
+   * @param { Object } oldData - The details of Facility before update.
+   * @param { Object } reqData - The data to be used to update a specific Facility.
+   * @returns { Promise<Object | Error> } A promise that resolves or rejects
+   * with a Facility resource or a DB Error.
+   */
+  static async updateFacilityById(oldData, reqData) {
+    const data = { ...oldData, ...reqData };
+    return db.oneOrNone(updateFacilityById, [
+      data.company_id,
+      data.gps_coordinate,
+      data.facility_name,
+      data.facility_type,
+      data.address,
+      oldData.id
+    ]);
   }
 }
 

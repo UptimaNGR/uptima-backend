@@ -110,7 +110,7 @@ class TankMiddleware {
    * @memberof TankMiddleware
    *
    */
-  static async fetchTankById(req, res, next) {
+  static async checkTankById(req, res, next) {
     try {
       const data = await getTankById(req.params.tankId);
       return data

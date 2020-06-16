@@ -12,7 +12,8 @@ export default {
           logo
         )
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-      RETURNING *`,
+      RETURNING *
+  `,
 
   updateCompanyById: `
     UPDATE
@@ -24,7 +25,8 @@ export default {
         subscription_type=($4),
         subscription_status=($5),
         logo=($6),
-        phone_number=($7)
+        phone_number=($7),
+        updated_at=NOW()
     WHERE
         id=($8)
     RETURNING
@@ -36,7 +38,7 @@ export default {
         subscription_type,
         subscription_status,
         logo;
-    `,
+  `,
 
   fetchCompanyByEmail: 'SELECT * FROM company WHERE email=$1',
   fetchCompanyByPhone: 'SELECT * FROM company WHERE phone_number=$1',

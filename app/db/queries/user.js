@@ -2,48 +2,49 @@ export default {
   createUser: `
       INSERT INTO
       user_info(
-          id,
-          first_name,
-          last_name,
-          middle_name,
-          username,
-          password,
-          salt,
-          role,
-          email,
-          phone_number,
-          company_id,
-          is_admin,
-          facility_id
-        )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
-      RETURNING *`,
-
-  updateUserById: `
-    UPDATE
-      user_info
-    SET
-        first_name=($1),
-        last_name=($2),
-        middle_name=($3),
-        role=($4),
-        email=($5),
-        phone_number=($6),
-        company_id=($7),
-        username=($8),
-        facility_id=($9),
-        updated_at=NOW()
-    WHERE 
-      id=($10)
-    RETURNING
         id,
         first_name,
         last_name,
         middle_name,
         username,
+        password,
+        salt,
         role,
         email,
-        phone_number
+        phone_number,
+        company_id,
+        is_admin,
+        facility_id
+      )
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+    RETURNING *
+  `,
+
+  updateUserById: `
+    UPDATE
+      user_info
+    SET
+      first_name=($1),
+      last_name=($2),
+      middle_name=($3),
+      role=($4),
+      email=($5),
+      phone_number=($6),
+      company_id=($7),
+      username=($8),
+      facility_id=($9),
+      updated_at=NOW()
+    WHERE 
+      id=($10)
+    RETURNING
+      id,
+      first_name,
+      last_name,
+      middle_name,
+      username,
+      role,
+      email,
+      phone_number
   `,
 
   getUsersPaginated: `SELECT 

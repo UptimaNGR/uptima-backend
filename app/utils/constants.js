@@ -128,5 +128,12 @@ export default {
   GET_ALL_COMPANY_SUCCESS: 'Retrieved all companies successfully',
   GET_ONE_COMPANY_ERROR: 'Error getting company',
   GET_ONE_COMPANY_SUCCESS: 'Retrieved company successfully',
-  UPDATE_COMPANY_PROFILE_SUCCESSFULLY: 'Successfully updated company profile'
+  UPDATE_COMPANY_PROFILE_SUCCESSFULLY: 'Successfully updated company profile',
+  UPDATE_TANK_SUCCESSFULLY: 'Successfully updated tank',
+  ERROR_UPDATING_TANK: 'Error updating tank',
+  UPDATE_DEVICE_SUCCESSFULLY: 'Successfully updated device',
+  ERROR_UPDATING_DEVICE: 'Error updating device',
+  ERROR_FETCHING_DEVICE: 'Error fetching device',
+  FETCH_DEVICE_SUCCESSFULLY: 'Successfully retrieved device',
+  ERROR_FETCHING_FACILITY: 'Error fetching facility'
 };

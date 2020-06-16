@@ -5,7 +5,8 @@ import db from '../../db';
 const {
   fetchDeviceById,
   fetchDeviceBySerialNumber,
-  fetchDeviceByTankId
+  fetchDeviceByTankId,
+  updateDeviceById
 } = queries;
 
 /**
@@ -45,6 +46,26 @@ class DeviceService {
    */
   static getDeviceBySerialNumber(serialNumber) {
     return db.oneOrNone(fetchDeviceBySerialNumber, [serialNumber]);
+  }
+
+  /**
+   * Updates a Tank by id.
+   * @memberof DeviceService
+   * @param { Object } oldData - The details of Device before update.
+   * @param { Object } reqData - The data to be used to update a specific Device.
+   * @returns { Promise<Object | Error> } A promise that resolves or rejects
+   * with a Device resource or a DB Error.
+   */
+  static async updateDeviceById(oldData, reqData) {
+    const data = { ...oldData, ...reqData };
+    return db.oneOrNone(updateDeviceById, [
+      data.tank_id,
+      data.serial_number,
+      data.dist_to_device,
+      data.company_id,
+      data.facility_id,
+      oldData.id
+    ]);
   }
 }
 
