@@ -5,7 +5,8 @@ import db from '../../db';
 const {
   fetchTankById,
   fetchTankByFacilityId,
-  fetchTankBySerialNumberAndFacilityId
+  fetchTankBySerialNumberAndFacilityId,
+  updateTankById
 } = queries;
 
 // const { fetchResourceByPage, calcPages, moduleErrLogMessager } = Helper;
@@ -47,7 +48,33 @@ class TankService {
    * with an Array of the Tank resource or a DB Error.
    */
   static getTankByFacilityIdAndSerialNumber(facilityId, serialNumber) {
-    return db.oneOrNone(fetchTankBySerialNumberAndFacilityId, [facilityId, serialNumber]);
+    return db.oneOrNone(fetchTankBySerialNumberAndFacilityId, [
+      facilityId,
+      serialNumber
+    ]);
+  }
+
+  /**
+   * Updates a Tank by id.
+   * @memberof TankService
+   * @param { Object } oldData - The details of Tank before update.
+   * @param { Object } reqData - The data to be used to update a specific Tank.
+   * @returns { Promise<Object | Error> } A promise that resolves or rejects
+   * with a Tank resource or a DB Error.
+   */
+  static async updateTankById(oldData, reqData) {
+    const data = { ...oldData, ...reqData };
+    return db.oneOrNone(updateTankById, [
+      data.company_id,
+      data.facility_id,
+      data.serial_number,
+      data.fluid_type,
+      data.structure_type,
+      data.height,
+      data.surface_area,
+      data.total_volume,
+      oldData.id
+    ]);
   }
 }
 

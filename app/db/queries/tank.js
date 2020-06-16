@@ -13,7 +13,26 @@ export default {
         total_volume
       )
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-    RETURNING *`,
+    RETURNING *
+  `,
+
+  updateTankById: `
+    UPDATE
+      tank
+    SET
+      company_id=($1),
+      facility_id=($2),
+      serial_number=($3),
+      fluid_type=($4),
+      structure_type=($5),
+      height=($6),
+      surface_area=($7),
+      total_volume=($8),
+      updated_at=NOW()
+    WHERE
+      id=($9)
+    RETURNING *
+  `,
 
   fetchTankById: 'SELECT * FROM tank WHERE id=$1',
   fetchTankByFacilityId: 'SELECT * FROM tank WHERE facility_id=$1',

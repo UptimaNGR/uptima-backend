@@ -24,24 +24,34 @@ const {
   checkCompanyIdData
 } = CompanyMiddleware;
 
-const { addTank, fetchTankByFacilityId } = TankController;
+const {
+  addTank,
+  fetchTankByFacilityId,
+  updateTankById,
+  fetchTankById
+} = TankController;
 const {
   validateTankFields,
   calcTotalTankVolume,
   checkIfSerialNumberExistsInFacility,
-  fetchTankById
+  checkTankById
 } = TankMiddleware;
 
 const {
   validateFacilityFields,
   fetchFacilityBasedOnAccess,
-  fetchFacilityById
+  checkFacilityById
 } = FacilityMiddleware;
-const { addFacility, fetchAllFacility } = FacilityController;
+const {
+  addFacility,
+  fetchAllFacility,
+  updateFacilityById,
+  fetchFacilityById
+} = FacilityController;
 
 const { fetchTankDataByTankIdDaily } = TankDataController;
 
-const { addDevice } = DeviceController;
+const { addDevice, updateDeviceById, fetchDeviceById } = DeviceController;
 const {
   validateDeviceFields,
   checkIfSerialNumberExists,
@@ -55,8 +65,8 @@ const router = Router();
 
 router.use(authenticate);
 router.use('/:companyId', checkCompanyIdData);
-router.use('/:companyId/facility/:facilityId', fetchFacilityById);
-router.use('/:companyId/facility/:facilityId/tank/:tankId', fetchTankById);
+router.use('/:companyId/facility/:facilityId', checkFacilityById);
+router.use('/:companyId/facility/:facilityId/tank/:tankId', checkTankById);
 
 router.post(
   '/',
@@ -81,6 +91,8 @@ router.get(
   fetchFacilityBasedOnAccess,
   fetchAllFacility
 );
+router.get('/:companyId/facility/:facilityId', fetchFacilityById);
+router.put('/:companyId/facility/:facilityId', updateFacilityById);
 
 router.post(
   '/:companyId/facility/:facilityId/tank',
@@ -91,6 +103,8 @@ router.post(
   addTank
 );
 router.get('/:companyId/facility/:facilityId/tank', fetchTankByFacilityId);
+router.get('/:companyId/facility/:facilityId/tank/:tankId', fetchTankById);
+router.put('/:companyId/facility/:facilityId/tank/:tankId', updateTankById);
 
 router.get(
   '/:companyId/facility/:facilityId/tank/:tankId/tank-data/daily',
@@ -104,6 +118,14 @@ router.post(
   checkIfTankHasDevice,
   checkIfSerialNumberExists,
   addDevice
+);
+router.get(
+  '/:companyId/facility/:facilityId/tank/:tankId/device/:deviceId',
+  fetchDeviceById
+);
+router.put(
+  '/:companyId/facility/:facilityId/tank/:tankId/device/:deviceId',
+  updateDeviceById
 );
 
 export default router;
