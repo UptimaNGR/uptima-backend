@@ -7,7 +7,8 @@ const { fetchDeviceBySerialNumber } = TankDataMiddleware;
 
 const router = Router();
 
-router.get('/', fetchDeviceBySerialNumber, addTankData);
+// router.get('/', fetchDeviceBySerialNumber, addTankData);
+router.post('/', fetchDeviceBySerialNumber, addTankData);
 
 
 export default router;

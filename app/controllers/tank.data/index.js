@@ -30,7 +30,7 @@ class TankDataController {
    */
   static async addTankData(req, res, next) {
     try {
-      const volume = await calcVolumeByDeviceId(req.query);
+      const volume = await calcVolumeByDeviceId(req.body);
       const tankData = new TankDataModel({
         ...volume
       });
@@ -40,6 +40,7 @@ class TankDataController {
         data: { id, ...tankData }
       });
     } catch (e) {
+      console.log(e);
       const dbError = new DBError({
         status: CREATE_TANK_DATA_ERROR,
         message: e.message
