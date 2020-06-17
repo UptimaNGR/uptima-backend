@@ -40,7 +40,6 @@ class TankDataController {
         data: { id, ...tankData }
       });
     } catch (e) {
-      console.log(e);
       const dbError = new DBError({
         status: CREATE_TANK_DATA_ERROR,
         message: e.message
