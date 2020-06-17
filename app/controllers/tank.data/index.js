@@ -30,7 +30,7 @@ class TankDataController {
    */
   static async addTankData(req, res, next) {
     try {
-      const volume = await calcVolumeByDeviceId(req.query);
+      const volume = await calcVolumeByDeviceId(req.body);
       const tankData = new TankDataModel({
         ...volume
       });

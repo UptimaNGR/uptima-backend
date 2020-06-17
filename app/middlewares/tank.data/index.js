@@ -23,7 +23,7 @@ class TankDataMiddleware {
    */
   static async fetchDeviceBySerialNumber(req, res, next) {
     try {
-      const data = await getDeviceBySerialNumber(req.query.serialNumber);
+      const data = await getDeviceBySerialNumber(req.body.serialNumber);
       return data
         ? next()
         : errorResponse(
