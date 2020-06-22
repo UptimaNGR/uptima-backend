@@ -23,6 +23,7 @@ class TankDataModel {
     this.tank_id = options.tank_id;
     this.device_serial_number = options.serialNumber;
     this.volume_left = options.volumeLeft;
+    this.facility_id = options.facility_id;
     this.volume_used = options.volumeUsed > 0 ? options.volumeUsed : 0;
     this.longitude = options.longitude;
     this.latitude = options.latitude;
@@ -45,7 +46,8 @@ class TankDataModel {
         this.volume_used,
         this.longitude,
         this.latitude,
-        this.volume_added
+        this.volume_added,
+        this.facility_id
       ]);
     } catch (e) {
       const dbError = new DBError({

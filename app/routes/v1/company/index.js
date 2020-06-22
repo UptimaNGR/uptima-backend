@@ -34,7 +34,7 @@ const {
   validateTankFields,
   calcTotalTankVolume,
   checkIfSerialNumberExistsInFacility,
-  checkTankById
+  checkTankById,
 } = TankMiddleware;
 
 const {
@@ -104,7 +104,7 @@ router.post(
 );
 router.get('/:companyId/facility/:facilityId/tank', fetchTankByFacilityId);
 router.get('/:companyId/facility/:facilityId/tank/:tankId', fetchTankById);
-router.put('/:companyId/facility/:facilityId/tank/:tankId', updateTankById);
+router.put('/:companyId/facility/:facilityId/tank/:tankId', adminAccessValidator, updateTankById);
 
 router.get(
   '/:companyId/facility/:facilityId/tank/:tankId/tank-data/daily',
@@ -125,6 +125,7 @@ router.get(
 );
 router.put(
   '/:companyId/facility/:facilityId/tank/:tankId/device/:deviceId',
+  adminAccessValidator,
   updateDeviceById
 );
 

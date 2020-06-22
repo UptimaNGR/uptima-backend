@@ -9,9 +9,10 @@ export default {
         volume_used,
         longitude,
         latitude,
-        volume_added
+        volume_added,
+        facility_id
       )
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
     RETURNING *`,
 
   fetchTankSurfaceAreaByDeviceId: `
@@ -29,7 +30,7 @@ export default {
 
   getSingleTankDataCurrentDay: `
   SELECT 
-    volume_left, volume_used, EXTRACT(HOUR FROM created_at) AS hour, created_at 
+    volume_left, volume_used, volume_added, EXTRACT(HOUR FROM created_at) AS hour, created_at 
   FROM 
     tank_data
   WHERE 

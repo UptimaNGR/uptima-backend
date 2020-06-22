@@ -45,7 +45,8 @@ class TankDataService {
       surface_area,
       company_id,
       tank_id,
-      total_volume
+      total_volume,
+      facility_id
     } = await db.oneOrNone(fetchTankSurfaceAreaByDeviceId, [serialNumber]);
     const lastVolume = await db.oneOrNone(getLastVolumeLeft, [
       serialNumber
@@ -60,7 +61,8 @@ class TankDataService {
       volumeLeft,
       volumeUsed,
       longitude,
-      latitude
+      latitude,
+      facility_id
     };
   }
 

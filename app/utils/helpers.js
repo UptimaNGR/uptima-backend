@@ -164,6 +164,7 @@ class Helper {
       facility_id,
       role,
       email,
+      company_id,
       token
     };
   }
