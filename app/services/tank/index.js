@@ -6,7 +6,8 @@ const {
   fetchTankById,
   fetchTankByFacilityId,
   fetchTankBySerialNumberAndFacilityId,
-  updateTankById
+  updateTankById,
+  fetchTankBySerialNumber
 } = queries;
 
 // const { fetchResourceByPage, calcPages, moduleErrLogMessager } = Helper;
@@ -26,6 +27,17 @@ class TankService {
    */
   static getTankById(id) {
     return db.oneOrNone(fetchTankById, [id]);
+  }
+
+  /**
+   * Fetches a Tank by serialNumber
+   * @memberof TankService
+   * @param {string} serialNumber - serial Number of the tank
+   * @returns { Promise<Array | Error> } A promise that resolves or rejects
+   * with an Array of the Tank resource or a DB Error.
+   */
+  static getTankBySerialNumber(serialNumber) {
+    return db.oneOrNone(fetchTankBySerialNumber, [serialNumber]);
   }
 
   /**

@@ -38,5 +38,6 @@ export default {
   fetchTankByFacilityId: 'SELECT * FROM tank WHERE facility_id=$1',
   fetchTankBySerialNumberAndFacilityId: `
     SELECT * FROM tank
-    WHERE facility_id=$1 AND serial_number=$2;`
+    WHERE facility_id=$1 AND serial_number=$2;`,
+  fetchTankBySerialNumber: 'SELECT * FROM tank WHERE serial_number=$1'
 };
