@@ -39,34 +39,17 @@ export const contactUsMsgsTemplate = (
       greeting: 'Hi',
       signature: false,
       table: [
-        {
-          title: 'Personal info',
-          data: [
-            {
-              name,
-              email,
-              phoneNumber
-            }
-          ]
+        { title: 'Personal info',
+          data: [{ name,
+            email,
+            phoneNumber }]
         },
-        {
-          title: 'Company info',
-          data: [
-            {
-              companyName,
-              facilityType,
-              numberOfTanks
-            }
-          ]
+        { title: 'Company info',
+          data: [{ companyName,
+            facilityType,
+            numberOfTanks }]
         },
-        {
-          title: 'Message',
-          data: [
-            {
-              message
-            }
-          ]
-        }
+        { title: 'Message', data: [{ message }] }
       ]
     }
   };
@@ -77,6 +60,7 @@ export const resetPassword = (firstName, token) => {
   const email = {
     body: {
       name: firstName,
+      signature: false,
       intro:
         'You have received this email because a password reset request for your account was received.',
       action: {

@@ -100,17 +100,14 @@ class Email {
     },
     subject = 'New contact us message'
   ) {
-    const emailContent = mailGenerator.generate(
-      contactUsMsgsTemplate(
-        name,
-        email,
-        phoneNumber,
-        companyName,
-        facilityType,
-        numberOfTanks,
-        message
-      )
-    );
+    const parameters = contactUsMsgsTemplate(name,
+      email,
+      phoneNumber,
+      companyName,
+      facilityType,
+      numberOfTanks,
+      message);
+    const emailContent = mailGenerator.generate(parameters);
     return Email.send({ to: 'info@uptima.ng', subject, html: emailContent });
   }
 
