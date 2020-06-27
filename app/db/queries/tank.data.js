@@ -30,7 +30,7 @@ export default {
 
   getSingleTankDataCurrentDay: `
   SELECT 
-    volume_left, volume_used, volume_added, EXTRACT(HOUR FROM created_at) AS hour, created_at 
+    volume_left, volume_used, volume_added, EXTRACT(HOUR FROM created_at) AS hour, latitude, longitude, created_at 
   FROM 
     tank_data
   WHERE 
@@ -42,7 +42,7 @@ export default {
 
   getSingleTankDataDaily: `
   SELECT 
-  volume_left, volume_used, EXTRACT(HOUR FROM created_at) AS hour, created_at 
+  volume_left, volume_used, EXTRACT(HOUR FROM created_at) AS hour, latitude, longitude, created_at 
   FROM 
     tank_data
   WHERE 

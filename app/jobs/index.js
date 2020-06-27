@@ -95,4 +95,6 @@ queue.on('failed', (id, msg) => {
   if (logger) logger.info(`Job of id: ${id} has failed with the message: ${msg}`);
 });
 
+queue.watchStuckJobs(60 * 1000);
+
 export default Job;

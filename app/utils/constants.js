@@ -25,7 +25,8 @@ export default {
   BASE_URL,
   events: {
     SEND_PASSWORD_TO_EMAIL: 'SEND_PASSWORD_TO_EMAIL',
-    SEND_CONTACT_US_MSG: 'SEND_CONTACT_US_MSG'
+    SEND_CONTACT_US_MSG: 'SEND_CONTACT_US_MSG',
+    SEND_FORGOT_PASSWORD_TO_EMAIL: 'SEND_FORGOT_PASSWORD_TO_EMAIL'
   },
   ROLE_ARRAY: ['owner', 'manager', 'basic'],
   INVALID_ROLE_PARAMETER: 'Invalid role value',
@@ -64,11 +65,11 @@ export default {
   CREATE_USER_SUCCESSFULLY: 'Successfully registered USER to FACILITY.',
   CREATE_USER_FAILED: 'Error registering USER',
   LOGIN_USER_SUCCESSFULLY: 'Successfully logged in user',
-  FETCH_USERS_SUCCESSFULLY: 'Successfully retrieved USERs',
+  FETCH_USERS_SUCCESSFULLY: 'Successfully retrieved users',
   FETCH_USER_SUCCESSFULLY: 'Successfully retrieved USER',
   UPDATE_USER_SUCCESSFULLY: 'Successfully updated USER',
   VALIDATE_USER_ID_FAIL: 'Error validating USER id',
-  ERROR_FETCHING_USERS: 'Error fetching USERs',
+  ERROR_FETCHING_USERS: 'Error fetching users',
   ERROR_UPDATING_USER: 'Error updating USER',
   FAILED_TO_START_END_OF_DAY: 'Error ending day',
   SUCCESSFULLY_STARTED_END_OF_DAY:
@@ -135,5 +136,8 @@ export default {
   ERROR_UPDATING_DEVICE: 'Error updating device',
   ERROR_FETCHING_DEVICE: 'Error fetching device',
   FETCH_DEVICE_SUCCESSFULLY: 'Successfully retrieved device',
-  ERROR_FETCHING_FACILITY: 'Error fetching facility'
+  ERROR_FETCHING_FACILITY: 'Error fetching facility',
+  FORGOT_PASSWORD_REQUEST_SUCCESS: 'Check your email for a reset link',
+  ERROR_FETCHING_USER: 'Error fetching user',
+  UPDATE_TANK_PRICE_SUCCESSFULLY: 'Updated Successfully'
 };

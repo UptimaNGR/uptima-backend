@@ -39,5 +39,17 @@ export default {
   fetchTankBySerialNumberAndFacilityId: `
     SELECT * FROM tank
     WHERE facility_id=$1 AND serial_number=$2;`,
-  fetchTankBySerialNumber: 'SELECT * FROM tank WHERE serial_number=$1'
+  fetchTankBySerialNumber: 'SELECT * FROM tank WHERE serial_number=$1',
+
+  updateTankPriceById: `
+    UPDATE
+      tank
+    SET
+      price=($1),
+      min_level=($2),
+      updated_at=NOW()
+    WHERE
+      id=($3)
+    RETURNING *
+  `
 };

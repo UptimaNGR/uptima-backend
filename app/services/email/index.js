@@ -1,12 +1,23 @@
 import MailGun from 'mailgun-js';
+import Mailgen from 'mailgen';
+
+
 import { constants, ModuleError } from '../../utils';
 import {
-  layout,
-  newPasswordTemplate,
-  contactUsMsgsTemplate
+  contactUsMsgsTemplate,
+  sendPassword,
+  resetPassword
 } from './email.templates';
 import config from '../../../config/env';
 
+const mailGenerator = new Mailgen({
+  theme: 'cerberus',
+  product: {
+    name: 'uptima solutions',
+    link: 'https://uptima.ng',
+    logo: 'https://cdn.steemitimages.com/DQmVXnjB9tpz35dMtoRRoQvc8KimT1rsjZYisxvkiZqgeD9/White%20Logo%20.png'
+  }
+});
 const { MAILGUN_API_KEY, MAILGUN_DOMAIN, UPTIMA_EMAIL } = config;
 
 const { EMAIL_WAS_NOT_SENT } = constants;
@@ -56,8 +67,6 @@ class Email {
    * Sends new password to user.
    * @static
    * @param {object} first_name - The Recipient's first-name.
-  //  * @param {string} email - Recipient's email address.
-  //  * @param {string} plainPassword - Email validation token.
    * @param {string} subject - The subject of the email.
    * @memberof Email
    * @returns {Promise<object | string>} - A promise which is fulfilled as a string
@@ -65,9 +74,9 @@ class Email {
    */
   static newPassword(
     { firstName, email, plainPassword },
-    subject = 'Welcome to ExpressPharmacy'
+    subject = 'Welcome to uptima tms management dashboard'
   ) {
-    const emailContent = layout(firstName, newPasswordTemplate(plainPassword));
+    const emailContent = mailGenerator.generate(sendPassword(firstName, plainPassword));
     return Email.send({ to: email, subject, html: emailContent });
   }
 
@@ -80,11 +89,18 @@ class Email {
    * or an error object.
    */
   static contactUsMsg(
-    { name, email, phoneNumber, companyName, facilityType, numberOfTanks, message },
+    {
+      name,
+      email,
+      phoneNumber,
+      companyName,
+      facilityType,
+      numberOfTanks,
+      message
+    },
     subject = 'New contact us message'
   ) {
-    const emailContent = layout(
-      'Operator',
+    const emailContent = mailGenerator.generate(
       contactUsMsgsTemplate(
         name,
         email,
@@ -96,6 +112,23 @@ class Email {
       )
     );
     return Email.send({ to: 'info@uptima.ng', subject, html: emailContent });
+  }
+
+  /**
+   * Sends new password to user.
+   * @static
+   * @param {object} first_name - The Recipient's first-name.
+   * @param {string} subject - The subject of the email.
+   * @memberof Email
+   * @returns {Promise<object | string>} - A promise which is fulfilled as a string
+   * or an error object.
+   */
+  static forgotPassword(
+    { firstName, email, link },
+    subject = 'Password Reset'
+  ) {
+    const emailContent = mailGenerator.generate(resetPassword(firstName, link));
+    return Email.send({ to: email, subject, html: emailContent });
   }
 }
 export default Email;

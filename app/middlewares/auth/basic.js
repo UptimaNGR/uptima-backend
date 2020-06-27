@@ -3,9 +3,9 @@ import { Helper, genericErrors, constants, ApiError } from '../../utils';
 import UserService from '../../services/user';
 
 const { getUserByEmail, getUserByUsername } = UserService;
-const { errorResponse, verifyToken } = Helper;
+const { errorResponse, verifyToken, generateToken } = Helper;
 const {
-  EMAIL_CONFLICT,
+  ERROR_FETCHING_USER,
   USER_EMAIL_EXIST_VERIFICATION_FAIL_MSG,
   USER_EMAIL_EXIST_VERIFICATION_FAIL
 } = constants;
@@ -88,20 +88,20 @@ class AuthMiddleware {
    * @memberof AuthMiddleware
    *
    */
-  static async signUpEmailValidator(req, res, next) {
+  static async emailValidator(req, res, next) {
     try {
       const user = await getUserByEmail(req.body.email);
       if (user) {
-        return errorResponse(
-          req,
-          res,
-          new ApiError({
-            status: 409,
-            message: EMAIL_CONFLICT
-          })
-        );
+        return next();
       }
-      next();
+      errorResponse(
+        req,
+        res,
+        new ApiError({
+          status: 404,
+          message: ERROR_FETCHING_USER
+        })
+      );
     } catch (e) {
       e.status = USER_EMAIL_EXIST_VERIFICATION_FAIL;
       Helper.moduleErrLogMessager(e);
@@ -188,6 +188,33 @@ class AuthMiddleware {
       next();
     } catch (err) {
       errorResponse(req, res, genericErrors.authRequired);
+    }
+  }
+
+  /**
+   * resets password for user and hashes it.
+   * @static
+   * @param { Object } req - The request from the endpoint.
+   * @param { Object } res - The response returned by the method.
+   * @param { function } next - Calls the next handle.
+   * @returns { JSON | Null } - Returns error response if validation fails or Null if otherwise.
+   * @memberof AuthMiddleware
+   *
+   */
+  static async generateToken(req, res, next) {
+    try {
+      const { id, first_name } = await getUserByEmail(req.body.email);
+      req.user = first_name;
+      req.link = generateToken({ id });
+      next();
+    } catch (e) {
+      e.status = USER_EMAIL_EXIST_VERIFICATION_FAIL;
+      Helper.moduleErrLogMessager(e);
+      errorResponse(
+        req,
+        res,
+        new ApiError({ message: USER_EMAIL_EXIST_VERIFICATION_FAIL_MSG })
+      );
     }
   }
 }
