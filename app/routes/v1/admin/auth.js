@@ -6,7 +6,7 @@ import UserController from '../../../controllers/user';
 import UserMiddleware from '../../../middlewares/user';
 
 const { addUser } = UserController;
-const { signIn } = AuthController;
+const { signIn, resetPassword } = AuthController;
 
 const {
   validateUserFields,
@@ -17,9 +17,11 @@ const {
 
 const {
   authenticate,
+  emailValidator,
   loginEmailValidator,
   validateLoginFields,
-  generatePassword
+  generatePassword,
+  generateToken
 } = AuthMiddleware;
 
 const {
@@ -41,5 +43,7 @@ router.post(
   generatePassword,
   addUser
 );
+
+router.post('/reset-password', emailValidator, generateToken, resetPassword);
 
 export default router;

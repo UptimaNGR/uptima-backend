@@ -28,7 +28,8 @@ const {
   addTank,
   fetchTankByFacilityId,
   updateTankById,
-  fetchTankById
+  fetchTankById,
+  updateTankPriceById
 } = TankController;
 const {
   validateTankFields,
@@ -105,6 +106,7 @@ router.post(
 router.get('/:companyId/facility/:facilityId/tank', fetchTankByFacilityId);
 router.get('/:companyId/facility/:facilityId/tank/:tankId', fetchTankById);
 router.put('/:companyId/facility/:facilityId/tank/:tankId', adminAccessValidator, updateTankById);
+router.patch('/:companyId/facility/:facilityId/tank/:tankId', updateTankPriceById);
 
 router.get(
   '/:companyId/facility/:facilityId/tank/:tankId/tank-data/daily',

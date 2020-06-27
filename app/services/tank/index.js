@@ -7,7 +7,9 @@ const {
   fetchTankByFacilityId,
   fetchTankBySerialNumberAndFacilityId,
   updateTankById,
-  fetchTankBySerialNumber
+  fetchTankBySerialNumber,
+  updateTankPriceById,
+  fetchTankPriceById
 } = queries;
 
 // const { fetchResourceByPage, calcPages, moduleErrLogMessager } = Helper;
@@ -27,6 +29,17 @@ class TankService {
    */
   static getTankById(id) {
     return db.oneOrNone(fetchTankById, [id]);
+  }
+
+  /**
+   * Fetches a Tank price by id
+   * @memberof TankService
+   * @param {string} id - id of the tank
+   * @returns { Promise<Array | Error> } A promise that resolves or rejects
+   * with an Array of the Tank resource or a DB Error.
+   */
+  static getTankPriceById(id) {
+    return db.oneOrNone(fetchTankPriceById, [id]);
   }
 
   /**
@@ -87,6 +100,24 @@ class TankService {
       data.total_volume,
       oldData.id
     ]);
+  }
+
+  /**
+   * Updates a Tank price by id.
+   * @memberof TankService
+   * @param { Object } oldData - The details of Tank before update.
+   * @param { Object } reqData - The data to be used to update a specific Tank.
+   * @returns { Promise<Object | Error> } A promise that resolves or rejects
+   * with a Tank resource or a DB Error.
+   */
+  static async updateTankPriceById(oldData, reqData) {
+    const data = { ...oldData, ...reqData };
+    const tt = await db.one(updateTankPriceById, [
+      data.price,
+      data.min_level,
+      oldData.id
+    ]);
+    return tt;
   }
 }
 

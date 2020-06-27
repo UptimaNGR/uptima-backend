@@ -122,7 +122,7 @@ class Helper {
    * @memberof Helper
    * @returns {string} - JWT Token
    */
-  static generateToken(payload, expiresIn = '4h') {
+  static generateToken(payload, expiresIn = '2h') {
     return jwt.sign(payload, SECRET, { expiresIn });
   }
 

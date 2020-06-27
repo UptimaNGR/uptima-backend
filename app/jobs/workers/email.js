@@ -1,6 +1,6 @@
 import EmailService from '../../services/email';
 
-const { newPassword, contactUsMsg } = EmailService;
+const { newPassword, contactUsMsg, forgotPassword } = EmailService;
 
 /**
  * A collection of worker methods tha handles event related to email.
@@ -36,6 +36,23 @@ export default class EmailWorker {
   static async sendContactUsMsg({ data }, done) {
     try {
       await contactUsMsg(data);
+      done();
+    } catch (error) {
+      done(error);
+    }
+  }
+
+  /**
+   * Handles the tasks that should be carried out whenever a reset password is init.
+   * @static
+   * @memberof EmailWorker
+   * @param { Object } job - The job object containing details of a .
+   * @param { Function } done - The type of the job.
+   * @returns { null } - It returns null.
+   */
+  static async sendForgotPassword({ data }, done) {
+    try {
+      await forgotPassword(data);
       done();
     } catch (error) {
       done(error);

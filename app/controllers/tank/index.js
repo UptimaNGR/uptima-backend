@@ -9,10 +9,17 @@ const {
   ERROR_FETCHING_TANK,
   FETCH_TANK_SUCCESSFULLY,
   ERROR_UPDATING_TANK,
-  UPDATE_TANK_SUCCESSFULLY
+  UPDATE_TANK_SUCCESSFULLY,
+  UPDATE_TANK_PRICE_SUCCESSFULLY
 } = constants;
 
-const { getTankByFacilityId, getTankById, updateTankById } = TankService;
+const {
+  getTankByFacilityId,
+  getTankById,
+  updateTankById,
+  updateTankPriceById,
+  getTankPriceById
+} = TankService;
 
 /**
  * A collection of methods that controls the success response
@@ -113,6 +120,28 @@ class TankController {
       });
     } catch (error) {
       next(new ApiError({ message: ERROR_FETCHING_TANK }));
+    }
+  }
+
+  /**
+   * Controller used for updating single tank price
+   * @static
+   * @param {Request} req - The request from the endpoint.
+   * @param {Response} res - The response returned by the method.
+   * @param {Next} next
+   * @returns { JSON } A JSON response containing the details of the tank added
+   * @memberof TankController
+   */
+  static async updateTankPriceById(req, res, next) {
+    try {
+      const tank = await getTankPriceById(req.params.tankId);
+      const data = await updateTankPriceById(tank, req.body);
+      return successResponse(res, {
+        message: UPDATE_TANK_PRICE_SUCCESSFULLY,
+        data
+      });
+    } catch (error) {
+      next(new ApiError({ message: ERROR_UPDATING_TANK }));
     }
   }
 }

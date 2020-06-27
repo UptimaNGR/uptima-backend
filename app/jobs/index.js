@@ -19,7 +19,7 @@ export const queue = Kue.createQueue({
 });
 
 // Set max EventListeners
-queue.setMaxListeners(queue.getMaxListeners() + 100);
+// queue.setMaxListeners(queue.getMaxListeners() + 100);
 
 // Register all events
 jobEvents(queue);
@@ -94,5 +94,7 @@ queue.on('failed attempt', (id, msg, doneAttempts) => {
 queue.on('failed', (id, msg) => {
   if (logger) logger.info(`Job of id: ${id} has failed with the message: ${msg}`);
 });
+
+queue.watchStuckJobs(5000);
 
 export default Job;
