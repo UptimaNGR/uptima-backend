@@ -15,7 +15,8 @@ const {
   updateUserById,
   getUsersPaginated,
   countPages,
-  fetchAllManagersWithLocation
+  fetchAllManagersWithLocation,
+  fetchUserByFacilityId
 } = queries;
 
 const { fetchAdminById } = authQueries;
@@ -84,6 +85,17 @@ class UserService {
    */
   static getUserById(id) {
     return db.oneOrNone(fetchUserById, [id]);
+  }
+
+  /**
+   * Fetches a User by facility id
+   * @memberof UserService
+   * @param {string} id - id of User
+   * @returns { Promise<Array | Error> } A promise that resolves or rejects
+   * with an Array of the User resource or a DB Error.
+   */
+  static getUserByFacilityId(id) {
+    return db.oneOrNone(fetchUserByFacilityId, [id]);
   }
 
   /**

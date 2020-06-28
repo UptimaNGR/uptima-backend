@@ -35,7 +35,7 @@ const {
   validateTankFields,
   calcTotalTankVolume,
   checkIfSerialNumberExistsInFacility,
-  checkTankById,
+  checkTankById
 } = TankMiddleware;
 
 const {
@@ -47,7 +47,8 @@ const {
   addFacility,
   fetchAllFacility,
   updateFacilityById,
-  fetchFacilityById
+  fetchFacilityById,
+  updateFacilityCloseAndOpenTimeById
 } = FacilityController;
 
 const { fetchTankDataByTankIdDaily } = TankDataController;
@@ -94,6 +95,10 @@ router.get(
 );
 router.get('/:companyId/facility/:facilityId', fetchFacilityById);
 router.put('/:companyId/facility/:facilityId', updateFacilityById);
+router.patch(
+  '/:companyId/facility/:facilityId',
+  updateFacilityCloseAndOpenTimeById
+);
 
 router.post(
   '/:companyId/facility/:facilityId/tank',
@@ -105,8 +110,15 @@ router.post(
 );
 router.get('/:companyId/facility/:facilityId/tank', fetchTankByFacilityId);
 router.get('/:companyId/facility/:facilityId/tank/:tankId', fetchTankById);
-router.put('/:companyId/facility/:facilityId/tank/:tankId', adminAccessValidator, updateTankById);
-router.patch('/:companyId/facility/:facilityId/tank/:tankId', updateTankPriceById);
+router.put(
+  '/:companyId/facility/:facilityId/tank/:tankId',
+  adminAccessValidator,
+  updateTankById
+);
+router.patch(
+  '/:companyId/facility/:facilityId/tank/:tankId',
+  updateTankPriceById
+);
 
 router.get(
   '/:companyId/facility/:facilityId/tank/:tankId/tank-data/daily',

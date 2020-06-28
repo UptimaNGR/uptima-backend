@@ -51,5 +51,9 @@ export default {
     WHERE
       id=($3)
     RETURNING *
+  `,
+
+  fetchTankPriceById: `
+  SELECT id, price, min_level FROM tank WHERE id=$1
   `
 };

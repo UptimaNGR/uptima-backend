@@ -25,6 +25,17 @@
   },
   "author": "addempsea",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UptimaNGR/uptima-backend.git"
+  },
+  "keywords": [
+    "uptima",
+    "iot",
+    "information",
+    "management",
+    "system"
+  ],
   "devDependencies": {
     "acorn": "^7.3.1",
     "eslint": "^6.8.0",

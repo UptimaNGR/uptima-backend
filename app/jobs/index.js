@@ -19,7 +19,7 @@ export const queue = Kue.createQueue({
 });
 
 // Set max EventListeners
-// queue.setMaxListeners(queue.getMaxListeners() + 100);
+queue.setMaxListeners(queue.getMaxListeners() + 100);
 
 // Register all events
 jobEvents(queue);

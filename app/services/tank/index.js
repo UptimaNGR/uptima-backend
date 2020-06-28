@@ -82,12 +82,13 @@ class TankService {
   /**
    * Updates a Tank by id.
    * @memberof TankService
-   * @param { Object } oldData - The details of Tank before update.
+   * @param { Object } tankId - The id of Tank to be updated.
    * @param { Object } reqData - The data to be used to update a specific Tank.
    * @returns { Promise<Object | Error> } A promise that resolves or rejects
    * with a Tank resource or a DB Error.
    */
-  static async updateTankById(oldData, reqData) {
+  static async updateTankById(tankId, reqData) {
+    const oldData = await TankService.getTankById(tankId);
     const data = { ...oldData, ...reqData };
     return db.oneOrNone(updateTankById, [
       data.company_id,
@@ -105,19 +106,19 @@ class TankService {
   /**
    * Updates a Tank price by id.
    * @memberof TankService
-   * @param { Object } oldData - The details of Tank before update.
+   * @param { Object } tankId - The id of Tank to be updated.
    * @param { Object } reqData - The data to be used to update a specific Tank.
    * @returns { Promise<Object | Error> } A promise that resolves or rejects
    * with a Tank resource or a DB Error.
    */
-  static async updateTankPriceById(oldData, reqData) {
+  static async updateTankPriceById(tankId, reqData) {
+    const oldData = await TankService.getTankPriceById(tankId);
     const data = { ...oldData, ...reqData };
-    const tt = await db.one(updateTankPriceById, [
+    return db.one(updateTankPriceById, [
       data.price,
       data.min_level,
       oldData.id
     ]);
-    return tt;
   }
 }
 

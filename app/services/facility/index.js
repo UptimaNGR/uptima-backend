@@ -7,7 +7,9 @@ const {
   fetchFacilityByGps,
   fetchFacilityById,
   fetchAllFacilities,
-  updateFacilityById
+  updateFacilityById,
+  fetchFacilityCloseAndOpenTimeById,
+  updateFacilityCloseAndOpenTimeById
 } = queries;
 
 // const { fetchResourceByPage, calcPages, moduleErrLogMessager } = Helper;
@@ -19,14 +21,25 @@ const {
  */
 class FacilityService {
   /**
-   * Fetches a Facility by email
+   * Fetches a Facility by gps
    * @memberof FacilityService
-   * @param {string} gps - email of Facility
+   * @param {string} gps - gps of Facility
    * @returns { Promise<Array | Error> } A promise that resolves or rejects
    * with an Array of the Facility resource or a DB Error.
    */
-  static getFacilityByEmail(gps) {
+  static getFacilityByGps(gps) {
     return db.oneOrNone(fetchFacilityByGps, [gps]);
+  }
+
+  /**
+   * Fetches a Facility by email
+   * @memberof FacilityService
+   * @param {string} id - id of Facility
+   * @returns { Promise<Array | Error> } A promise that resolves or rejects
+   * with an Array of the Facility resource or a DB Error.
+   */
+  static getFacilityCloseAndOpenTimeById(id) {
+    return db.oneOrNone(fetchFacilityCloseAndOpenTimeById, [id]);
   }
 
   /**
@@ -64,12 +77,13 @@ class FacilityService {
   /**
    * Updates a Facility by id.
    * @memberof FacilityService
-   * @param { Object } oldData - The details of Facility before update.
+   * @param { Object } facilityId - The id of Facility to be updated.
    * @param { Object } reqData - The data to be used to update a specific Facility.
    * @returns { Promise<Object | Error> } A promise that resolves or rejects
    * with a Facility resource or a DB Error.
    */
-  static async updateFacilityById(oldData, reqData) {
+  static async updateFacilityById(facilityId, reqData) {
+    const oldData = await FacilityService.getFacilityById(facilityId);
     const data = { ...oldData, ...reqData };
     return db.oneOrNone(updateFacilityById, [
       data.company_id,
@@ -77,6 +91,26 @@ class FacilityService {
       data.facility_name,
       data.facility_type,
       data.address,
+      oldData.id
+    ]);
+  }
+
+  /**
+   * Updates a Facility close and open time by id.
+   * @memberof FacilityService
+   * @param { Object } facilityId - The id of Facility to be updated.
+   * @param { Object } reqData - The data to be used to update a specific Facility.
+   * @returns { Promise<Object | Error> } A promise that resolves or rejects
+   * with a Facility resource or a DB Error.
+   */
+  static async updateFacilityCloseAndOpenTimeById(facilityId, reqData) {
+    const oldData = await FacilityService.getFacilityCloseAndOpenTimeById(
+      facilityId
+    );
+    const data = { ...oldData, ...reqData };
+    return db.oneOrNone(updateFacilityCloseAndOpenTimeById, [
+      data.opening_time,
+      data.closing_time,
       oldData.id
     ]);
   }
