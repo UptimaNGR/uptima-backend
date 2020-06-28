@@ -17,8 +17,7 @@ const {
   getTankByFacilityId,
   getTankById,
   updateTankById,
-  updateTankPriceById,
-  getTankPriceById
+  updateTankPriceById
 } = TankService;
 
 /**
@@ -91,8 +90,7 @@ class TankController {
    */
   static async updateTankById(req, res, next) {
     try {
-      const tank = await getTankById(req.params.tankId);
-      const data = await updateTankById(tank, req.body);
+      const data = await updateTankById(req.params.tankId, req.body);
       return successResponse(res, {
         message: UPDATE_TANK_SUCCESSFULLY,
         data
@@ -134,8 +132,7 @@ class TankController {
    */
   static async updateTankPriceById(req, res, next) {
     try {
-      const tank = await getTankPriceById(req.params.tankId);
-      const data = await updateTankPriceById(tank, req.body);
+      const data = await updateTankPriceById(req.params.tankId, req.body);
       return successResponse(res, {
         message: UPDATE_TANK_PRICE_SUCCESSFULLY,
         data

@@ -1,12 +1,13 @@
 import MailGun from 'mailgun-js';
 import Mailgen from 'mailgen';
 
-
 import { constants, ModuleError } from '../../utils';
 import {
   contactUsMsgsTemplate,
   sendPassword,
-  resetPassword
+  resetPassword,
+  alertMinLevel,
+  alertOutsideBizHours
 } from './email.templates';
 import config from '../../../config/env';
 
@@ -15,7 +16,8 @@ const mailGenerator = new Mailgen({
   product: {
     name: 'uptima solutions',
     link: 'https://uptima.ng',
-    logo: 'https://cdn.steemitimages.com/DQmVXnjB9tpz35dMtoRRoQvc8KimT1rsjZYisxvkiZqgeD9/White%20Logo%20.png'
+    logo:
+      'https://cdn.steemitimages.com/DQmVXnjB9tpz35dMtoRRoQvc8KimT1rsjZYisxvkiZqgeD9/White%20Logo%20.png'
   }
 });
 const { MAILGUN_API_KEY, MAILGUN_DOMAIN, UPTIMA_EMAIL } = config;
@@ -76,7 +78,9 @@ class Email {
     { firstName, email, plainPassword },
     subject = 'Welcome to uptima tms management dashboard'
   ) {
-    const emailContent = mailGenerator.generate(sendPassword(firstName, plainPassword));
+    const emailContent = mailGenerator.generate(
+      sendPassword(firstName, plainPassword)
+    );
     return Email.send({ to: email, subject, html: emailContent });
   }
 
@@ -100,13 +104,15 @@ class Email {
     },
     subject = 'New contact us message'
   ) {
-    const parameters = contactUsMsgsTemplate(name,
+    const parameters = contactUsMsgsTemplate(
+      name,
       email,
       phoneNumber,
       companyName,
       facilityType,
       numberOfTanks,
-      message);
+      message
+    );
     const emailContent = mailGenerator.generate(parameters);
     return Email.send({ to: 'info@uptima.ng', subject, html: emailContent });
   }
@@ -125,6 +131,44 @@ class Email {
     subject = 'Password Reset'
   ) {
     const emailContent = mailGenerator.generate(resetPassword(firstName, link));
+    return Email.send({ to: email, subject, html: emailContent });
+  }
+
+  /**
+   * Sends alert user.
+   * @static
+   * @param {object} first_name - The Recipient's first-name.
+   * @param {string} subject - The subject of the email.
+   * @memberof Email
+   * @returns {Promise<object | string>} - A promise which is fulfilled as a string
+   * or an error object.
+   */
+  static alertMinVolumePassed(
+    { first_name, email, volumeLeft, min_level, volumeUsed },
+    subject = 'ALERT!!! MINIMUM VOLUME EXCEEDED'
+  ) {
+    const emailContent = mailGenerator.generate(
+      alertMinLevel(first_name, volumeLeft, min_level, volumeUsed)
+    );
+    return Email.send({ to: email, subject, html: emailContent });
+  }
+
+  /**
+   * Sends alert user.
+   * @static
+   * @param {object} first_name - The Recipient's first-name.
+   * @param {string} subject - The subject of the email.
+   * @memberof Email
+   * @returns {Promise<object | string>} - A promise which is fulfilled as a string
+   * or an error object.
+   */
+  static alertActivityAfterClose(
+    { first_name, email, volumeLeft, volumeUsed },
+    subject = 'ALERT!!! OPERATION AFTER BUSINESS CLOSE'
+  ) {
+    const emailContent = mailGenerator.generate(
+      alertOutsideBizHours(first_name, volumeLeft, volumeUsed)
+    );
     return Email.send({ to: email, subject, html: emailContent });
   }
 }

@@ -10,7 +10,7 @@ const {
   FETCH_TANK_DATA_SUCCESSFULLY
 } = constants;
 
-const { calcVolumeByDeviceId, getTankDataByTankIdDaily } = TankDataService;
+const { getTankDataByTankIdDaily } = TankDataService;
 
 /**
  * A collection of methods that controls the success response
@@ -30,9 +30,9 @@ class TankDataController {
    */
   static async addTankData(req, res, next) {
     try {
-      const volume = await calcVolumeByDeviceId(req.body);
+      // const volume = await calcVolumeByDeviceId(req.body);
       const tankData = new TankDataModel({
-        ...volume
+        ...req.volume
       });
       const { id } = await tankData.save();
       return successResponse(res, {

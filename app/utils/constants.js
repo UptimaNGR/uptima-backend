@@ -26,7 +26,9 @@ export default {
   events: {
     SEND_PASSWORD_TO_EMAIL: 'SEND_PASSWORD_TO_EMAIL',
     SEND_CONTACT_US_MSG: 'SEND_CONTACT_US_MSG',
-    SEND_FORGOT_PASSWORD_TO_EMAIL: 'SEND_FORGOT_PASSWORD_TO_EMAIL'
+    SEND_FORGOT_PASSWORD_TO_EMAIL: 'SEND_FORGOT_PASSWORD_TO_EMAIL',
+    SEND_MIN_LEVEL_ALERT: 'SEND_MIN_LEVEL_ALERT',
+    SEND_ACTIVITY_DURING_CLOSE: 'SEND_ACTIVITY_DURING_CLOSE'
   },
   ROLE_ARRAY: ['owner', 'manager', 'basic'],
   INVALID_ROLE_PARAMETER: 'Invalid role value',
@@ -139,5 +141,6 @@ export default {
   ERROR_FETCHING_FACILITY: 'Error fetching facility',
   FORGOT_PASSWORD_REQUEST_SUCCESS: 'Check your email for a reset link',
   ERROR_FETCHING_USER: 'Error fetching user',
-  UPDATE_TANK_PRICE_SUCCESSFULLY: 'Updated Successfully'
+  UPDATE_TANK_PRICE_SUCCESSFULLY: 'Updated Successfully',
+  ERROR_UPDATING_FACILITY: 'Error updating facility details',
 };

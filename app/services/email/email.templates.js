@@ -78,3 +78,55 @@ export const resetPassword = (firstName, token) => {
 
   return email;
 };
+
+export const alertMinLevel = (firstName, volumeLeft, min_level, volumeUsed) => {
+  const email = {
+    body: {
+      name: firstName,
+      signature: false,
+      intro:
+        'You have received this email because the current fluid level has dropped below your set minimum volume.',
+      table: [
+        { title: 'Current tank info',
+          data: [
+            {
+              current_volume: volumeLeft,
+              volume_used_last_hour: volumeUsed,
+              minimum_volume_set: min_level
+            }
+          ]
+        }
+      ],
+      outro:
+        'This is a no-reply email. Do not reply to this email as we cannot respond to queries sent to this email address.'
+    }
+  };
+
+  return email;
+};
+
+export const alertOutsideBizHours = (firstName, volumeLeft, volumeUsed) => {
+  const email = {
+    body: {
+      name: firstName,
+      signature: false,
+      intro:
+        'You have received this email because there has been a decrease in fluid level after business close.',
+      table: [
+        { title: 'Current tank info',
+          data: [
+            {
+              current_volume: volumeLeft,
+              volume_used_last_hour: volumeUsed,
+              time: new Date()
+            }
+          ]
+        }
+      ],
+      outro:
+        'This is a no-reply email. Do not reply to this email as we cannot respond to queries sent to this email address.'
+    }
+  };
+
+  return email;
+};

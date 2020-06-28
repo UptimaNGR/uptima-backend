@@ -3,14 +3,18 @@ import FacilityService from '../../services/facility';
 import { Helper, constants, ApiError, DBError } from '../../utils';
 
 const { successResponse } = Helper;
-const { getFacilityById, updateFacilityById } = FacilityService;
+const {
+  getFacilityById,
+  updateFacilityById,
+  updateFacilityCloseAndOpenTimeById
+} = FacilityService;
 const {
   CREATE_FACILITY_ERROR,
   CREATE_FACILITY_SUCCESS,
   FETCH_FACILITIES_SUCCESSFULLY,
   ERROR_FETCHING_FACILITIES,
   SUCCESSFULLY_UPDATED_FACILITY,
-  ERROR_UPDATING_DEVICE,
+  ERROR_UPDATING_FACILITY,
   FETCH_FACILITY_SUCCESSFULLY,
   FACILITY_NOT_FOUND
 } = constants;
@@ -85,14 +89,13 @@ class FacilityController {
    */
   static async updateFacilityById(req, res, next) {
     try {
-      const facility = await getFacilityById(req.params.facilityId);
-      const data = await updateFacilityById(facility, req.body);
+      const data = await updateFacilityById(req.params.facilityId, req.body);
       return successResponse(res, {
         message: SUCCESSFULLY_UPDATED_FACILITY,
         data
       });
     } catch (error) {
-      next(new ApiError({ message: ERROR_UPDATING_DEVICE }));
+      next(new ApiError({ message: ERROR_UPDATING_FACILITY }));
     }
   }
 
@@ -114,6 +117,30 @@ class FacilityController {
       });
     } catch (error) {
       next(new ApiError({ message: FACILITY_NOT_FOUND }));
+    }
+  }
+
+  /**
+   * Controllers used for updating single Facility details
+   * @static
+   * @param {Request} req - The request from the endpoint.
+   * @param {Response} res - The response returned by the method.
+   * @param {Next} next
+   * @returns { JSON } A JSON response containing the details of the Facility added
+   * @memberof FacilityController
+   */
+  static async updateFacilityCloseAndOpenTimeById(req, res, next) {
+    try {
+      const data = await updateFacilityCloseAndOpenTimeById(
+        req.params.facilityId,
+        req.body
+      );
+      return successResponse(res, {
+        message: SUCCESSFULLY_UPDATED_FACILITY,
+        data
+      });
+    } catch (error) {
+      next(new ApiError({ message: ERROR_UPDATING_FACILITY }));
     }
   }
 }

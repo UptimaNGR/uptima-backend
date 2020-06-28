@@ -25,6 +25,8 @@ class FacilityModel {
     this.facility_name = options.facilityName;
     this.facility_type = options.facilityType;
     this.address = options.address;
+    this.closing_time = options.closingTime;
+    this.opening_time = options.openingTime;
   }
 
   /**
@@ -41,7 +43,9 @@ class FacilityModel {
         this.gps_coordinate,
         this.facility_name,
         this.facility_type,
-        this.address
+        this.address,
+        this.opening_time,
+        this.closing_time
       ]);
     } catch (e) {
       const dbError = new DBError({

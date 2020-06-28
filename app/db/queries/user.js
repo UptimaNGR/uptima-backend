@@ -66,7 +66,9 @@ export default {
     LIMIT $2
   ;`,
 
-  countPages: 'SELECT COUNT(*) as total FROM user_info WHERE facility.id = $1;',
+  countPages: 'SELECT COUNT(*) as total FROM user_info WHERE facility_id = $1;',
+
+  fetchUserByFacilityId: 'SELECT id, email, first_name, phone_number FROM user_info WHERE facility_id = $1;',
 
   fetchUserByUsername: `
     SELECT *
