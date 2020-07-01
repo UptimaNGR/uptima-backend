@@ -17,15 +17,22 @@ export default {
 
   fetchTankSurfaceAreaByDeviceId: `
   SELECT 
-    *
+    t.surface_area,
+    t.company_id,
+    tank_id,
+    t.total_volume,
+    t.facility_id,
+    d.dist_to_device,
+    t.height,
+    t.structure_type
   FROM 
-    tank
+    tank t
   INNER JOIN 
-    device
+    device d
   ON  
-    tank.id = device.tank_id
+    t.id = d.tank_id
   WHERE 
-    device.serial_number=$1;
+    d.serial_number=$1;
   `,
 
   getSingleTankDataCurrentDay: `

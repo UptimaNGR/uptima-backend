@@ -103,9 +103,9 @@ router.patch(
 router.post(
   '/:companyId/facility/:facilityId/tank',
   adminAccessValidator,
-  checkIfSerialNumberExistsInFacility,
-  calcTotalTankVolume,
   validateTankFields,
+  calcTotalTankVolume,
+  checkIfSerialNumberExistsInFacility,
   addTank
 );
 router.get('/:companyId/facility/:facilityId/tank', fetchTankByFacilityId);

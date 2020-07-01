@@ -1,10 +1,14 @@
 import Kue from 'kue';
+// import cron from 'cron-cluster';
+// import { redisDB } from '../db';
 import jobEvents from './events';
 import config from '../../config/env';
 import { Helper, constants } from '../utils';
 
 const { moduleErrLogMessager } = Helper;
 const { FAILED_CREATE_JOB } = constants;
+
+// const { CronJob } = cron(redisDB);
 
 // create queue to save jobs in
 export const queue = Kue.createQueue({
@@ -48,7 +52,7 @@ class Job {
       .create(opts.type, opts.data)
       .attempts(opts.attempts)
       .priority(opts.priority)
-      .backoff((attempts) => 60000 * (2 ** attempts))
+      .backoff((attempts) => 60000 * 2 ** attempts)
       .save((error) => {
         if (error) {
           error.status = FAILED_CREATE_JOB(opts.type);
@@ -56,6 +60,19 @@ class Job {
         }
       });
   }
+
+  /**
+  * Creates a new Cron Job instance.
+  * @static
+  * @memberof Job
+  * @param { String } timeLine - The recurring time setup for the job.
+  * @param { Function } fn - A callback function that implements
+      the initialization of the recurring job instance.
+  * @returns { Object } - A Cron Job instance.
+  */
+  // static createCron(timeLine, fn) {
+  //   return new CronJob(timeLine, fn, null, true);
+  // }
 }
 
 // Queue Events

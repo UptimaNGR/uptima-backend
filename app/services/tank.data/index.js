@@ -1,6 +1,6 @@
 import queries from '../../db/queries/tank.data';
 import db from '../../db';
-import { Helper } from '../../utils';
+import { DeviceHelper } from '../../utils';
 
 const {
   fetchTankSurfaceAreaByDeviceId,
@@ -9,7 +9,7 @@ const {
   getLastVolumeLeft
 } = queries;
 
-const { calcVolume } = Helper;
+const { calcVolumeLeftByTankType } = DeviceHelper;
 
 /**
  * Contains a collection of service methods for managing TankData resource on the app.
@@ -29,13 +29,24 @@ class TankDataService {
   }
 
   /**
-   * Calculates a Tank volume
+   * Fetches a lastVolume by id
+   * @memberof TankDataService
+   * @param {string} serialNumber - id of the TankData
+   * @returns { Promise<Array | Error> } A promise that resolves or rejects
+   * with an Array of the TankData resource or a DB Error.
+   */
+  static getTankDataById(serialNumber) {
+    return db.oneOrNone(getLastVolumeLeft, [serialNumber]);
+  }
+
+  /**
+   * Get Tank details for volume calculation
    * @memberof TankDataService
    * @param {string} data - distance and deviceId
    * @returns { Promise<Array | Error> } A promise that resolves or rejects
    * with volume of Tank.
    */
-  static async calcVolumeByDeviceId({
+  static async calcTankDetailsByDeviceSn({
     serialNumber,
     distance,
     longitude,
@@ -46,23 +57,59 @@ class TankDataService {
       company_id,
       tank_id,
       total_volume,
-      facility_id
+      facility_id,
+      dist_to_device,
+      height,
+      structure_type
     } = await db.oneOrNone(fetchTankSurfaceAreaByDeviceId, [serialNumber]);
-    const lastVolume = await db.oneOrNone(getLastVolumeLeft, [
-      serialNumber
-    ]);
-    const volume = calcVolume(surface_area, distance);
-    const volumeLeft = total_volume - volume;
-    const volumeUsed = lastVolume ? lastVolume.volume_left - volumeLeft : volume;
     return {
       serialNumber,
       company_id,
       tank_id,
-      volumeLeft,
-      volumeUsed,
+      surface_area,
+      total_volume,
       longitude,
       latitude,
-      facility_id
+      facility_id,
+      distance: parseFloat(distance) - parseFloat(dist_to_device),
+      height,
+      structure_type
+    };
+  }
+
+  /**
+   * Fetches a TankData by tank id for the day
+   * @memberof TankDataService
+   * @param {Number} type - type of the Tank
+   * @param {Array} surface_area - surface for tank data
+   * @param {Number} distance - distance of the Tank
+   * @param {Number} height - height for tank data
+   * @param {Number} total_volume - total tank volume
+   * @param {Number} serialNumber - serial number of device
+   * @returns { Promise<Array | Error> } A promise that resolves or rejects
+   * with an Array of the TankData resource or a DB Error.
+   */
+  static async calcVolumeUsed(
+    type,
+    surface_area,
+    distance,
+    height,
+    total_volume,
+    serialNumber
+  ) {
+    const volumeLeft = await calcVolumeLeftByTankType(
+      type,
+      surface_area,
+      distance,
+      height
+    );
+    const lastVolume = await db.oneOrNone(getLastVolumeLeft, [serialNumber]);
+    const volumeUsed = lastVolume
+      ? lastVolume.volume_left - volumeLeft
+      : total_volume - volumeLeft;
+    return {
+      volumeLeft,
+      volumeUsed
     };
   }
 

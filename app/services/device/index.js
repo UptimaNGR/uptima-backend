@@ -67,6 +67,17 @@ class DeviceService {
       oldData.id
     ]);
   }
+
+  /**
+   * Fetches a Device by tankId and SerialNumber
+   * @memberof DeviceService
+   * @param {string} serialNumber - serial number of the Device
+   * @returns { Promise<Array | Error> } A promise that resolves or rejects
+   * with an Array of the Device resource or a DB Error.
+   */
+  // static getDeviceByInactivity() {
+  //   return console.log('hi');
+  // }
 }
 
 export default DeviceService;
