@@ -8,6 +8,7 @@ import apiV1Routes from '../app/routes/v1';
 import config from './env';
 import { Helper, genericErrors, constants } from '../app/utils';
 import redisDB from '../app/db/setup/redis';
+// import initCron from '../app/jobs/crons';
 
 const { errorResponse, successResponse } = Helper;
 const { notFoundApi } = genericErrors;
@@ -47,11 +48,16 @@ const appConfig = (app) => {
 
   // handles all forwarded errors
   app.use((err, req, res, next) => errorResponse(req, res, err));
+
+  // initialize cron jobs
+  // initCron();
+
   // checks redis server for successful connection.
+  redisDB.on('connect', () => logger.info(REDIS_RUNNING));
+
   // initialize the port constant
   const port = config.PORT || 3000;
   // server listens for connections
-  redisDB.on('connect', () => logger.info(REDIS_RUNNING));
   app.listen(port, () => {
     logger.info(`${'UPTIMA'} ${port}`);
   });

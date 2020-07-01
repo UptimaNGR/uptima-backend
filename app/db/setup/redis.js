@@ -10,10 +10,11 @@ const { NODE_ENV, redisHost, redisPort, redisAuth } = config;
 // eslint-disable-next-line import/no-mutable-exports
 let redisDB;
 
-if (NODE_ENV === 'production') {
+if (NODE_ENV === 'production' || NODE_ENV === 'development') {
   redisDB = redis.createClient({
     port: redisPort,
-    host: redisHost
+    host: redisHost,
+    no_ready_check: true
   });
 
   redisDB.auth(redisAuth, (err, response) => {
@@ -22,9 +23,6 @@ if (NODE_ENV === 'production') {
     }
     return response;
   });
-}
-if (NODE_ENV === 'development') {
-  redisDB = redis.createClient();
 }
 if (NODE_ENV === 'test') {
   redisDB.select(3, async (err) => {
@@ -43,5 +41,17 @@ if (NODE_ENV === 'test') {
     }
   });
 }
+
+// Spawns a new redis connection instance that holds
+// the same configuration as the client above with an option to change configurations.
+// const cloneRedisDB = (options = {}) => new Promise((resolve, reject) => {
+//   try {
+//     redisDB.duplicate(options);
+//     resolve('done');
+//   } catch (error) {
+//     reject(error);
+//   }
+// });
+// console.log(cloneRedisDB);
 
 export default redisDB;

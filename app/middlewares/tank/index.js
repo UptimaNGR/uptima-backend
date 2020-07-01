@@ -1,4 +1,4 @@
-import { Helper, ApiError, constants } from '../../utils';
+import { Helper, ApiError, constants, DeviceHelper } from '../../utils';
 import validation from '../../validations/tank';
 import TankService from '../../services/tank';
 
@@ -8,6 +8,7 @@ const {
   getTankBySerialNumber
 } = TankService;
 const { errorResponse } = Helper;
+const { calcTotalVolumeByTankType } = DeviceHelper;
 const {
   TANK_VOLUME_ERROR,
   SERIAL_NUMBER_ERROR,
@@ -56,8 +57,12 @@ class TankMiddleware {
    */
   static async calcTotalTankVolume(req, res, next) {
     try {
-      const { height, surfaceArea } = req.body;
-      const totalVolume = height * surfaceArea;
+      const { height, surfaceArea, structureType } = req.body;
+      const totalVolume = await calcTotalVolumeByTankType(
+        structureType,
+        surfaceArea,
+        height
+      );
       req.body.totalVolume = totalVolume;
       next();
     } catch (error) {

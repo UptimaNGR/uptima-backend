@@ -13,7 +13,7 @@ const {
   GENERIC_ERROR,
   events: { SEND_MIN_LEVEL_ALERT, SEND_ACTIVITY_DURING_CLOSE }
 } = constants;
-const { calcVolumeByDeviceId } = TankDataService;
+const { calcTankDetailsByDeviceSn, calcVolumeUsed } = TankDataService;
 const { getTankById } = TankService;
 const { getUserByFacilityId } = UserService;
 const { getFacilityCloseAndOpenTimeById } = FacilityService;
@@ -68,7 +68,7 @@ class TankDataMiddleware {
    */
   static async checkMinLevel(req, res, next) {
     try {
-      const { volumeLeft, volumeUsed, facility_id, tank_id } = req.volume;
+      const { volumeLeft, volumeUsed, facility_id, tank_id } = req.tank;
       const { min_level } = await getTankById(tank_id);
       if (volumeLeft < min_level) {
         const { email, first_name } = await getUserByFacilityId(facility_id);
@@ -103,7 +103,7 @@ class TankDataMiddleware {
       if (!opening_time) {
         return next();
       }
-      const { facility_id, volumeUsed, volumeLeft } = req.volume;
+      const { facility_id, volumeUsed, volumeLeft } = req.tank;
       if (volumeUsed > 5 && (hour < opening_time || hour > closing_time)) {
         const { email, first_name } = await getUserByFacilityId(facility_id);
         Job.create({
@@ -133,14 +133,50 @@ class TankDataMiddleware {
    */
   static async checkVolume(req, res, next) {
     try {
+      const {
+        structure_type,
+        surface_area,
+        distance,
+        height,
+        total_volume,
+        serialNumber
+      } = req.tank;
+      const { volumeLeft, volumeUsed } = await calcVolumeUsed(
+        structure_type,
+        surface_area,
+        distance,
+        height,
+        total_volume,
+        serialNumber
+      );
+      req.tank.volumeLeft = volumeLeft;
+      req.tank.volumeUsed = volumeUsed;
+      return next();
+    } catch (error) {
+      errorResponse(req, res, error);
+    }
+  }
+
+  /**
+   * Checks if minimum level for alert is reached.
+   * @static
+   * @param { Object } req - The request from the endpoint.
+   * @param { Object } res - The response returned by the method.
+   * @param { function } next - Calls the next handle.
+   * @returns { JSON | Null } - Returns error response if validation fails or Null if otherwise.
+   * @memberof TankDataMiddleware
+   *
+   */
+  static async checkTank(req, res, next) {
+    try {
       const date = new Date();
       const hour = date.getHours();
-      const volume = await calcVolumeByDeviceId(req.body);
+      const tank = await calcTankDetailsByDeviceSn(req.body);
       const {
         opening_time,
         closing_time
-      } = await getFacilityCloseAndOpenTimeById(volume.facility_id);
-      req.volume = volume;
+      } = await getFacilityCloseAndOpenTimeById(tank.facility_id);
+      req.tank = tank;
       req.time = { opening_time, closing_time, hour };
       return next();
     } catch (error) {

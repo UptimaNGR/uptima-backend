@@ -1,4 +1,5 @@
 /* eslint-disable no-plusplus */
+import cluster from 'cluster';
 import express from 'express';
 import config, { appConfig } from './config';
 import initLogger from './config/logger';
@@ -10,4 +11,18 @@ const winstonLogger = initLogger(config.NODE_ENV);
 // sets logger as a global variable
 global.logger = winstonLogger;
 
-appConfig(app);
+// Check if current process is master.
+if (cluster.isMaster) {
+  // Spawn a worker for every core.
+  cluster.fork();
+} else {
+  // This is not the master process, so we spawn the express server.
+  appConfig(app);
+  logger.info(`Worker ${process.pid} started`);
+}
+// creating a new process if a worker die.
+cluster.on('exit', worker => {
+  logger.info(`Worker ${worker.id} died'`);
+  logger.info('Staring a new one...');
+  cluster.fork();
+});

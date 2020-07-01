@@ -7,6 +7,7 @@ const {
   fetchDeviceBySerialNumber,
   checkMinLevel,
   checkOperationTime,
+  checkTank,
   checkVolume
 } = TankDataMiddleware;
 
@@ -15,6 +16,7 @@ const router = Router();
 router.post(
   '/',
   fetchDeviceBySerialNumber,
+  checkTank,
   checkVolume,
   checkOperationTime,
   checkMinLevel,

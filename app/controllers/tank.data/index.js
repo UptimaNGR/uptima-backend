@@ -32,7 +32,7 @@ class TankDataController {
     try {
       // const volume = await calcVolumeByDeviceId(req.body);
       const tankData = new TankDataModel({
-        ...req.volume
+        ...req.tank
       });
       const { id } = await tankData.save();
       return successResponse(res, {
