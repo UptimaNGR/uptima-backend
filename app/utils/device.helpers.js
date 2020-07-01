@@ -48,7 +48,7 @@ class DeviceHelper {
       (1 / 3)
       * Math.PI
       * height
-      * (bigRadius ** 2 + bigRadius * smallRadius + smallRadius ** 2)
+      * ((bigRadius ** 2) + (bigRadius * smallRadius) + (smallRadius ** 2))
     );
   }
 
@@ -71,7 +71,7 @@ class DeviceHelper {
       (1 / 3)
       * Math.PI
       * depth
-      * (radius ** 2 + radius * smallRadius + smallRadius ** 2)
+      * ((radius ** 2) + (radius * smallRadius) + (smallRadius ** 2))
     );
   }
 
@@ -100,8 +100,8 @@ class DeviceHelper {
   static calcHorizontalCylinderVolumeLeft(surfaceArea, distance, height) {
     const radius = DeviceHelper.calcRadius(surfaceArea[0]);
     const depth = 2 * radius - distance;
-    const lhs = radius ** 2 * Math.acos((radius - depth) / radius);
-    const rhs = (radius - depth) * Math.sqrt(2 * radius * depth - depth ** 2);
+    const lhs = (radius ** 2) * Math.acos((radius - depth) / radius);
+    const rhs = (radius - depth) * Math.sqrt(2 * radius * depth - (depth ** 2));
     return height * (lhs - rhs);
   }
 

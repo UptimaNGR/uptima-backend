@@ -52,7 +52,7 @@ class Job {
       .create(opts.type, opts.data)
       .attempts(opts.attempts)
       .priority(opts.priority)
-      .backoff((attempts) => 60000 * 2 ** attempts)
+      .backoff((attempts) => 60000 * (2 ** attempts))
       .save((error) => {
         if (error) {
           error.status = FAILED_CREATE_JOB(opts.type);

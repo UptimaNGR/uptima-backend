@@ -22,7 +22,7 @@
     "seed:up": "npm run migrate up:seeds",
     "seed:down": "npm run migrate down:seeds",
     "seed:reset": "npm run migrate reset:seeds",
-    "lint": "eslint --fix --ext .js ./"
+    "lint": "eslint --ext .js ./"
   },
   "author": "addempsea",
   "license": "ISC",
