@@ -13,7 +13,8 @@ const {
   TANK_VOLUME_ERROR,
   SERIAL_NUMBER_ERROR,
   TANK_NOT_FOUND,
-  GENERIC_ERROR
+  GENERIC_ERROR,
+  TANK_ID_ABSENT
 } = constants;
 
 /**
@@ -86,11 +87,11 @@ class TankMiddleware {
    */
   static async checkIfSerialNumberExistsInFacility(req, res, next) {
     try {
-      const data = await getTankByFacilityIdAndSerialNumber(
+      const tank = await getTankByFacilityIdAndSerialNumber(
         req.params.facilityId,
         req.body.serialNumber
       );
-      return data
+      return tank
         ? errorResponse(
           req,
           res,
@@ -164,6 +165,39 @@ class TankMiddleware {
           })
         )
         : next();
+    } catch (error) {
+      const apiError = new ApiError({
+        status: 500,
+        message: GENERIC_ERROR
+      });
+      errorResponse(req, res, apiError);
+    }
+  }
+
+  /**
+   * Validates Tank request credentials.
+   * @static
+   * @param { Object } req - The request from the endpoint.
+   * @param { Object } res - The response returned by the method.
+   * @param { function } next - Calls the next handle.
+   *@returns { JSON | Null } - Returns error response if validation fails or Null if otherwise.
+   * @memberof TankMiddleware
+   *
+   */
+  static async checkIfTankIdPresent(req, res, next) {
+    try {
+      const data = req.params.tankId;
+      if (data.length === 36) {
+        return next();
+      }
+      errorResponse(
+        req,
+        res,
+        new ApiError({
+          status: 400,
+          message: TANK_ID_ABSENT
+        })
+      );
     } catch (error) {
       const apiError = new ApiError({
         status: 500,

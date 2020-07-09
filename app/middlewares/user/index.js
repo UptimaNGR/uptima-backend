@@ -82,8 +82,8 @@ class UserMiddleware {
    */
   static async checkUserEmailData(req, res, next) {
     try {
-      const data = await getUserByEmail(req.body.email);
-      return data
+      const userEmail = await getUserByEmail(req.body.email);
+      return userEmail
         ? errorResponse(
           req,
           res,
@@ -114,8 +114,8 @@ class UserMiddleware {
    */
   static async checkUserPhoneData(req, res, next) {
     try {
-      const data = await getUserByPhone(req.body.phoneNumber);
-      return data
+      const userPhone = await getUserByPhone(req.body.phoneNumber);
+      return userPhone
         ? errorResponse(
           req,
           res,
