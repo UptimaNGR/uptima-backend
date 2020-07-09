@@ -2,7 +2,6 @@ import { Helper, genericErrors, constants, ApiError } from '../../utils';
 
 const { errorResponse } = Helper;
 
-
 /**
  * A collection of middleware methods used to validates
  * access levels for protected resources based on membership and role.
@@ -79,7 +78,6 @@ class RoleMiddleware {
       }))
       : next();
   }
-
 
   /**
     * Checks that a created manager isn't trying

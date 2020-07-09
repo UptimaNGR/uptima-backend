@@ -2,7 +2,6 @@ import fs from 'fs';
 import winston from 'winston';
 import config from './env';
 
-
 const logDir = `${config.rootPath}/logs`;
 const fileOptions = {
   level: 'info',

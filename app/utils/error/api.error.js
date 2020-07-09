@@ -1,4 +1,3 @@
-
 import constants from '../constants';
 import ModuleError from './module.error';
 
