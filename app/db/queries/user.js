@@ -17,7 +17,17 @@ export default {
         facility_id
       )
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
-    RETURNING *
+    RETURNING 
+      id,
+      first_name,
+      last_name,
+      middle_name,
+      username,
+      role,
+      email,
+      phone_number,
+      company_id,
+      facility_id
   `,
 
   updateUserById: `

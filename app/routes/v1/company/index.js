@@ -21,7 +21,8 @@ const {
   validateCompanyFields,
   checkCompanyEmailData,
   checkCompanyPhoneData,
-  checkCompanyIdData
+  checkCompanyIdData,
+  checkIfCompanyIdPresent
 } = CompanyMiddleware;
 
 const {
@@ -35,13 +36,15 @@ const {
   validateTankFields,
   calcTotalTankVolume,
   checkIfSerialNumberExistsInFacility,
-  checkTankById
+  checkTankById,
+  checkIfTankIdPresent
 } = TankMiddleware;
 
 const {
   validateFacilityFields,
   fetchFacilityBasedOnAccess,
-  checkFacilityById
+  checkFacilityById,
+  checkIfFacilityIdPresent
 } = FacilityMiddleware;
 const {
   addFacility,
@@ -57,7 +60,8 @@ const { addDevice, updateDeviceById, fetchDeviceById } = DeviceController;
 const {
   validateDeviceFields,
   checkIfSerialNumberExists,
-  checkIfTankHasDevice
+  checkIfTankHasDevice,
+  checkIfDeviceIdPresent
 } = DeviceMiddleware;
 
 const { authenticate } = AuthMiddleware;
@@ -66,9 +70,10 @@ const { adminAccessValidator } = RoleMiddleware;
 const router = Router();
 
 router.use(authenticate);
-router.use('/:companyId', checkCompanyIdData);
-router.use('/:companyId/facility/:facilityId', checkFacilityById);
-router.use('/:companyId/facility/:facilityId/tank/:tankId', checkTankById);
+router.use('/:companyId', checkIfCompanyIdPresent, checkCompanyIdData);
+router.use('/:companyId/facility/:facilityId', checkIfFacilityIdPresent, checkFacilityById);
+router.use('/:companyId/facility/:facilityId/tank/:tankId', checkIfTankIdPresent, checkTankById);
+router.use('/:companyId/facility/:facilityId/tank/:tankId/device/:deviceId', checkIfDeviceIdPresent, checkIfTankHasDevice);
 
 router.post(
   '/',
@@ -129,7 +134,6 @@ router.post(
   '/:companyId/facility/:facilityId/tank/:tankId/device',
   adminAccessValidator,
   validateDeviceFields,
-  checkIfTankHasDevice,
   checkIfSerialNumberExists,
   addDevice
 );

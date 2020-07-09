@@ -143,4 +143,8 @@ export default {
   ERROR_FETCHING_USER: 'Error fetching user',
   UPDATE_TANK_PRICE_SUCCESSFULLY: 'Updated Successfully',
   ERROR_UPDATING_FACILITY: 'Error updating facility details',
+  COMPANY_ID_ABSENT: 'Please provide the company id',
+  FACILITY_ID_ABSENT: 'Please provide the FACILITY id',
+  TANK_ID_ABSENT: 'Please provide the TANK id',
+  DEVICE_ID_ABSENT: 'Please provide the DEVICE id',
 };
