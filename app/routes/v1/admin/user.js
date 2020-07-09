@@ -24,44 +24,4 @@ router.patch(
 
 router.put('/:userId', checkUserIdData, updateUserProfile);
 
-// profileUpdateValidator,
-// profileUpdateCheck,
-
-// router.get('/', fetchStaffs);
-// router.patch(
-//   '/:staffId/access',
-//   roleAccessValidator(['super']),
-//   validateId,
-//   appOwnerSecureAccessValidator,
-//   accessValueValidator,
-//   updateStaffAccess
-// );
-// router.patch(
-//   '/:staffId/role',
-//   roleAccessValidator(['super']),
-//   validateId,
-//   appOwnerSecureAccessValidator,
-//   roleValueValidator,
-//   updateRole
-// );
-// router.patch(
-//   '/:staffId/location',
-//   roleAccessValidator(['super']),
-//   validateId,
-//   appOwnerSecureAccessValidator,
-//   validateLocationId('body'),
-//   locationExistValidator('body'),
-//   updateStaffLocation
-// );
-// router.get('/:staffId', validateId, fetchStaff);
-
-// router.delete(
-//   '/:staffId',
-//   roleAccessValidator(['super', 'store']),
-//   validateId,
-//   appOwnerSecureAccessValidator,
-//   noStoreToSuperModify,
-//   removeStaff
-// );
-
 export default router;

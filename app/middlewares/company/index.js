@@ -58,8 +58,8 @@ class CompanyMiddleware {
    */
   static async checkCompanyEmailData(req, res, next) {
     try {
-      const data = await getCompanyByEmail(req.body.email);
-      return data
+      const email = await getCompanyByEmail(req.body.email);
+      return email
         ? errorResponse(
           req,
           res,
@@ -90,8 +90,8 @@ class CompanyMiddleware {
    */
   static async checkCompanyPhoneData(req, res, next) {
     try {
-      const data = await getCompanyByPhone(req.body.phoneNumber);
-      return data
+      const phone = await getCompanyByPhone(req.body.phoneNumber);
+      return phone
         ? errorResponse(
           req,
           res,

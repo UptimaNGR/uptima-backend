@@ -87,11 +87,11 @@ class TankMiddleware {
    */
   static async checkIfSerialNumberExistsInFacility(req, res, next) {
     try {
-      const data = await getTankByFacilityIdAndSerialNumber(
+      const tank = await getTankByFacilityIdAndSerialNumber(
         req.params.facilityId,
         req.body.serialNumber
       );
-      return data
+      return tank
         ? errorResponse(
           req,
           res,

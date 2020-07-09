@@ -52,8 +52,8 @@ class DeviceMiddleware {
    */
   static async checkIfSerialNumberExists(req, res, next) {
     try {
-      const data = await getDeviceBySerialNumber(req.body.serialNumber);
-      return data
+      const deviceSerial = await getDeviceBySerialNumber(req.body.serialNumber);
+      return deviceSerial
         ? errorResponse(
           req,
           res,
