@@ -83,12 +83,12 @@ export default {
   fetchUserByUsername: `
     SELECT *
     FROM user_info
-    WHERE username=($1)`,
+    WHERE username ILIKE ($1)`,
 
   fetchUserByEmail: `
     SELECT *
     FROM user_info
-    WHERE email=($1)`,
+    WHERE email ILIKE ($1)`,
 
   fetchUserByPhone: `
     SELECT *
