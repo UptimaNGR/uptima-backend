@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
-  node: circleci/node@1.1.6
+  node: circleci/node@2.0.2
+  coveralls: coveralls/coveralls@1.0.6
 jobs:
   build-and-test:
     executor:
@@ -10,8 +11,17 @@ jobs:
       - node/with-cache:
           steps:
             - run: npm install
-            - run: npm run test
+            - run: npm run test && make test-coverage
+            - coveralls/upload
 workflows:
-    build-and-lint:
+    matrix-tests:
+      jobs:
+        - node/test:
+            version: 13.11.0
+        - node/test:
+            version: 12.16.0
+        - node/test:
+            version: 10.19.0
+    build-and-test:
       jobs:
         - build-and-test

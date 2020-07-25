@@ -7,19 +7,23 @@ import {
   genericNotFound,
   genericAuthRequired,
   genericInValidLogin,
-  genericUnAuthorized
+  genericUnAuthorized,
+  payload
 } from '../fixtures';
 
 const {
   hashPassword,
   compareHash,
   generateId,
-  generateUniquePassword
+  generateUniquePassword,
+  generateToken,
+  verifyToken
 } = Helper;
 
 describe('Basic Utility Functions', () => {
   let salt;
   let hash;
+  let token;
   it('should generate uuid', () => {
     const id = generateId();
     expect(id).to.be.a('string').of.length(36);
@@ -27,6 +31,14 @@ describe('Basic Utility Functions', () => {
   it('should generate a string password of length 9', () => {
     const password = generateUniquePassword();
     expect(password).to.be.a('string').of.length(9);
+  });
+  it('should generate a string token of with plenty characters', () => {
+    token = generateToken({ payload });
+    expect(token).to.be.a('string').of.length.greaterThan(29);
+  });
+  it('should return decoded payload', () => {
+    const payloadGotten = verifyToken(token);
+    expect(payloadGotten.payload).to.be.a('string').and.equal(payload);
   });
   it('should return true when the hash value generated from a string is used together with its salt value to verify its authenticity', async () => {
     const hashObj = await hashPassword(originText);

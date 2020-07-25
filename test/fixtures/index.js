@@ -1,5 +1,6 @@
 export const originText = 'hir35676';
 export const wrongText = '894jdkf';
+export const payload = 'payload';
 export const genericErrorObj = {
   status: 500,
   name: 'ApiError',
