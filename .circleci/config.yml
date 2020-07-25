@@ -8,10 +8,9 @@ jobs:
       name: node/default
     steps:
       - checkout
-          steps:
-            - run: npm install
-            - run: npm run test && make test-coverage
-            - coveralls/upload
+        - run: npm install
+        - run: npm run test && make test-coverage
+        - coveralls/upload
 workflows:
     matrix-tests:
       jobs:
