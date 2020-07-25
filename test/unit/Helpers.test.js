@@ -21,8 +21,8 @@ const {
 } = Helper;
 
 describe('Basic Utility Functions', () => {
-  let salt;
-  let hash;
+  let salter;
+  let hasher;
   let token;
   it('should generate uuid', () => {
     const id = generateId();
@@ -41,14 +41,14 @@ describe('Basic Utility Functions', () => {
     expect(payloadGotten.payload).to.be.a('string').and.equal(payload);
   });
   it('should return true when the hash value generated from a string is used together with its salt value to verify its authenticity', async () => {
-    const hashObj = await hashPassword(originText);
-    salt = hashObj.salt;
-    hash = hashObj.hash;
+    const { salt, hash } = await hashPassword(originText);
+    salter = salt;
+    hasher = hash;
     const isTrue = compareHash(originText, hash, salt);
     expect(isTrue).to.eql(true);
   });
   it('should return false when a string is compared with the hash and salt values of another string', () => {
-    const isTrue = compareHash(wrongText, hash, salt);
+    const isTrue = compareHash(wrongText, hasher, salter);
     expect(isTrue).to.eql(false);
   });
   it('should return a generic error object when no arguments is passed to the constructor while instantiating the custom Api Error class', () => {
