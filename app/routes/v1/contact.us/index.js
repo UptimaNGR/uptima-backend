@@ -4,11 +4,10 @@ import RoleMiddleware from '../../../middlewares/auth/role';
 import ContactUsController from '../../../controllers/contact.us';
 import ContactUsMiddleware from '../../../middlewares/contact.us';
 
-const { addContactUs, fetchContactUs, addContactUsHomepage } = ContactUsController;
+const { addContactUs, fetchContactUs } = ContactUsController;
 const {
   validateContactUsFields,
-  facilityTypeValueValidator,
-  validateContactUsHomepageFields
+  facilityTypeValueValidator
 } = ContactUsMiddleware;
 const { authenticate } = AuthMiddleware;
 const { adminAccessValidator } = RoleMiddleware;
@@ -22,5 +21,4 @@ router.post(
   addContactUs
 );
 router.get('/', authenticate, adminAccessValidator, fetchContactUs);
-router.post('/home', validateContactUsHomepageFields, addContactUsHomepage);
 export default router;

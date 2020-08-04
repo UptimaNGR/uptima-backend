@@ -6,7 +6,6 @@ import { data, wrongData } from '../fixtures/contact.us';
 const { expect } = chai;
 chai.use(chaiHttp);
 
-
 describe('Contact us Routes', () => {
   it('creating a contact us message should respond with status 200', (done) => {
     chai
