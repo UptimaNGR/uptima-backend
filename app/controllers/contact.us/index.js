@@ -1,4 +1,4 @@
-import { ContactUsModel } from '../../models';
+import { ContactUsModel, ContactUsHomepageModel } from '../../models';
 import ContactUsService from '../../services/contact.us';
 import { Helper, constants, ApiError, DBError } from '../../utils';
 import Job from '../../jobs';
@@ -33,6 +33,37 @@ class ContactUsController {
   static async addContactUs(req, res, next) {
     try {
       const contactUs = new ContactUsModel({
+        ...req.body
+      });
+      const { id } = await contactUs.save();
+      Job.create({ type: SEND_CONTACT_US_MSG, data: req.body });
+      return successResponse(res, {
+        message: CONTACT_US_MSG_CREATED_SUCCESSFULLY,
+        data: { id, ...contactUs }
+      });
+    } catch (e) {
+      const dbError = new DBError({
+        status: CONTACT_US_MSG_CREATED_ERROR,
+        message: e.message
+      });
+      Helper.moduleErrLogMessager(dbError);
+      next(new ApiError({ message: CONTACT_US_MSG_CREATED_ERROR }));
+      throw dbError;
+    }
+  }
+
+  /**
+   * Controllers used for adding contact us messages
+   * @static
+   * @param {Request} req - The request from the endpoint.
+   * @param {Response} res - The response returned by the method.
+   * @param {Next} next
+   * @returns { JSON } A JSON response containing the details of the contact us added
+   * @memberof ContactUsController
+   */
+  static async addContactUsHomepage(req, res, next) {
+    try {
+      const contactUs = new ContactUsHomepageModel({
         ...req.body
       });
       const { id } = await contactUs.save();

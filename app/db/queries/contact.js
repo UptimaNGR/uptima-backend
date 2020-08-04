@@ -19,5 +19,15 @@ export default {
 
   getContactUsMsgsCount: `
     SELECT COUNT(*) as total FROM contact_us;
-  `
+  `,
+
+  createContactUs: `
+    INSERT INTO contact_us_homepage(
+      name,
+      email,
+      phone_number,
+      company_name,
+      message
+    )VALUES ($1, $2, $3, $4, $5)
+    RETURNING *`
 };

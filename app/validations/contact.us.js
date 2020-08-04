@@ -10,4 +10,12 @@ const contactSchema = Joi.object().keys({
   email: Joi.string().email().required()
 });
 
-export default contactSchema;
+const contactUsSchema = Joi.object().keys({
+  name: Joi.string().required(),
+  message: Joi.string().required(),
+  phoneNumber: Joi.string().required(),
+  companyName: Joi.string().required(),
+  email: Joi.string().email().required()
+});
+
+export { contactSchema, contactUsSchema };

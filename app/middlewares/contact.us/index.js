@@ -1,5 +1,5 @@
 import { Helper, ApiError, constants } from '../../utils';
-import validation from '../../validations/contact.us';
+import { contactSchema, contactUsSchema } from '../../validations/contact.us';
 
 const { errorResponse } = Helper;
 
@@ -21,7 +21,30 @@ class ContactUsMiddleware {
    */
   static async validateContactUsFields(req, res, next) {
     try {
-      await validation.validateAsync(req.body);
+      await contactSchema.validateAsync(req.body);
+      next();
+    } catch (error) {
+      const apiError = new ApiError({
+        status: 400,
+        message: error.details[0].message
+      });
+      errorResponse(req, res, apiError);
+    }
+  }
+
+  /**
+   * Validates contact request credentials.
+   * @static
+   * @param { Object } req - The request from the endpoint.
+   * @param { Object } res - The response returned by the method.
+   * @param { function } next - Calls the next handle.
+   *@returns { JSON | Null } - Returns error response if validation fails or Null if otherwise.
+   * @memberof ContactUsMiddleware
+   *
+   */
+  static async validateContactUsHomepageFields(req, res, next) {
+    try {
+      await contactUsSchema.validateAsync(req.body);
       next();
     } catch (error) {
       const apiError = new ApiError({
@@ -44,7 +67,7 @@ class ContactUsMiddleware {
    */
   static facilityTypeValueValidator(req, res, next) {
     const { facilityType } = req.body;
-    return facilityType.every(e => constants.FACILITY_TYPE_ARRAY.includes(e))
+    return facilityType.every((e) => constants.FACILITY_TYPE_ARRAY.includes(e))
       ? next()
       : errorResponse(
         req,

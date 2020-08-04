@@ -12,7 +12,7 @@ import redisDB from '../app/db/setup/redis';
 
 const { errorResponse, successResponse } = Helper;
 const { notFoundApi } = genericErrors;
-const { WELCOME, v1, WEBHOOK, REDIS_RUNNING } = constants;
+const { WELCOME, v1, REDIS_RUNNING } = constants;
 const ddos = new Ddos({ burst: 10, limit: 15 });
 
 const appConfig = (app) => {
@@ -25,15 +25,7 @@ const appConfig = (app) => {
   // add middleware for ddos
   app.use(ddos.express);
   // adds middleware that parses requests whose content-type is application/json
-  app.use(
-    json({
-      verify: (req, res, buffer) => {
-        if (req.url.startsWith(WEBHOOK)) {
-          req.rawBody = buffer;
-        }
-      }
-    })
-  );
+  app.use(json());
   // adds middleware that parses requests with x-www-form-urlencoded data encoding
   app.use(urlencoded({ extended: true }));
   // adds a heartbeat route for the culture

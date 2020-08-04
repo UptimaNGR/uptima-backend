@@ -14,15 +14,21 @@ global.logger = winstonLogger;
 // Check if current process is master.
 if (cluster.isMaster) {
   // Spawn a worker for every core.
-  cluster.fork();
+  if (!config.NODE_ENV === 'test') {
+    cluster.fork();
+  } else {
+    appConfig(app);
+  }
 } else {
   // This is not the master process, so we spawn the express server.
   appConfig(app);
   logger.info(`Worker ${process.pid} started`);
 }
 // creating a new process if a worker die.
-cluster.on('exit', worker => {
+cluster.on('exit', (worker) => {
   logger.info(`Worker ${worker.id} died'`);
   logger.info('Staring a new one...');
   cluster.fork();
 });
+
+export default app;
