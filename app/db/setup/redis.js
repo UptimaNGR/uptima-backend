@@ -24,6 +24,9 @@ if (NODE_ENV === 'production' || NODE_ENV === 'development') {
     return response;
   });
 }
+if (NODE_ENV === 'test') {
+  redisDB = redis.createClient();
+}
 // if (NODE_ENV === 'test') {
 //   redisDB.select(3, async (err) => {
 //     if (err) {
