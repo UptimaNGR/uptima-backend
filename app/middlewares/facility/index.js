@@ -49,7 +49,7 @@ class FacilityMiddleware {
       const { facility_id } = req.data;
       if (facility_id) {
         const data = await getFacilityById(facility_id);
-        req.facility = data;
+        req.facility = [data];
         return next();
       }
       const data = await getFacilityByCompanyId(req.params.companyId);
