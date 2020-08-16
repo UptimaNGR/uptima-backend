@@ -27,7 +27,7 @@ class TankModel {
     this.height = options.height;
     this.surface_area = options.surfaceArea;
     this.structure_type = options.structureType;
-    this.total_volume = options.totalVolume;
+    this.total_volume = parseFloat(options.totalVolume) * 1000;
   }
 
   /**
