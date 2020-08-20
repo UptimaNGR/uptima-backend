@@ -68,7 +68,7 @@ export const resetPassword = (firstName, token) => {
         button: {
           color: '#DC4D2F',
           text: 'Reset your password',
-          link: `https://uptima.netlify.app/forgot-password/${token}`
+          link: `https://utrackdashboard.uptima.ng/forgot-password/${token}`
         }
       },
       outro:

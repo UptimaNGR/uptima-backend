@@ -110,7 +110,7 @@ export default {
   updateUserFacility: `
     UPDATE user_info
     SET
-    location_id=$2
+    facility_id=$2
     WHERE id=$1
   ;`,
   deleteUser: `

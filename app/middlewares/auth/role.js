@@ -74,7 +74,7 @@ class RoleMiddleware {
     return req.data.role === 'basic' && req.user.role === 'manager'
       ? errorResponse(req, res, new ApiError({
         status: 403,
-        message: constants.STORE_TO_SUPER_NOT_ALLOWED
+        message: constants.ROLE_NOT_SUFFICIENT
       }))
       : next();
   }

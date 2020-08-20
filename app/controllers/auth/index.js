@@ -1,10 +1,10 @@
-import { Helper, constants, genericErrors } from '../../utils';
+import { Helper, constants } from '../../utils';
 import Job from '../../jobs';
 
 const {
   LOGIN_USER_SUCCESSFULLY,
   FORGOT_PASSWORD_REQUEST_SUCCESS,
-  events: { SEND_FORGOT_PASSWORD_TO_EMAIL }
+  events: { SEND_FORGOT_PASSWORD_TO_EMAIL, SAVE_LOGIN_LOG }
 } = constants;
 
 /**
@@ -24,18 +24,15 @@ class AuthController {
    * @memberof AuthController
    */
   static async signIn(req, res) {
-    const { user, body } = req;
-    const isAuthenticUser = Helper.compareHash(
-      body.password,
-      user.password,
-      user.salt
-    );
-    if (!isAuthenticUser) {
-      return Helper.errorResponse(req, res, genericErrors.inValidLogin);
-    }
+    const { user } = req;
+    const logData = {
+      companyId: user.company_id,
+      userId: user.id
+    };
+    Job.create({ type: SAVE_LOGIN_LOG, data: { logData } });
     if (user.role === 'basic') {
       const data = Helper.addTokenToData(user, false);
-      Helper.successResponse(res, {
+      return Helper.successResponse(res, {
         data,
         message: LOGIN_USER_SUCCESSFULLY
       });

@@ -10,6 +10,7 @@ import DeviceController from '../../../controllers/device';
 import DeviceMiddleware from '../../../middlewares/device';
 import AuthMiddleware from '../../../middlewares/auth/basic';
 import RoleMiddleware from '../../../middlewares/auth/role';
+import LogController from '../../../controllers/log';
 
 const {
   addCompany,
@@ -64,6 +65,8 @@ const {
   checkIfDeviceIdPresent
 } = DeviceMiddleware;
 
+const { fetchLoginLog } = LogController;
+
 const { authenticate } = AuthMiddleware;
 const { adminAccessValidator } = RoleMiddleware;
 
@@ -71,9 +74,21 @@ const router = Router();
 
 router.use(authenticate);
 router.use('/:companyId', checkIfCompanyIdPresent, checkCompanyIdData);
-router.use('/:companyId/facility/:facilityId', checkIfFacilityIdPresent, checkFacilityById);
-router.use('/:companyId/facility/:facilityId/tank/:tankId', checkIfTankIdPresent, checkTankById);
-router.use('/:companyId/facility/:facilityId/tank/:tankId/device/:deviceId', checkIfDeviceIdPresent, checkIfTankHasDevice);
+router.use(
+  '/:companyId/facility/:facilityId',
+  checkIfFacilityIdPresent,
+  checkFacilityById
+);
+router.use(
+  '/:companyId/facility/:facilityId/tank/:tankId',
+  checkIfTankIdPresent,
+  checkTankById
+);
+router.use(
+  '/:companyId/facility/:facilityId/tank/:tankId/device/:deviceId',
+  checkIfDeviceIdPresent,
+  checkIfTankHasDevice
+);
 
 router.post(
   '/',
@@ -146,5 +161,7 @@ router.put(
   adminAccessValidator,
   updateDeviceById
 );
+
+router.get('/:companyId/logs', fetchLoginLog);
 
 export default router;

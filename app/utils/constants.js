@@ -28,13 +28,13 @@ export default {
     SEND_FORGOT_PASSWORD_TO_EMAIL: 'SEND_FORGOT_PASSWORD_TO_EMAIL',
     SEND_MIN_LEVEL_ALERT: 'SEND_MIN_LEVEL_ALERT',
     SEND_ACTIVITY_DURING_CLOSE: 'SEND_ACTIVITY_DURING_CLOSE',
-    CHECK_DEVICE_INACTIVITY: 'CHECK_DEVICE_INACTIVITY'
+    CHECK_DEVICE_INACTIVITY: 'CHECK_DEVICE_INACTIVITY',
+    SAVE_LOGIN_LOG: 'SAVE_LOGIN_LOG'
   },
   ROLE_ARRAY: ['owner', 'manager', 'basic'],
   INVALID_ROLE_PARAMETER: 'Invalid role value',
   INVALID_TYPE_PARAMETER: 'Invalid facility type value',
   FACILITY_TYPE_ARRAY: ['isolated', 'tanker', 'station'],
-  ACCESS_FIELD_REQUIRED: 'access field is required as boolean',
   ADMIN_TO_ADMIN_NOT_ALLOWED:
     'You cannot remove an admin within your rank unless you are the owner of the app',
   OWNER_REMOVAL_NOT_SUPPORTED:
@@ -147,4 +147,7 @@ export default {
   FACILITY_ID_ABSENT: 'Please provide the FACILITY id',
   TANK_ID_ABSENT: 'Please provide the TANK id',
   DEVICE_ID_ABSENT: 'Please provide the DEVICE id',
+  CREATE_LOGIN_LOG_FAIL: 'Error creating login log',
+  FAIL_TO_FETCH_LOGS: 'Error while fetching login logs',
+  FETCH_LOGIN_LOG_SUCCESSFULLY: 'Successfully fetched login logs'
 };

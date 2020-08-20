@@ -6,6 +6,7 @@ import TankModel from './tank';
 import FacilityModel from './facility';
 import UserModel from './user';
 import ContactUsHomepageModel from './contact.us.homepage';
+import LogsModel from './logs';
 
 export {
   ContactUsModel,
@@ -15,5 +16,6 @@ export {
   TankModel,
   FacilityModel,
   UserModel,
-  ContactUsHomepageModel
+  ContactUsHomepageModel,
+  LogsModel
 };
