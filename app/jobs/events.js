@@ -1,6 +1,7 @@
 import { constants } from '../utils';
 import EmailWorker from './workers/email';
 import DeviceWorker from './workers/device';
+import LogWorker from './workers/logs';
 
 const {
   events: {
@@ -9,7 +10,8 @@ const {
     SEND_FORGOT_PASSWORD_TO_EMAIL,
     SEND_MIN_LEVEL_ALERT,
     SEND_ACTIVITY_DURING_CLOSE,
-    CHECK_DEVICE_INACTIVITY
+    CHECK_DEVICE_INACTIVITY,
+    SAVE_LOGIN_LOG
   }
 } = constants;
 
@@ -23,4 +25,5 @@ export default (queue) => {
     EmailWorker.sendAlertOperationAfterClose
   );
   queue.process(CHECK_DEVICE_INACTIVITY, DeviceWorker.sendInactiveDevice);
+  queue.process(SAVE_LOGIN_LOG, LogWorker.saveLoginLog);
 };

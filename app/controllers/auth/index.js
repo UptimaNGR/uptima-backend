@@ -4,7 +4,7 @@ import Job from '../../jobs';
 const {
   LOGIN_USER_SUCCESSFULLY,
   FORGOT_PASSWORD_REQUEST_SUCCESS,
-  events: { SEND_FORGOT_PASSWORD_TO_EMAIL }
+  events: { SEND_FORGOT_PASSWORD_TO_EMAIL, SAVE_LOGIN_LOG }
 } = constants;
 
 /**
@@ -33,14 +33,20 @@ class AuthController {
     if (!isAuthenticUser) {
       return Helper.errorResponse(req, res, genericErrors.inValidLogin);
     }
+    const logData = {
+      companyId: user.company_id,
+      userId: user.id
+    };
     if (user.role === 'basic') {
       const data = Helper.addTokenToData(user, false);
+      Job.create({ type: SAVE_LOGIN_LOG, data: { logData } });
       Helper.successResponse(res, {
         data,
         message: LOGIN_USER_SUCCESSFULLY
       });
     }
     const data = Helper.addTokenToData(user, true);
+    Job.create({ type: SAVE_LOGIN_LOG, data: { logData } });
     Helper.successResponse(res, {
       data,
       message: LOGIN_USER_SUCCESSFULLY
