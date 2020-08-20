@@ -8,7 +8,6 @@ const {
   UPTIMA_NODE_ENV: NODE_ENV
 } = process.env;
 
-
 const currentEnv = {
   development,
   test,

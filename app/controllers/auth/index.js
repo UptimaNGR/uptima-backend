@@ -37,16 +37,15 @@ class AuthController {
       companyId: user.company_id,
       userId: user.id
     };
+    Job.create({ type: SAVE_LOGIN_LOG, data: { logData } });
     if (user.role === 'basic') {
       const data = Helper.addTokenToData(user, false);
-      Job.create({ type: SAVE_LOGIN_LOG, data: { logData } });
       Helper.successResponse(res, {
         data,
         message: LOGIN_USER_SUCCESSFULLY
       });
     }
     const data = Helper.addTokenToData(user, true);
-    Job.create({ type: SAVE_LOGIN_LOG, data: { logData } });
     Helper.successResponse(res, {
       data,
       message: LOGIN_USER_SUCCESSFULLY
