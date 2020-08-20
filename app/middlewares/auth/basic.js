@@ -35,6 +35,28 @@ class AuthMiddleware {
   }
 
   /**
+   * Compares password from request and the one in the database.
+   * @static
+   * @param { Object } req - The request from the endpoint.
+   * @param { Object } res - The response returned by the method.
+   * @param { function } next - Calls the next handle.
+   * @memberof AuthMiddleware
+   * @returns {string | null} - Returns the Token or Null
+   */
+  static compareUserPassword(req, res, next) {
+    const { user, body } = req;
+    const isAuthenticUser = Helper.compareHash(
+      body.password,
+      user.password,
+      user.salt
+    );
+    if (!isAuthenticUser) {
+      return Helper.errorResponse(req, res, genericErrors.inValidLogin);
+    }
+    next();
+  }
+
+  /**
    * Aggregates a search for the access token in a number of places.
    * @static
    * @private

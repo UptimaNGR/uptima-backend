@@ -21,7 +21,8 @@ const {
   loginEmailValidator,
   validateLoginFields,
   generatePassword,
-  generateToken
+  generateToken,
+  compareUserPassword
 } = AuthMiddleware;
 
 const {
@@ -30,7 +31,7 @@ const {
 
 const router = Router();
 
-router.post('/login', validateLoginFields, loginEmailValidator, signIn);
+router.post('/login', validateLoginFields, loginEmailValidator, compareUserPassword, signIn);
 
 router.post(
   '/signup',
