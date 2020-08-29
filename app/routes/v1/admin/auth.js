@@ -5,7 +5,7 @@ import RoleMiddleware from '../../../middlewares/auth/role';
 import UserController from '../../../controllers/user';
 import UserMiddleware from '../../../middlewares/user';
 
-const { addUser } = UserController;
+const { addUser, updateUserPassword } = UserController;
 const { signIn, resetPassword } = AuthController;
 
 const {
@@ -46,5 +46,6 @@ router.post(
 );
 
 router.post('/reset-password', emailValidator, generateToken, resetPassword);
+router.patch('/reset-password', authenticate, updateUserPassword);
 
 export default router;
