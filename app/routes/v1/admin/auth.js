@@ -12,7 +12,9 @@ const {
   validateUserFields,
   checkUserEmailData,
   checkUserPhoneData,
-  checkUsernameData
+  checkUsernameData,
+  validateResetPasswordField,
+  validateUserPasswordField
 } = UserMiddleware;
 
 const {
@@ -25,13 +27,17 @@ const {
   compareUserPassword
 } = AuthMiddleware;
 
-const {
-  adminAccessValidator,
-} = RoleMiddleware;
+const { adminAccessValidator } = RoleMiddleware;
 
 const router = Router();
 
-router.post('/login', validateLoginFields, loginEmailValidator, compareUserPassword, signIn);
+router.post(
+  '/login',
+  validateLoginFields,
+  loginEmailValidator,
+  compareUserPassword,
+  signIn
+);
 
 router.post(
   '/signup',
@@ -45,7 +51,19 @@ router.post(
   addUser
 );
 
-router.post('/reset-password', emailValidator, generateToken, resetPassword);
-router.patch('/reset-password', authenticate, updateUserPassword);
+router.post(
+  '/reset-password',
+  validateResetPasswordField,
+  emailValidator,
+  generateToken,
+  resetPassword
+);
+
+router.patch(
+  '/reset-password',
+  authenticate,
+  validateUserPasswordField,
+  updateUserPassword
+);
 
 export default router;

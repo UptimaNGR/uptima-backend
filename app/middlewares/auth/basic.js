@@ -1,4 +1,4 @@
-import loginSchema from '../../validations/auth';
+import { loginSchema } from '../../validations/auth';
 import { Helper, genericErrors, constants, ApiError } from '../../utils';
 import UserService from '../../services/user';
 
@@ -120,7 +120,7 @@ class AuthMiddleware {
         req,
         res,
         new ApiError({
-          status: 404,
+          status: 400,
           message: ERROR_FETCHING_USER
         })
       );
