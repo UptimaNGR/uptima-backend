@@ -1,5 +1,6 @@
 import { Helper, ApiError, constants } from '../../utils';
 import { userSchema, passwordSchema } from '../../validations/user';
+import { updatePasswordEmailSchema } from '../../validations/auth';
 import UserServices from '../../services/user';
 
 const {
@@ -172,7 +173,7 @@ class UserMiddleware {
    * @param { Object } req - The request from the endpoint.
    * @param { Object } res - The response returned by the method.
    * @param { function } next - Calls the next handle.
-   *@returns { JSON | Null } - Returns error response if validation fails or Null if otherwise.
+   * @returns { JSON | Null } - Returns error response if validation fails or Null if otherwise.
    * @memberof UserMiddleware
    *
    */
@@ -194,6 +195,29 @@ class UserMiddleware {
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
+      });
+      errorResponse(req, res, apiError);
+    }
+  }
+
+  /**
+   * Validates user's email credentials.
+   * @static
+   * @param { Object } req - The request from the endpoint.
+   * @param { Object } res - The response returned by the method.
+   * @param { function } next - Calls the next handle.
+   *@returns { JSON | Null } - Returns error response if validation fails or Null if otherwise.
+   * @memberof AuthMiddleware
+   *
+   */
+  static async validateResetPasswordField(req, res, next) {
+    try {
+      await updatePasswordEmailSchema.validateAsync(req.body);
+      next();
+    } catch (error) {
+      const apiError = new ApiError({
+        status: 400,
+        message: error.details[0].message
       });
       errorResponse(req, res, apiError);
     }
