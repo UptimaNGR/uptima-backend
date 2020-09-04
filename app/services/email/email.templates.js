@@ -7,13 +7,13 @@ export const sendPassword = (firstName, password) => {
       greeting: 'Hi',
       signature: false,
       intro:
-        'You have been invited to the uptima tms management dashboard as an admin.',
+        'You have been invited to the uptima uTrack dashboard.',
       action: {
         instructions: `Your password is <b>${password}</b>`,
         button: {
           color: '#22BC66',
           text: 'Click here to login',
-          link: 'https://uptima.netlify.app'
+          link: 'https://utrackdashboard.uptima.ng/login'
         }
       },
       outro:
@@ -68,7 +68,7 @@ export const resetPassword = (firstName, token) => {
         button: {
           color: '#DC4D2F',
           text: 'Reset your password',
-          link: `https://utrackdashboard.uptima.ng/forgot-password?token=${token}`
+          link: `https://utrackdashboard.uptima.ng/reset-password?token=${token}`
         }
       },
       outro:
