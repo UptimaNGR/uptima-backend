@@ -29,7 +29,7 @@ class DeviceHelper {
    */
   static calcVolumeLeft(surfaceArea, distance, height) {
     const depth = height - distance;
-    return surfaceArea[0] * depth;
+    return surfaceArea[0] * depth * 1000;
   }
 
   /**
