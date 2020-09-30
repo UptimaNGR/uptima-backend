@@ -1,5 +1,6 @@
 import { CompanyModel } from '../../models';
 import CompanyService from '../../services/company';
+import UserService from '../../services/user';
 import { Helper, constants, ApiError, DBError } from '../../utils';
 
 const { successResponse } = Helper;
@@ -11,9 +12,16 @@ const {
   UPDATE_COMPANY_PROFILE_SUCCESSFULLY,
   ERROR_UPDATING_PROFILE,
   GET_ONE_COMPANY_SUCCESS,
-  GET_ONE_COMPANY_ERROR
+  GET_ONE_COMPANY_ERROR,
+  GET_COMPANY_USER_ERROR,
+  GET_COMPANY_USER_SUCCESS,
+  SUCCESS_EDITING_USER_ROLE,
+  ERROR_EDITING_USER_ROLE,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_ERROR
 } = constants;
 
+const { getAllUserByCompanyId, updateUserRole, deleteUserById } = UserService;
 const { getAllCompany, updateCompanyById, getCompanyById } = CompanyService;
 
 /**
@@ -122,6 +130,70 @@ class CompanyController {
       });
     } catch (e) {
       next(new ApiError({ message: GET_ONE_COMPANY_ERROR }));
+    }
+  }
+
+  /**
+   * get a Company user's profiles.
+   *
+   * @static
+   * @param {Request} req - The request from the endpoint.
+   * @param {Response} res - The response returned by the method.
+   * @param { Function } next - Calls the next handler.
+   * @returns { JSON } A JSON response with the Company's details and.
+   * @memberof  CompanyController
+   */
+  static async getCompanyUserProfile(req, res, next) {
+    try {
+      const data = await getAllUserByCompanyId(req.params.companyId);
+      return successResponse(res, {
+        message: GET_COMPANY_USER_SUCCESS,
+        data
+      });
+    } catch (e) {
+      next(new ApiError({ message: GET_COMPANY_USER_ERROR }));
+    }
+  }
+
+  /**
+   * update user role in a Company.
+   *
+   * @static
+   * @param {Request} req - The request from the endpoint.
+   * @param {Response} res - The response returned by the method.
+   * @param { Function } next - Calls the next handler.
+   * @returns { JSON } A JSON response with the Company's details and.
+   * @memberof  CompanyController
+   */
+  static async editCompanyUserRole(req, res, next) {
+    try {
+      await updateUserRole(req.params.userId, req.body.role);
+      return successResponse(res, {
+        message: SUCCESS_EDITING_USER_ROLE
+      });
+    } catch (e) {
+      next(new ApiError({ message: ERROR_EDITING_USER_ROLE }));
+    }
+  }
+
+  /**
+   * delete user profile in a Company.
+   *
+   * @static
+   * @param {Request} req - The request from the endpoint.
+   * @param {Response} res - The response returned by the method.
+   * @param { Function } next - Calls the next handler.
+   * @returns { JSON } A JSON response with the Company's details and.
+   * @memberof  CompanyController
+   */
+  static async deleteUserFromCompany(req, res, next) {
+    try {
+      await deleteUserById(req.params.userId);
+      return successResponse(res, {
+        message: DELETE_USER_SUCCESS
+      });
+    } catch (e) {
+      next(new ApiError({ message: DELETE_USER_ERROR }));
     }
   }
 }

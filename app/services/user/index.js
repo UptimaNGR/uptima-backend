@@ -62,7 +62,7 @@ class UserService {
    * with an Array of the User resource or a DB Error.
    */
   static getAllUserByCompanyId(companyId) {
-    return db.oneOrNone(fetchAllManagersWithLocation, [companyId]);
+    return db.manyOrNone(fetchAllManagersWithLocation, [companyId]);
   }
 
   /**
@@ -150,7 +150,7 @@ class UserService {
    * @returns { Promise< Null | Error> } A promise that resolves or rejects
    * with a null value or a DB Error Object.
    */
-  static async deleteById(data) {
+  static async deleteUserById(data) {
     try {
       await db.none(deleteUser, [data.id]);
     } catch (error) {

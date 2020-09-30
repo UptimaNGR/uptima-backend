@@ -149,5 +149,11 @@ export default {
   DEVICE_ID_ABSENT: 'Please provide the DEVICE id',
   CREATE_LOGIN_LOG_FAIL: 'Error creating login log',
   FAIL_TO_FETCH_LOGS: 'Error while fetching login logs',
-  FETCH_LOGIN_LOG_SUCCESSFULLY: 'Successfully fetched login logs'
+  FETCH_LOGIN_LOG_SUCCESSFULLY: 'Successfully fetched login logs',
+  GET_COMPANY_USER_SUCCESS: 'Successfully fetched users',
+  GET_COMPANY_USER_ERROR: 'Error while fetching users',
+  SUCCESS_EDITING_USER_ROLE: 'Role successfully updated',
+  ERROR_EDITING_USER_ROLE: 'Role update failed',
+  DELETE_USER_ERROR: 'Error while removing user',
+  DELETE_USER_SUCCESS: 'User deleted successfully',
 };
