@@ -11,12 +11,16 @@ import DeviceMiddleware from '../../../middlewares/device';
 import AuthMiddleware from '../../../middlewares/auth/basic';
 import RoleMiddleware from '../../../middlewares/auth/role';
 import LogController from '../../../controllers/log';
+import UserMiddleware from '../../../middlewares/user';
 
 const {
   addCompany,
   fetchAllCompany,
   updateCompanyProfile,
-  getCompanyProfile
+  getCompanyProfile,
+  getCompanyUserProfile,
+  editCompanyUserRole,
+  deleteUserFromCompany
 } = CompanyController;
 const {
   validateCompanyFields,
@@ -66,6 +70,7 @@ const {
 } = DeviceMiddleware;
 
 const { fetchLoginLog } = LogController;
+const { checkUserIdData } = UserMiddleware;
 
 const { authenticate } = AuthMiddleware;
 const { adminAccessValidator } = RoleMiddleware;
@@ -89,7 +94,7 @@ router.use(
   checkIfDeviceIdPresent,
   checkIfTankHasDevice
 );
-
+router.use('/:companyId/user/:userId', checkUserIdData);
 router.post(
   '/',
   adminAccessValidator,
@@ -162,6 +167,9 @@ router.put(
   updateDeviceById
 );
 
-router.get('/:companyId/logs', fetchLoginLog);
+router.get('/:companyId/log', fetchLoginLog);
+router.get('/:companyId/user', getCompanyUserProfile);
+router.patch('/:companyId/user/:userId/role', editCompanyUserRole);
+router.delete('/:companyId/user/:userId', deleteUserFromCompany);
 
 export default router;

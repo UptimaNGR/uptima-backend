@@ -136,7 +136,7 @@ export default {
   ON 
     u.facility_id = f.id
   WHERE 
-    u.role = 'manager'
+    u.role != 'owner'
   AND
     u.company_id = $1
   ;`

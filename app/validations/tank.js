@@ -7,6 +7,7 @@ const tankSchema = Joi.object().keys({
   fluidType: Joi.string().required(),
   surfaceArea: Joi.array()
     .unique((a, b) => a === b)
+    .items()
     .required()
     .messages({
       'any.required': 'surface area is a required field',

@@ -45,7 +45,8 @@
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.1",
     "extend": "^3.0.2",
-    "mocha": "^7.1.1"
+    "mocha": "^7.1.1",
+    "yargs-parser": "^20.2.0"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
