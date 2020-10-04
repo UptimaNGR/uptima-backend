@@ -3,15 +3,16 @@ import json
 
 def gettime(timeanddate):
   return timeanddate[11:16]
+
 def samelocation(previous, current):
   plat = previous['latitude']
   plng = previous['longitude']
   clat = current['latitude']
   clng = current['longitude']
-  if(plat==clat and plng == clng):
+  if(plat == clat and plng == clng):
     return True
-  else:
-    return False
+  return False
+
 def mapfunction(data):
   response = []
   data = data['data']
@@ -62,8 +63,7 @@ def mapfunction(data):
     curpath.append({'lat': float(row['latitude']), 'lng': float(row['longitude'])})
     response.append({'type': curtype, 'path': curpath, 'starttime': starttime, 'endtime': endtime, 'voa': startvol, 'vol': endvolume, 'va': volumeadded, 'vu': volumeused})
     return response
-  else:
-    return []
+  return []
 
 dataFromNode = sys.argv[1]
 
