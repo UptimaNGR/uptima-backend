@@ -1,6 +1,8 @@
 import { TankDataModel } from '../../models';
 import TankDataService from '../../services/tank.data';
+import FacilityService from '../../services/facility';
 import { Helper, constants, ApiError, DBError } from '../../utils';
+import compute from '../../../process';
 
 const { successResponse } = Helper;
 const {
@@ -11,7 +13,7 @@ const {
 } = constants;
 
 const { getTankDataByTankIdDaily } = TankDataService;
-
+const { getFacilityById } = FacilityService;
 /**
  * A collection of methods that controls the success response
  * for CRUD operations on the contact us.
@@ -61,12 +63,22 @@ class TankDataController {
    */
   static async fetchTankDataByTankIdDaily(req, res, next) {
     try {
-      const { tankId } = req.params;
-      const { on } = req.query;
-      const data = await getTankDataByTankIdDaily(tankId, on);
-      return successResponse(res, {
+      const { facility_type } = await getFacilityById(req.params.facilityId);
+      const data = await getTankDataByTankIdDaily(
+        req.params.tankId,
+        req.query.on
+      );
+      if (facility_type !== 'tanker') {
+        return successResponse(res, {
+          message: FETCH_TANK_DATA_SUCCESSFULLY,
+          data
+        });
+      }
+      const mappedData = { data };
+      const mapData = await compute(mappedData);
+      successResponse(res, {
         message: FETCH_TANK_DATA_SUCCESSFULLY,
-        data
+        data: JSON.parse(mapData)
       });
     } catch (error) {
       next(new ApiError({ message: ERROR_FETCHING_TANK_DATA }));
