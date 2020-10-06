@@ -156,4 +156,7 @@ export default {
   ERROR_EDITING_USER_ROLE: 'Role update failed',
   DELETE_USER_ERROR: 'Error while removing user',
   DELETE_USER_SUCCESS: 'User deleted successfully',
+  CREATE_EXPANSION_FAIL: 'Error creating expansion request',
+  CREATE_COMPLAINT_FAIL: 'Error creating COMPLAINT request',
+  COMPLAINT_CATEGORIES: ['others', 'inaccurate data', 'alerts', 'faulty device']
 };

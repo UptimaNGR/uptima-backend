@@ -1,4 +1,4 @@
-import Joi from '@hapi/joi';
+import Joi from 'joi';
 
 const tankSchema = Joi.object().keys({
   companyId: Joi.string(),

@@ -12,6 +12,8 @@ import AuthMiddleware from '../../../middlewares/auth/basic';
 import RoleMiddleware from '../../../middlewares/auth/role';
 import LogController from '../../../controllers/log';
 import UserMiddleware from '../../../middlewares/user';
+import RequestController from '../../../controllers/request';
+import RequestMiddleware from '../../../middlewares/request';
 
 const {
   addCompany,
@@ -71,6 +73,9 @@ const {
 
 const { fetchLoginLog } = LogController;
 const { checkUserIdData } = UserMiddleware;
+
+const { addComplaint, addExpansion } = RequestController;
+const { validateComplaintFields, validateExpansionFields } = RequestMiddleware;
 
 const { authenticate } = AuthMiddleware;
 const { adminAccessValidator } = RoleMiddleware;
@@ -171,5 +176,8 @@ router.get('/:companyId/log', fetchLoginLog);
 router.get('/:companyId/user', getCompanyUserProfile);
 router.patch('/:companyId/user/:userId/role', editCompanyUserRole);
 router.delete('/:companyId/user/:userId', deleteUserFromCompany);
+
+router.post('/:companyId/request/expansion', validateExpansionFields, addExpansion);
+router.post('/:companyId/request/complaint', validateComplaintFields, addComplaint);
 
 export default router;

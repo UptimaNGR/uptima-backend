@@ -7,6 +7,8 @@ import FacilityModel from './facility';
 import UserModel from './user';
 import ContactUsHomepageModel from './contact.us.homepage';
 import LogsModel from './logs';
+import ExpansionModel from './expansion';
+import ComplaintModel from './complaint';
 
 export {
   ContactUsModel,
@@ -17,5 +19,7 @@ export {
   FacilityModel,
   UserModel,
   ContactUsHomepageModel,
-  LogsModel
+  LogsModel,
+  ExpansionModel,
+  ComplaintModel
 };

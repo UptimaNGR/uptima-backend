@@ -1,4 +1,4 @@
-import Joi from '@hapi/joi';
+import Joi from 'joi';
 
 const contactSchema = Joi.object().keys({
   name: Joi.string().required(),
