@@ -1,4 +1,4 @@
-import Joi from '@hapi/joi';
+import Joi from 'joi';
 
 const userSchema = Joi.object().keys({
   firstName: Joi.string().min(3).required(),
@@ -12,10 +12,7 @@ const userSchema = Joi.object().keys({
   facilityId: Joi.string().guid()
 });
 
-const passwordSchema = Joi.string()
-  .trim()
-  .min(8)
-  .max(25)
+const passwordSchema = Joi.string().trim().min(8).max(25)
   .required();
 
 export { userSchema, passwordSchema };

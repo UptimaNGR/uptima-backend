@@ -1,4 +1,4 @@
-import Joi from '@hapi/joi';
+import Joi from 'joi';
 import { stringCheck } from './generic';
 
 const complaintSchema = Joi.object({

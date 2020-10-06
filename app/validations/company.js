@@ -1,4 +1,4 @@
-import Joi from '@hapi/joi';
+import Joi from 'joi';
 
 const companySchema = Joi.object().keys({
   address: Joi.string().required(),

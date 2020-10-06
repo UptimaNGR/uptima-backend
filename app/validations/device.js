@@ -1,4 +1,4 @@
-import Joi from '@hapi/joi';
+import Joi from 'joi';
 
 const deviceSchema = Joi.object().keys({
   companyId: Joi.string(),

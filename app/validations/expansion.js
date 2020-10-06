@@ -1,4 +1,4 @@
-import Joi from '@hapi/joi';
+import Joi from 'joi';
 import { stringCheck, numberCheck } from './generic';
 
 const expansionSchema = Joi.object({
