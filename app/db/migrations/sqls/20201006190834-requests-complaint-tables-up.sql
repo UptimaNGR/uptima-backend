@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS expansion(
   company_id uuid REFERENCES company(id) NOT NULL,
   capacity INTEGER NOT NULL,
   address VARCHAR(50) NOT NULL,
-  facility_type facility_facility_type NOT NULL,
+  facility_type VARCHAR(50) NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
