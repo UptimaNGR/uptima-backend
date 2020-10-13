@@ -13,7 +13,12 @@ const {
   GENERIC_ERROR,
   events: { SEND_MIN_LEVEL_ALERT, SEND_ACTIVITY_DURING_CLOSE }
 } = constants;
-const { calcTankDetailsByDeviceSn, calcVolumeUsed } = TankDataService;
+const {
+  calcTankDetailsByDeviceSn,
+  calcVolumeUsed,
+  getLastFilledTimeDataByTankId,
+  getLastVolumeDataByTankId
+} = TankDataService;
 const { getTankById } = TankService;
 const { getUserByFacilityId } = UserService;
 const { getFacilityCloseAndOpenTimeById } = FacilityService;
@@ -179,6 +184,37 @@ class TankDataMiddleware {
       req.tank = tank;
       req.time = { opening_time, closing_time, hour };
       return next();
+    } catch (error) {
+      const apiError = new ApiError({
+        status: 500,
+        message: GENERIC_ERROR
+      });
+      errorResponse(req, res, apiError);
+    }
+  }
+
+  /**
+   * Gets static data for dashboard
+   * @static
+   * @param { Object } req - The request from the endpoint.
+   * @param { Object } res - The response returned by the method.
+   * @param { function } next - Calls the next handle.
+   * @returns { JSON | Null } - Returns error response if validation fails or Null if otherwise.
+   * @memberof TankDataMiddleware
+   *
+   */
+  static async getStaticData(req, res, next) {
+    try {
+      const { tankId } = req.params;
+      const data = await Promise.all([
+        getLastFilledTimeDataByTankId(tankId),
+        getLastVolumeDataByTankId(tankId)
+      ]);
+      req.staticData = {
+        lastFilledTime: data[0] ? data[0].created_at : 'N/A',
+        currentVolume: data[1] ? data[1].volume_left : 'N/A'
+      };
+      next();
     } catch (error) {
       const apiError = new ApiError({
         status: 500,

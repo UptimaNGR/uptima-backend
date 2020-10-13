@@ -6,7 +6,9 @@ const {
   fetchTankSurfaceAreaByDeviceId,
   getSingleTankDataCurrentDay,
   getSingleTankDataDaily,
-  getLastVolumeLeft
+  getLastVolumeLeft,
+  getLastTimeFilled,
+  getLastVolumeLeftByTankId
 } = queries;
 
 const { calcVolumeLeftByTankType } = DeviceHelper;
@@ -31,12 +33,23 @@ class TankDataService {
   /**
    * Fetches a lastVolume by id
    * @memberof TankDataService
-   * @param {string} serialNumber - id of the TankData
+   * @param {string} tankId - id of the TankData
    * @returns { Promise<Array | Error> } A promise that resolves or rejects
    * with an Array of the TankData resource or a DB Error.
    */
-  static getTankDataById(serialNumber) {
-    return db.oneOrNone(getLastVolumeLeft, [serialNumber]);
+  static getLastVolumeDataByTankId(tankId) {
+    return db.oneOrNone(getLastVolumeLeftByTankId, [tankId]);
+  }
+
+  /**
+   * Fetches a last time filled by id
+   * @memberof TankDataService
+   * @param {string} tankId - id of the TankData
+   * @returns { Promise<Array | Error> } A promise that resolves or rejects
+   * with an Array of the TankData resource or a DB Error.
+   */
+  static getLastFilledTimeDataByTankId(tankId) {
+    return db.oneOrNone(getLastTimeFilled, [tankId]);
   }
 
   /**

@@ -1,14 +1,10 @@
 import Kue from 'kue';
-// import cron from 'cron-cluster';
-// import { redisDB } from '../db';
 import jobEvents from './events';
 import config from '../../config/env';
 import { Helper, constants } from '../utils';
 
 const { moduleErrLogMessager } = Helper;
 const { FAILED_CREATE_JOB } = constants;
-
-// const { CronJob } = cron(redisDB);
 
 // create queue to save jobs in
 export const queue = Kue.createQueue({

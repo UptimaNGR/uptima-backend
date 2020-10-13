@@ -6,6 +6,7 @@ import FacilityMiddleware from '../../../middlewares/facility';
 import TankController from '../../../controllers/tank';
 import TankMiddleware from '../../../middlewares/tank';
 import TankDataController from '../../../controllers/tank.data';
+import TankDataMiddleware from '../../../middlewares/tank.data';
 import DeviceController from '../../../controllers/device';
 import DeviceMiddleware from '../../../middlewares/device';
 import AuthMiddleware from '../../../middlewares/auth/basic';
@@ -62,6 +63,7 @@ const {
 } = FacilityController;
 
 const { fetchTankDataByTankIdDaily } = TankDataController;
+const { getStaticData } = TankDataMiddleware;
 
 const { addDevice, updateDeviceById, fetchDeviceById } = DeviceController;
 const {
@@ -152,6 +154,7 @@ router.patch(
 
 router.get(
   '/:companyId/facility/:facilityId/tank/:tankId/tank-data/daily',
+  getStaticData,
   fetchTankDataByTankIdDaily
 );
 
@@ -177,7 +180,15 @@ router.get('/:companyId/user', getCompanyUserProfile);
 router.patch('/:companyId/user/:userId/role', editCompanyUserRole);
 router.delete('/:companyId/user/:userId', deleteUserFromCompany);
 
-router.post('/:companyId/request/expansion', validateExpansionFields, addExpansion);
-router.post('/:companyId/request/complaint', validateComplaintFields, addComplaint);
+router.post(
+  '/:companyId/request/expansion',
+  validateExpansionFields,
+  addExpansion
+);
+router.post(
+  '/:companyId/request/complaint',
+  validateComplaintFields,
+  addComplaint
+);
 
 export default router;

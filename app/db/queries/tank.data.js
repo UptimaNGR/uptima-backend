@@ -62,5 +62,18 @@ export default {
   SELECT volume_left FROM tank_data 
   WHERE device_serial_number =$1 
   ORDER BY created_at DESC
+  LIMIT 1;`,
+
+  getLastVolumeLeftByTankId: `
+  SELECT volume_left FROM tank_data 
+  WHERE tank_id =$1 
+  ORDER BY created_at DESC
+  LIMIT 1;`,
+
+  getLastTimeFilled: `
+  SELECT created_at FROM tank_data 
+  WHERE tank_id = $1 AND 
+  volume_added > 0
+  ORDER BY created_at DESC
   LIMIT 1;`
 };
