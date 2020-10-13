@@ -6,7 +6,6 @@ import { Helper, constants } from '../utils';
 const { moduleErrLogMessager } = Helper;
 const { FAILED_CREATE_JOB } = constants;
 
-
 // create queue to save jobs in
 export const queue = Kue.createQueue({
   prefix: 'q',
