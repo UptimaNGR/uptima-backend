@@ -70,14 +70,15 @@ class TankDataController {
       if (facility_type !== 'tanker') {
         return successResponse(res, {
           message: FETCH_TANK_DATA_SUCCESSFULLY,
-          data
+          data: { data, staticData: req.staticData }
         });
       }
       const mappedData = { data };
       const mapData = await compute(mappedData);
       successResponse(res, {
         message: FETCH_TANK_DATA_SUCCESSFULLY,
-        data: JSON.parse(mapData)
+        data: JSON.parse(mapData),
+        staticData: req.staticData
       });
     } catch (error) {
       next(new ApiError({ message: ERROR_FETCHING_TANK_DATA }));
