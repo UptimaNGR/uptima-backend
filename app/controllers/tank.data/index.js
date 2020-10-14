@@ -77,8 +77,7 @@ class TankDataController {
       const mapData = await compute(mappedData);
       successResponse(res, {
         message: FETCH_TANK_DATA_SUCCESSFULLY,
-        data: JSON.parse(mapData),
-        staticData: req.staticData
+        data: { data: JSON.parse(mapData), staticData: req.staticData }
       });
     } catch (error) {
       next(new ApiError({ message: ERROR_FETCHING_TANK_DATA }));
