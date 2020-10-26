@@ -76,7 +76,7 @@ class Email {
    */
   static newPassword(
     { firstName, email, plainPassword },
-    subject = 'Welcome to uptima tms management dashboard'
+    subject = 'Welcome to uptima uTrack dashboard'
   ) {
     const emailContent = mailGenerator.generate(
       sendPassword(firstName, plainPassword)

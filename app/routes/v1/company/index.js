@@ -23,14 +23,16 @@ const {
   getCompanyProfile,
   getCompanyUserProfile,
   editCompanyUserRole,
-  deleteUserFromCompany
+  deleteUserFromCompany,
+  addPrice
 } = CompanyController;
 const {
   validateCompanyFields,
   checkCompanyEmailData,
   checkCompanyPhoneData,
   checkCompanyIdData,
-  checkIfCompanyIdPresent
+  checkIfCompanyIdPresent,
+  validatePriceFields
 } = CompanyMiddleware;
 
 const {
@@ -191,4 +193,9 @@ router.post(
   addComplaint
 );
 
+router.post(
+  '/:companyId/price',
+  validatePriceFields,
+  addPrice
+);
 export default router;

@@ -43,6 +43,6 @@ export default {
   fetchCompanyByEmail: 'SELECT * FROM company WHERE email=$1',
   fetchCompanyByPhone: 'SELECT * FROM company WHERE phone_number=$1',
   fetchCompanyById: 'SELECT * FROM company WHERE id=$1',
-  fetchCompanyByName: 'SELECT * FROM company WHERE company_name=$1',
+  fetchCompanyByName: 'SELECT * FROM company WHERE company_name=$1;',
   fetchAllCompany: 'SELECT id, company_name  FROM company;'
 };

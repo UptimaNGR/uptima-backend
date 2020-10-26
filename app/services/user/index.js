@@ -11,12 +11,13 @@ const {
   updateUserPassword,
   updateUserFacility,
   deleteUser,
-  updateRoleById,
+  updateRoleToBasicById,
   updateUserById,
   getUsersPaginated,
   countPages,
   fetchAllManagersWithLocation,
-  fetchUserByFacilityId
+  fetchUserByFacilityId,
+  updateRoleToManagerById
 } = queries;
 
 const { fetchAdminById } = authQueries;
@@ -173,7 +174,28 @@ class UserService {
    */
   static async updateUserRole(data, newRole) {
     try {
-      await db.none(updateRoleById, [data.id, newRole]);
+      await db.none(updateRoleToBasicById, [data, newRole.role, newRole.facilityId]);
+    } catch (error) {
+      const dbError = new DBError({
+        status: DELETE_USER_FAIL,
+        message: error.message
+      });
+      moduleErrLogMessager(dbError);
+      throw dbError;
+    }
+  }
+
+  /**
+   * Update the role of a User.
+   * @memberof UserService
+   * @param { Object } data - An object representation of the User.
+   * @param { String } newRole - The new role to assign the User.
+   * @returns { Promise< Null | Error> } A promise that resolves or rejects
+   * with a null value or a DB Error Object.
+   */
+  static async updateUserRoleToManager(data, newRole) {
+    try {
+      await db.none(updateRoleToManagerById, [data, newRole]);
     } catch (error) {
       const dbError = new DBError({
         status: DELETE_USER_FAIL,

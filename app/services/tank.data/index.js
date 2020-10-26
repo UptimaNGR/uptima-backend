@@ -1,4 +1,5 @@
 import queries from '../../db/queries/tank.data';
+import priceQuery from '../../db/queries/price';
 import db from '../../db';
 import { DeviceHelper } from '../../utils';
 
@@ -73,7 +74,8 @@ class TankDataService {
       facility_id,
       dist_to_device,
       height,
-      structure_type
+      structure_type,
+      fluid_type
     } = await db.oneOrNone(fetchTankSurfaceAreaByDeviceId, [serialNumber]);
     return {
       serialNumber,
@@ -86,7 +88,8 @@ class TankDataService {
       facility_id,
       distance: parseFloat(distance) - parseFloat(dist_to_device),
       height,
-      structure_type
+      structure_type,
+      fluid_type
     };
   }
 
@@ -138,6 +141,18 @@ class TankDataService {
     return on
       ? db.manyOrNone(getSingleTankDataDaily, [tankId, on])
       : db.manyOrNone(getSingleTankDataCurrentDay, [tankId]);
+  }
+
+  /**
+   * Fetches a price for tank data by company id
+   * @memberof TankDataService
+   * @param {string} companyId - id of the company
+   * @param {string} fluidType - fluid type
+   * @returns { Promise<Array | Error> } A promise that resolves or rejects
+   * with an Array of the TankData resource or a DB Error.
+   */
+  static getPriceByCompanyIdAndFluidType(companyId, fluidType) {
+    return db.oneOrNone(priceQuery.fetchPriceByCompanyAndType, [companyId, fluidType]);
   }
 }
 

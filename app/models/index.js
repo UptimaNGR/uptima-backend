@@ -9,6 +9,7 @@ import ContactUsHomepageModel from './contact.us.homepage';
 import LogsModel from './logs';
 import ExpansionModel from './expansion';
 import ComplaintModel from './complaint';
+import PriceModel from './price';
 
 export {
   ContactUsModel,
@@ -21,5 +22,6 @@ export {
   ContactUsHomepageModel,
   LogsModel,
   ExpansionModel,
-  ComplaintModel
+  ComplaintModel,
+  PriceModel
 };

@@ -28,6 +28,7 @@ class TankDataModel {
     this.longitude = options.longitude;
     this.latitude = options.latitude;
     this.volume_added = options.volumeUsed < 0 ? Math.abs(options.volumeUsed) : 0;
+    this.price = options.price;
   }
 
   /**
@@ -47,7 +48,8 @@ class TankDataModel {
         this.longitude,
         this.latitude,
         this.volume_added,
-        this.facility_id
+        this.facility_id,
+        this.price
       ]);
     } catch (e) {
       const dbError = new DBError({
