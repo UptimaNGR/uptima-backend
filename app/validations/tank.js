@@ -3,7 +3,7 @@ import Joi from 'joi';
 const tankSchema = Joi.object().keys({
   companyId: Joi.string(),
   facilityId: Joi.string(),
-  serialNumber: Joi.number().required(),
+  serialNumber: Joi.string().required(),
   fluidType: Joi.string().required(),
   surfaceArea: Joi.array()
     .unique((a, b) => a === b)

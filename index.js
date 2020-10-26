@@ -1,4 +1,3 @@
-/* eslint-disable no-plusplus */
 import cluster from 'cluster';
 import express from 'express';
 import config, { appConfig } from './config';

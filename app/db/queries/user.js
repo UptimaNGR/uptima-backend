@@ -118,10 +118,11 @@ export default {
     user_info
     WHERE id=$1
   ;`,
-  updateRoleById: `
+  updateRoleToBasicById: `
     UPDATE user_info
     SET
-    role=$2
+    role=$2,
+    facility_id=$3
     WHERE id=$1
   ;`,
 
@@ -139,5 +140,15 @@ export default {
     u.role != 'owner'
   AND
     u.company_id = $1
+  ;`,
+
+  updateRoleToManagerById: `
+    UPDATE user_info
+    SET
+    role=$2,
+    facility_id=NULL,
+    updated_at=now()
+    WHERE id=$1
   ;`
+
 };

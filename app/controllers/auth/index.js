@@ -25,11 +25,13 @@ class AuthController {
    */
   static async signIn(req, res) {
     const { user } = req;
-    const logData = {
-      companyId: user.company_id,
-      userId: user.id
-    };
-    Job.create({ type: SAVE_LOGIN_LOG, data: { logData } });
+    if (user.role) {
+      Job.create({ type: SAVE_LOGIN_LOG,
+        data: {
+          companyId: user.company_id,
+          userId: user.id
+        } });
+    }
     if (user.role === 'basic') {
       const data = Helper.addTokenToData(user, false);
       return Helper.successResponse(res, {

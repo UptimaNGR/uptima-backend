@@ -1,6 +1,7 @@
 import { Helper, ApiError, constants } from '../../utils';
 import validation from '../../validations/company';
 import CompanyServices from '../../services/company';
+import priceSchema from '../../validations/price';
 
 const {
   getCompanyByEmail,
@@ -170,6 +171,29 @@ class CompanyMiddleware {
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
+      });
+      errorResponse(req, res, apiError);
+    }
+  }
+
+  /**
+     * Validates price request credentials.
+     * @static
+     * @param { Object } req - The request from the endpoint.
+     * @param { Object } res - The response returned by the method.
+     * @param { function } next - Calls the next handle.
+     *@returns { JSON | Null } - Returns error response if validation fails or Null if otherwise.
+     * @memberof PriceMiddleware
+     *
+     */
+  static async validatePriceFields(req, res, next) {
+    try {
+      await priceSchema.validateAsync(req.body);
+      next();
+    } catch (error) {
+      const apiError = new ApiError({
+        status: 400,
+        message: error.details[0].message
       });
       errorResponse(req, res, apiError);
     }

@@ -1,4 +1,5 @@
 import Kue from 'kue';
+import cron from 'node-cron';
 import jobEvents from './events';
 import config from '../../config/env';
 import { Helper, constants } from '../utils';
@@ -66,9 +67,9 @@ class Job {
       the initialization of the recurring job instance.
   * @returns { Object } - A Cron Job instance.
   */
-  // static createCron(timeLine, fn) {
-  //   return new CronJob(timeLine, fn, null, true);
-  // }
+  static createCron(timeLine, fn) {
+    return cron.schedule(timeLine, fn);
+  }
 }
 
 // Queue Events

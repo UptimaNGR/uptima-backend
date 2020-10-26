@@ -75,9 +75,9 @@ class DeviceService {
    * @returns { Promise<Array | Error> } A promise that resolves or rejects
    * with an Array of the Device resource or a DB Error.
    */
-  // static getDeviceByInactivity() {
-  //   return console.log('hi');
-  // }
+  static getDeviceByInactivity() {
+    return 'hi';
+  }
 }
 
 export default DeviceService;

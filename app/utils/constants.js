@@ -158,5 +158,8 @@ export default {
   DELETE_USER_SUCCESS: 'User deleted successfully',
   CREATE_EXPANSION_FAIL: 'Error creating expansion request',
   CREATE_COMPLAINT_FAIL: 'Error creating COMPLAINT request',
-  COMPLAINT_CATEGORIES: ['others', 'inaccurate data', 'alerts', 'faulty device']
+  COMPLAINT_CATEGORIES: ['others', 'inaccurate data', 'alerts', 'faulty device'],
+  CREATE_PRICE_FAIL: 'Error creating price',
+  CREATE_PRICE_SUCCESS: 'Created price successfully',
+  CREATE_PRICE_ERROR: 'Error creating price'
 };

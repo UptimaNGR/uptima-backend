@@ -16,7 +16,7 @@ class LogsWorker {
    */
   static async saveLoginLog({ data }, done) {
     try {
-      const LogModel = new LogsModel({ ...data.logData });
+      const LogModel = new LogsModel({ ...data });
       await LogModel.save();
       done();
     } catch (e) {

@@ -1,4 +1,4 @@
-import { CompanyModel } from '../../models';
+import { CompanyModel, PriceModel } from '../../models';
 import CompanyService from '../../services/company';
 import UserService from '../../services/user';
 import { Helper, constants, ApiError, DBError } from '../../utils';
@@ -18,10 +18,14 @@ const {
   SUCCESS_EDITING_USER_ROLE,
   ERROR_EDITING_USER_ROLE,
   DELETE_USER_SUCCESS,
-  DELETE_USER_ERROR
+  DELETE_USER_ERROR,
+  CREATE_PRICE_SUCCESS,
+  CREATE_PRICE_ERROR
 } = constants;
 
-const { getAllUserByCompanyId, updateUserRole, deleteUserById } = UserService;
+const {
+  getAllUserByCompanyId, updateUserRole, deleteUserById, updateUserRoleToManager
+} = UserService;
 const { getAllCompany, updateCompanyById, getCompanyById } = CompanyService;
 
 /**
@@ -167,7 +171,11 @@ class CompanyController {
    */
   static async editCompanyUserRole(req, res, next) {
     try {
-      await updateUserRole(req.params.userId, req.body.role);
+      if (req.body.role === 'basic') {
+        await updateUserRole(req.params.userId, req.body);
+      } else {
+        await updateUserRoleToManager(req.params.userId, req.body.role);
+      }
       return successResponse(res, {
         message: SUCCESS_EDITING_USER_ROLE
       });
@@ -194,6 +202,36 @@ class CompanyController {
       });
     } catch (e) {
       next(new ApiError({ message: DELETE_USER_ERROR }));
+    }
+  }
+
+  /**
+   * Controllers used for adding companies
+   * @static
+   * @param {Request} req - The request from the endpoint.
+   * @param {Response} res - The response returned by the method.
+   * @param {Next} next
+   * @returns { JSON } A JSON response containing the details of the contact us added
+   * @memberof CompanyController
+   */
+  static async addPrice(req, res, next) {
+    try {
+      const Price = new PriceModel({
+        ...req.body, ...req.params
+      });
+      const { id } = await Price.save();
+      return successResponse(res, {
+        message: CREATE_PRICE_SUCCESS,
+        data: { id, ...Price }
+      });
+    } catch (e) {
+      const dbError = new DBError({
+        status: CREATE_PRICE_ERROR,
+        message: e.message
+      });
+      Helper.moduleErrLogMessager(dbError);
+      next(new ApiError({ message: CREATE_PRICE_ERROR }));
+      throw dbError;
     }
   }
 }

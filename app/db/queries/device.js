@@ -29,7 +29,7 @@ export default {
 
   fetchDeviceBySerialNumber: `
     SELECT * FROM device
-    WHERE serial_number=$1;
+    WHERE serial_number=$1 and status='active';
   `,
 
   fetchDeviceByTankId: `

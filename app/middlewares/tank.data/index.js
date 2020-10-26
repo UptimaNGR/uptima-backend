@@ -17,7 +17,8 @@ const {
   calcTankDetailsByDeviceSn,
   calcVolumeUsed,
   getLastFilledTimeDataByTankId,
-  getLastVolumeDataByTankId
+  getLastVolumeDataByTankId,
+  getPriceByCompanyIdAndFluidType
 } = TankDataService;
 const { getTankById } = TankService;
 const { getUserByFacilityId } = UserService;
@@ -177,11 +178,13 @@ class TankDataMiddleware {
       const date = new Date();
       const hour = date.getHours();
       const tank = await calcTankDetailsByDeviceSn(req.body);
+      const data = await getPriceByCompanyIdAndFluidType(tank.company_id, tank.fluid_type);
       const {
         opening_time,
         closing_time
       } = await getFacilityCloseAndOpenTimeById(tank.facility_id);
       req.tank = tank;
+      req.tank.price = data.amount;
       req.time = { opening_time, closing_time, hour };
       return next();
     } catch (error) {

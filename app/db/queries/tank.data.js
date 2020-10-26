@@ -10,9 +10,10 @@ export default {
         longitude,
         latitude,
         volume_added,
-        facility_id
+        facility_id,
+        price
       )
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
     RETURNING *`,
 
   fetchTankSurfaceAreaByDeviceId: `
@@ -24,7 +25,8 @@ export default {
     t.facility_id,
     d.dist_to_device,
     t.height,
-    t.structure_type
+    t.structure_type,
+    t.fluid_type
   FROM 
     tank t
   INNER JOIN 
@@ -65,7 +67,7 @@ export default {
   LIMIT 1;`,
 
   getLastVolumeLeftByTankId: `
-  SELECT volume_left FROM tank_data 
+  SELECT volume_left, latitude, longitude FROM tank_data 
   WHERE tank_id =$1 
   ORDER BY created_at DESC
   LIMIT 1;`,
