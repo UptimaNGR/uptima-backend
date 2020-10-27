@@ -184,7 +184,7 @@ class TankDataMiddleware {
         closing_time
       } = await getFacilityCloseAndOpenTimeById(tank.facility_id);
       req.tank = tank;
-      req.tank.price = data.amount;
+      req.tank.price = data ? data.amount : null;
       req.time = { opening_time, closing_time, hour };
       return next();
     } catch (error) {
