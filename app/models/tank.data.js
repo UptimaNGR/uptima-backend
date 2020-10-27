@@ -28,7 +28,7 @@ class TankDataModel {
     this.longitude = options.longitude;
     this.latitude = options.latitude;
     this.volume_added = options.volumeUsed < 0 ? Math.abs(options.volumeUsed) : 0;
-    this.price = options.price;
+    this.price = options.price ? options.price : 1;
   }
 
   /**
