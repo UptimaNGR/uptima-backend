@@ -161,5 +161,8 @@ export default {
   COMPLAINT_CATEGORIES: ['others', 'inaccurate data', 'alerts', 'faulty device'],
   CREATE_PRICE_FAIL: 'Error creating price',
   CREATE_PRICE_SUCCESS: 'Created price successfully',
-  CREATE_PRICE_ERROR: 'Error creating price'
+  CREATE_PRICE_ERROR: 'Error creating price',
+  COULD_NOT_REMOVE_COMPLETED_JOB: 'COULD_NOT_REMOVE_COMPLETED_JOB',
+  COULD_NOT_FETCH_COMPLETED_JOB: 'COULD_NOT_FETCH_COMPLETED_JOB',
+  EMAIL_WAS_NOT_SENT: 'Email could not be sent'
 };
