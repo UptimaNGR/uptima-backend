@@ -7,7 +7,8 @@ import {
   sendPassword,
   resetPassword,
   alertMinLevel,
-  alertOutsideBizHours
+  alertOutsideBizHours,
+  distanceSent
 } from './email.templates';
 import config from '../../../config/env';
 
@@ -170,6 +171,25 @@ class Email {
       alertOutsideBizHours(first_name, volumeLeft, volumeUsed)
     );
     return Email.send({ to: email, subject, html: emailContent });
+  }
+
+  /**
+   * Sends distance sent to dele.
+   * @static
+   * @param {object} first_name - The Recipient's first-name.
+   * @param {string} subject - The subject of the email.
+   * @memberof Email
+   * @returns {Promise<object | string>} - A promise which is fulfilled as a string
+   * or an error object.
+   */
+  static distanceSentByDevice(
+    { distance },
+    subject = 'Distance sent'
+  ) {
+    const emailContent = mailGenerator.generate(
+      distanceSent(distance)
+    );
+    return Email.send({ to: 'oladefato@hotmail.com', subject, html: emailContent });
   }
 }
 export default Email;

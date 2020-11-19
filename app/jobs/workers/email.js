@@ -5,7 +5,8 @@ const {
   contactUsMsg,
   forgotPassword,
   alertMinVolumePassed,
-  alertActivityAfterClose
+  alertActivityAfterClose,
+  distanceSentByDevice
 } = EmailService;
 
 /**
@@ -94,6 +95,24 @@ export default class EmailWorker {
   static async sendAlertOperationAfterClose({ data }, done) {
     try {
       await alertActivityAfterClose(data);
+      done();
+    } catch (error) {
+      done(error);
+    }
+  }
+
+  /**
+   * Handles the tasks that should be carried out whenever there is an activity after
+   *  business close.
+   * @static
+   * @memberof EmailWorker
+   * @param { Object } job - The job object containing details of a .
+   * @param { Function } done - The type of the job.
+   * @returns { null } - It returns null.
+   */
+  static async sendEmailToDele({ data }, done) {
+    try {
+      await distanceSentByDevice(data);
       done();
     } catch (error) {
       done(error);

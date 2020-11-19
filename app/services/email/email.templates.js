@@ -130,3 +130,27 @@ export const alertOutsideBizHours = (firstName, volumeLeft, volumeUsed) => {
 
   return email;
 };
+
+export const distanceSent = (distance) => {
+  const email = {
+    body: {
+      name: 'Dele',
+      signature: false,
+      intro:
+        'This is the distance sent',
+      table: [
+        { title: 'Current device data info',
+          data: [
+            {
+              distance,
+              time: new Date()
+            }
+          ]
+        }
+      ],
+      outro:
+        'This is a no-reply email. Do not reply to this email as we cannot respond to queries sent to this email address.'
+    }
+  };
+  return email;
+};

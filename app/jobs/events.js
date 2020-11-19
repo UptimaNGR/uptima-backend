@@ -11,7 +11,8 @@ const {
     SEND_MIN_LEVEL_ALERT,
     SEND_ACTIVITY_DURING_CLOSE,
     CHECK_DEVICE_INACTIVITY,
-    SAVE_LOGIN_LOG
+    SAVE_LOGIN_LOG,
+    SEND_TO_DELE
   }
 } = constants;
 
@@ -26,4 +27,5 @@ export default (queue) => {
   );
   queue.process(CHECK_DEVICE_INACTIVITY, DeviceWorker.sendInactiveDevice);
   queue.process(SAVE_LOGIN_LOG, LogWorker.saveLoginLog);
+  queue.process(SEND_TO_DELE, EmailWorker.sendEmailToDele);
 };
