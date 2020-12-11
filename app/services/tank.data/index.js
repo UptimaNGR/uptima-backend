@@ -124,8 +124,8 @@ class TankDataService {
       ? lastVolume.volume_left - volumeLeft
       : total_volume - volumeLeft;
     return {
-      volumeLeft,
-      volumeUsed
+      volumeLeft: distance > height ? lastVolume.volume_left : volumeLeft,
+      volumeUsed: distance > height ? 0 : volumeUsed
     };
   }
 
