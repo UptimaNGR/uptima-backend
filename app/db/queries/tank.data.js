@@ -38,27 +38,36 @@ export default {
   `,
 
   getSingleTankDataCurrentDay: `
-  SELECT 
-    volume_left, volume_used, volume_added, EXTRACT(HOUR FROM created_at) AS hour, latitude, longitude, created_at 
-  FROM 
-    tank_data
-  WHERE 
-    tank_id = $1 
-  AND 
-  DATE_TRUNC('DAY', created_at) = DATE_TRUNC('day', current_date)
-  ORDER BY hour;
+    SELECT volume_left, volume_used, volume_added,  latitude, longitude, created_at, EXTRACT(HOUR FROM created_at) AS hour
+    FROM (
+      SELECT 
+        volume_left, volume_used, volume_added,  latitude, longitude, created_at, EXTRACT(HOUR FROM created_at)
+        ,row_number() over (partition by EXTRACT(HOUR FROM created_at) order by created_at desc) as rn
+      FROM tank_data
+      WHERE 
+        tank_id = $1 
+      AND 
+        DATE_TRUNC('DAY', created_at) = DATE_TRUNC('day', current_date)
+    ) AS X
+    WHERE rn = 1
+    ORDER BY hour;
   `,
 
   getSingleTankDataDaily: `
-  SELECT 
-  volume_left, volume_used, volume_added, EXTRACT(HOUR FROM created_at) AS hour, latitude, longitude, created_at 
-  FROM 
-    tank_data
-  WHERE 
-    tank_id = $1 
-  AND 
-  DATE_TRUNC('DAY', created_at) = $2
-  ORDER BY hour;`,
+  SELECT volume_left, volume_used, volume_added,  latitude, longitude, created_at, EXTRACT(HOUR FROM created_at) AS hour
+    FROM (
+      SELECT 
+        volume_left, volume_used, volume_added,  latitude, longitude, created_at, EXTRACT(HOUR FROM created_at)
+        ,row_number() over (partition by EXTRACT(HOUR FROM created_at) order by created_at desc) as rn
+      FROM tank_data
+      WHERE 
+        tank_id = $1 
+      AND 
+        DATE_TRUNC('DAY', created_at) = $2
+    ) AS X
+    WHERE rn = 1
+    ORDER BY hour;
+  `,
 
   getLastVolumeLeft: `
   SELECT volume_left FROM tank_data 
