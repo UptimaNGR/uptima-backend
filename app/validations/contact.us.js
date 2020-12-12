@@ -1,21 +1,22 @@
 import Joi from 'joi';
+import { stringCheck, emailCheck, numberCheck } from './generic';
 
-const contactSchema = Joi.object().keys({
-  name: Joi.string().required(),
-  message: Joi.string().required(),
-  numberOfTanks: Joi.number().min(1).required(),
-  phoneNumber: Joi.string().required(),
+const contactSchema = Joi.object({
+  name: stringCheck('Name', Joi),
+  message: stringCheck('Message', Joi),
+  numberOfTanks: numberCheck('Number', Joi, 1),
+  phoneNumber: stringCheck('Phone number', Joi),
   facilityType: Joi.array().required(),
-  companyName: Joi.string().required(),
-  email: Joi.string().email().required()
+  companyName: stringCheck('Company name', Joi, 3),
+  email: emailCheck(Joi)
 });
 
-const contactUsSchema = Joi.object().keys({
-  name: Joi.string().required(),
-  message: Joi.string().required(),
-  phoneNumber: Joi.string().required(),
-  companyName: Joi.string().required(),
-  email: Joi.string().email().required()
+const contactUsSchema = Joi.object({
+  name: stringCheck('Name', Joi),
+  message: stringCheck('Message', Joi),
+  phoneNumber: stringCheck('Phone number', Joi),
+  companyName: stringCheck('Company name', Joi, 3),
+  email: emailCheck(Joi)
 });
 
 export { contactSchema, contactUsSchema };

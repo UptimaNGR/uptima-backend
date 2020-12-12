@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { stringCheck, emailCheck } from './generic';
+import { stringCheck, emailCheck, editStringCheck } from './generic';
 
 const companySchema = Joi.object({
   address: stringCheck('Address', Joi, 5, 150),
@@ -7,7 +7,8 @@ const companySchema = Joi.object({
   companyName: stringCheck('Company Name', Joi, 2, 150),
   subscriptionType: stringCheck('Subscription Type', Joi, 3, 150),
   subscriptionStatus: stringCheck('Subscription Status', Joi, 3, 150),
-  email: emailCheck(Joi)
+  email: emailCheck(Joi),
+  companyLogo: editStringCheck('CompanyLogo', Joi, 20)
 });
 
 export default companySchema;
