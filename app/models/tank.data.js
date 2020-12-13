@@ -19,6 +19,7 @@ class TankDataModel {
    * @constructor TankDataModel
    */
   constructor(options) {
+    console.log(options);
     this.company_id = options.company_id;
     this.tank_id = options.tank_id;
     this.device_serial_number = options.serialNumber;
