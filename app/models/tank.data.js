@@ -22,12 +22,14 @@ class TankDataModel {
     this.company_id = options.company_id;
     this.tank_id = options.tank_id;
     this.device_serial_number = options.serialNumber;
-    this.volume_left = options.volumeLeft;
+    this.volume_left = Number(options.volumeLeft).toFixed(5);
     this.facility_id = options.facility_id;
-    this.volume_used = options.volumeUsed > 0 ? options.volumeUsed : 0;
+    this.volume_used = options.volumeUsed > 0 ? Number(options.volumeUsed).toFixed(5) : 0;
     this.longitude = options.longitude;
     this.latitude = options.latitude;
-    this.volume_added = options.volumeUsed < 0 ? Math.abs(options.volumeUsed) : 0;
+    this.volume_added = options.volumeUsed < 0
+      ? Math.abs(Number(options.volumeUsed).toFixed(5))
+      : 0;
     this.price = options.price ? options.price : 1;
   }
 
