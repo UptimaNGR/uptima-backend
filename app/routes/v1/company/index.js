@@ -15,6 +15,7 @@ import LogController from '../../../controllers/log';
 import UserMiddleware from '../../../middlewares/user';
 import RequestController from '../../../controllers/request';
 import RequestMiddleware from '../../../middlewares/request';
+import UserController from '../../../controllers/user';
 
 const {
   addCompany,
@@ -76,13 +77,19 @@ const {
 } = DeviceMiddleware;
 
 const { fetchLoginLog } = LogController;
-const { checkUserIdData } = UserMiddleware;
+const { checkUserIdData, validateUserFields,
+  checkUserEmailData,
+  checkUserPhoneData,
+  checkUsernameData } = UserMiddleware;
 
 const { addComplaint, addExpansion } = RequestController;
 const { validateComplaintFields, validateExpansionFields } = RequestMiddleware;
 
-const { authenticate } = AuthMiddleware;
-const { adminAccessValidator } = RoleMiddleware;
+const { authenticate, generatePassword } = AuthMiddleware;
+const { adminAccessValidator, roleAccessValidator } = RoleMiddleware;
+
+
+const { addUser } = UserController;
 
 const router = Router();
 
@@ -179,6 +186,14 @@ router.put(
 
 router.get('/:companyId/log', fetchLoginLog);
 router.get('/:companyId/user', getCompanyUserProfile);
+router.post('/:companyId/user',
+  roleAccessValidator(['owner']),
+  validateUserFields,
+  checkUserEmailData,
+  checkUserPhoneData,
+  checkUsernameData,
+  generatePassword,
+  addUser);
 router.patch('/:companyId/user/:userId/role', editCompanyUserRole);
 router.delete('/:companyId/user/:userId', deleteUserFromCompany);
 
