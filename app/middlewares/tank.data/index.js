@@ -1,10 +1,11 @@
-import { Helper, ApiError, constants } from '../../utils';
+import { Helper, ApiError, constants, TankDataHelper } from '../../utils';
 import DeviceService from '../../services/device';
 import TankDataService from '../../services/tank.data';
 import TankService from '../../services/tank';
 import Job from '../../jobs';
 import UserService from '../../services/user';
 import FacilityService from '../../services/facility';
+import tankDataSchema from '../../validations/tank.data';
 
 const { getDeviceBySerialNumber } = DeviceService;
 const { errorResponse } = Helper;
@@ -222,6 +223,57 @@ class TankDataMiddleware {
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
+      });
+      errorResponse(req, res, apiError);
+    }
+  }
+
+  /**
+   * Gets static data for dashboard
+   * @static
+   * @param { Object } req - The request from the endpoint.
+   * @param { Object } res - The response returned by the method.
+   * @param { function } next - Calls the next handle.
+   * @returns { JSON | Null } - Returns error response if validation fails or Null if otherwise.
+   * @memberof TankDataMiddleware
+   *
+   */
+  static processArrayOfDistances(req, res, next) {
+    try {
+      req.body.distance = TankDataHelper.calcMode(req.body.distance);
+      next();
+    } catch (error) {
+      const apiErrorLog = new ApiError({
+        status: 500,
+        message: error.message
+      });
+      const apiError = new ApiError({
+        status: 500,
+        message: GENERIC_ERROR
+      });
+      Helper.moduleErrLogMessager(apiErrorLog);
+      errorResponse(req, res, apiError);
+    }
+  }
+
+  /**
+   * Validates tank data request credentials.
+   * @static
+   * @param { Object } req - The request from the endpoint.
+   * @param { Object } res - The response returned by the method.
+   * @param { function } next - Calls the next handle.
+   *@returns { JSON | Null } - Returns error response if validation fails or Null if otherwise.
+   * @memberof TankDataMiddleware
+   *
+   */
+  static async validateTankDataFields(req, res, next) {
+    try {
+      await tankDataSchema.validateAsync(req.body);
+      next();
+    } catch (error) {
+      const apiError = new ApiError({
+        status: 400,
+        message: error.details[0].message
       });
       errorResponse(req, res, apiError);
     }
