@@ -94,26 +94,4 @@ export default class TankDataHelper {
     });
     return modes;
   }
-
-  /**
-   * It generates accurate distance from an array.
-   * @static
-   * @private
-   * @param { Array } data - data to be processed
-   * @memberof TankDataHelper
-   * @returns {Number} - The distance.
-   */
-  static getDistance(data) {
-    const modal = TankDataHelper.getDifferenceMode(data);
-    const differences = [];
-    for (let i = 0; i < data.length; i += 1) {
-      if (data.length > i + 1 && Math.abs(data[i] - data[i + 1]) <= modal) {
-        differences.push(data[i]);
-      }
-      if (data.length - 1 === i && Math.abs(data[i] - data[i - 1]) <= modal) {
-        differences.push(data[i]);
-      }
-    }
-    return TankDataHelper.calcMode(differences) / 100;
-  }
 }
