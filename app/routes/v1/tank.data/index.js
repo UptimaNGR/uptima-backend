@@ -8,14 +8,18 @@ const {
   checkMinLevel,
   checkOperationTime,
   checkTank,
-  checkVolume
+  checkVolume,
+  processArrayOfDistances,
+  validateTankDataFields
 } = TankDataMiddleware;
 
 const router = Router();
 
 router.post(
   '/',
+  validateTankDataFields,
   fetchDeviceBySerialNumber,
+  processArrayOfDistances,
   checkTank,
   checkVolume,
   checkOperationTime,

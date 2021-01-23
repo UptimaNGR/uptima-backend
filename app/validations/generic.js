@@ -87,7 +87,7 @@ const list = (fields, param, joiObject) => joiObject
 
 const arrayString = (param, joiObject) => joiObject
   .array()
-  .items(joiObject.string())
+  .items(joiObject.number())
   .required()
   .messages({
     'array.empty': `${param} is a required field`,
