@@ -13,7 +13,8 @@ export default class TankDataHelper {
    * @returns {String} - A unique string.
    */
   static getAverage(data) {
-    return data.reduce((a, b) => (a + b) / data.length);
+    const total = data.reduce((a, b) => (a + b), 0);
+    return total / data.length;
   }
 
   /**
@@ -43,6 +44,9 @@ export default class TankDataHelper {
 
     for (i = 0; i < numbers.length; i += 1) {
       number = numbers[i];
+      if (number > 0) {
+        count[number] = (count[number] || 0) + 1;
+      }
       count[number] = (count[number] || 0) + 1;
       if (count[number] > maxIndex) {
         maxIndex = count[number];
@@ -51,27 +55,6 @@ export default class TankDataHelper {
     const foundModeArray = TankDataHelper.findExactMode(count, maxIndex);
 
     return TankDataHelper.getMode(foundModeArray) / 100;
-  }
-
-  /**
-   * It generates a mode of an array.
-   * @static
-   * @private
-   * @param { Array } data - data to be processed
-   * @memberof TankDataHelper
-   * @returns {String} - A unique string.
-   */
-  static getDifferenceMode(data) {
-    const differences = [];
-    for (let i = 0; i < data.length; i += 1) {
-      if (data.length > i + 1) {
-        differences.push(Math.abs(data[i + 1] - data[i]));
-      }
-      if (data.length - 1 === i) {
-        differences.push(Math.abs(data[i - 1] - data[i]));
-      }
-    }
-    return TankDataHelper.calcMode(differences);
   }
 
   /**
