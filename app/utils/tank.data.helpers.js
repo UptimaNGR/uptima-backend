@@ -44,11 +44,8 @@ export default class TankDataHelper {
 
     for (i = 0; i < numbers.length; i += 1) {
       number = numbers[i];
-      if (number > 0) {
-        count[number] = (count[number] || 0) + 1;
-      }
       count[number] = (count[number] || 0) + 1;
-      if (count[number] > maxIndex) {
+      if (count[number] > maxIndex && number > 0) {
         maxIndex = count[number];
       }
     }
