@@ -23,7 +23,7 @@ export default class TankDataHelper {
    * @private
    * @param { Array } data - data to be processed
    * @memberof TankDataHelper
-   * @returns {String} - A unique string.
+   * @returns {number} - A unique number.
    */
   static getMode(data) {
     return data < 2 ? data[0] : TankDataHelper.getAverage(data);
@@ -38,19 +38,17 @@ export default class TankDataHelper {
    */
   static calcMode(numbers) {
     const count = [];
-    let i;
-    let number;
     let maxIndex = 0;
+    const numberArray = TankDataHelper.filterOutliers(numbers);
 
-    for (i = 0; i < numbers.length; i += 1) {
-      number = numbers[i];
-      count[number] = (count[number] || 0) + 1;
-      if (count[number] > maxIndex && number > 0) {
-        maxIndex = count[number];
+    logger.debug(numberArray);
+    numberArray.forEach((el) => {
+      count[el] = (count[el] || 0) + 1;
+      if (count[el] > maxIndex) {
+        maxIndex = count[el];
       }
-    }
+    });
     const foundModeArray = TankDataHelper.findExactMode(count, maxIndex);
-
     return TankDataHelper.getMode(foundModeArray) / 100;
   }
 
@@ -73,5 +71,17 @@ export default class TankDataHelper {
       }
     });
     return modes;
+  }
+
+  /**
+   * It filters outliers.
+   * @static
+   * @private
+   * @param { Array } data - data to be processed
+   * @memberof TankDataHelper
+   * @returns {Array} - A unique array.
+   */
+  static filterOutliers(data) {
+    return data.filter(el => el > 0 && el <= 400);
   }
 }

@@ -3,15 +3,13 @@ import TankDataService from '../../services/tank.data';
 import FacilityService from '../../services/facility';
 import { Helper, constants, ApiError, DBError } from '../../utils';
 import compute from '../../../process';
-import Job from '../../jobs';
 
 const { successResponse } = Helper;
 const {
   CREATE_TANK_DATA_ERROR,
   TANK_DATA_CREATED_SUCCESSFULLY,
   ERROR_FETCHING_TANK_DATA,
-  FETCH_TANK_DATA_SUCCESSFULLY,
-  events: { SEND_TO_DELE }
+  FETCH_TANK_DATA_SUCCESSFULLY
 } = constants;
 
 const { getTankDataByTankIdDaily } = TankDataService;
@@ -42,7 +40,6 @@ class TankDataController {
         message: TANK_DATA_CREATED_SUCCESSFULLY,
         data: { id, ...tankData }
       });
-      Job.create({ type: SEND_TO_DELE, data: req.body });
     } catch (e) {
       const dbError = new DBError({
         status: CREATE_TANK_DATA_ERROR,
