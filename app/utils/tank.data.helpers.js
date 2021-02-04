@@ -40,8 +40,8 @@ export default class TankDataHelper {
     const count = [];
     let maxIndex = 0;
     const numberArray = TankDataHelper.filterOutliers(numbers);
-
-    logger.debug(numberArray);
+    // eslint-disable-next-line no-console
+    console.log('PROCESSED DISTANCE', numberArray);
     numberArray.forEach((el) => {
       count[el] = (count[el] || 0) + 1;
       if (count[el] > maxIndex) {
