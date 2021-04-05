@@ -48,7 +48,6 @@ class ContactUsController {
       });
       Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: CONTACT_US_MSG_CREATED_ERROR }));
-      throw dbError;
     }
   }
 
@@ -79,7 +78,6 @@ class ContactUsController {
       });
       Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: CONTACT_US_MSG_CREATED_ERROR }));
-      throw dbError;
     }
   }
 
@@ -100,6 +98,11 @@ class ContactUsController {
         data
       });
     } catch (e) {
+      const dbError = new DBError({
+        status: FETCH_CONTACT_US_MSG_ERROR,
+        message: e.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: FETCH_CONTACT_US_MSG_ERROR }));
     }
   }

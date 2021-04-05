@@ -54,7 +54,6 @@ class TankController {
       });
       Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: CREATE_TANK_ERROR }));
-      throw dbError;
     }
   }
 
@@ -75,6 +74,11 @@ class TankController {
         data
       });
     } catch (error) {
+      const dbError = new DBError({
+        status: ERROR_FETCHING_TANK,
+        message: error.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: ERROR_FETCHING_TANK }));
     }
   }
@@ -96,6 +100,11 @@ class TankController {
         data
       });
     } catch (error) {
+      const dbError = new DBError({
+        status: ERROR_UPDATING_TANK,
+        message: error.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: ERROR_UPDATING_TANK }));
     }
   }
@@ -117,6 +126,11 @@ class TankController {
         data
       });
     } catch (error) {
+      const dbError = new DBError({
+        status: ERROR_FETCHING_TANK,
+        message: error.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: ERROR_FETCHING_TANK }));
     }
   }
@@ -138,6 +152,11 @@ class TankController {
         data
       });
     } catch (error) {
+      const dbError = new DBError({
+        status: ERROR_UPDATING_TANK,
+        message: error.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: ERROR_UPDATING_TANK }));
     }
   }

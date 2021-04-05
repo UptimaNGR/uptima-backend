@@ -14,7 +14,8 @@ const {
   SERIAL_NUMBER_ERROR,
   TANK_NOT_FOUND,
   GENERIC_ERROR,
-  TANK_ID_ABSENT
+  TANK_ID_ABSENT,
+  RESOURCE_EXIST_VERIFICATION_FAIL
 } = constants;
 
 /**
@@ -67,6 +68,8 @@ class TankMiddleware {
       req.body.totalVolume = totalVolume;
       next();
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('TANK_VOLUME_CALC');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 400,
         message: TANK_VOLUME_ERROR
@@ -102,6 +105,8 @@ class TankMiddleware {
         )
         : next();
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('TANK_FACILITY_SN');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -134,6 +139,8 @@ class TankMiddleware {
           })
         );
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('TANK');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -166,6 +173,8 @@ class TankMiddleware {
         )
         : next();
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('TANK_SN');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -199,6 +208,8 @@ class TankMiddleware {
         })
       );
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('TANK_ID_PARAM');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR

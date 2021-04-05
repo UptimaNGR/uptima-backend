@@ -53,7 +53,6 @@ class FacilityController {
       });
       Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: CREATE_FACILITY_ERROR }));
-      throw dbError;
     }
   }
 
@@ -74,6 +73,11 @@ class FacilityController {
         data
       });
     } catch (e) {
+      const dbError = new DBError({
+        status: ERROR_FETCHING_FACILITIES,
+        message: e.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: ERROR_FETCHING_FACILITIES }));
     }
   }
@@ -95,6 +99,11 @@ class FacilityController {
         data
       });
     } catch (error) {
+      const dbError = new DBError({
+        status: ERROR_UPDATING_FACILITY,
+        message: error.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: ERROR_UPDATING_FACILITY }));
     }
   }
@@ -116,6 +125,11 @@ class FacilityController {
         data
       });
     } catch (error) {
+      const dbError = new DBError({
+        status: FACILITY_NOT_FOUND,
+        message: error.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: FACILITY_NOT_FOUND }));
     }
   }
@@ -140,6 +154,11 @@ class FacilityController {
         data
       });
     } catch (error) {
+      const dbError = new DBError({
+        status: ERROR_UPDATING_FACILITY,
+        message: error.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: ERROR_UPDATING_FACILITY }));
     }
   }

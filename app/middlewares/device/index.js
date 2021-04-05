@@ -7,7 +7,8 @@ const {
   GENERIC_ERROR,
   TANK_DEVICE_ERROR,
   SERIAL_NUMBER_ERROR,
-  DEVICE_ID_ABSENT
+  DEVICE_ID_ABSENT,
+  RESOURCE_EXIST_VERIFICATION_FAIL
 } = constants;
 const { getDeviceByTankId, getDeviceBySerialNumber } = DeviceService;
 
@@ -64,6 +65,8 @@ class DeviceMiddleware {
         )
         : next();
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('DEVICE_SN');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -96,6 +99,8 @@ class DeviceMiddleware {
         )
         : next();
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('TANK_HAS_DEVICE');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -129,6 +134,8 @@ class DeviceMiddleware {
         })
       );
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('DEVICE_ID_PARAM');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR

@@ -12,7 +12,8 @@ const { errorResponse } = Helper;
 const {
   SERIAL_NUMBER_NOT_FOUND,
   GENERIC_ERROR,
-  events: { SEND_MIN_LEVEL_ALERT, SEND_ACTIVITY_DURING_CLOSE }
+  events: { SEND_MIN_LEVEL_ALERT, SEND_ACTIVITY_DURING_CLOSE },
+  RESOURCE_EXIST_VERIFICATION_FAIL
 } = constants;
 const {
   calcTankDetailsByDeviceSn,
@@ -57,6 +58,8 @@ class TankDataMiddleware {
           })
         );
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('DEVICE_SN');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -88,6 +91,8 @@ class TankDataMiddleware {
       }
       next();
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('MIN_LEVEL');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -122,6 +127,8 @@ class TankDataMiddleware {
       }
       next();
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('OPERATION_TIME');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -162,6 +169,8 @@ class TankDataMiddleware {
       req.tank.volumeUsed = volumeUsed;
       return next();
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('VOLUME');
+      Helper.moduleErrLogMessager(error);
       errorResponse(req, res, error);
     }
   }
@@ -191,6 +200,8 @@ class TankDataMiddleware {
       req.time = { opening_time, closing_time, hour };
       return next();
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('CHECK_TANK');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -222,6 +233,8 @@ class TankDataMiddleware {
       };
       next();
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('STATIC_DATA');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -245,15 +258,12 @@ class TankDataMiddleware {
       req.body.distance = TankDataHelper.calcMode(req.body.distance);
       next();
     } catch (error) {
-      const apiErrorLog = new ApiError({
-        status: 500,
-        message: error.message
-      });
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('MODE_CALC');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
       });
-      Helper.moduleErrLogMessager(apiErrorLog);
       errorResponse(req, res, apiError);
     }
   }

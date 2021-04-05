@@ -15,7 +15,8 @@ const {
   EMAIL_CONFLICT,
   GENERIC_ERROR,
   COMPANY_NOT_FOUND,
-  COMPANY_ID_ABSENT
+  COMPANY_ID_ABSENT,
+  RESOURCE_EXIST_VERIFICATION_FAIL
 } = constants;
 
 /**
@@ -71,6 +72,8 @@ class CompanyMiddleware {
         )
         : next();
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('COMPANY_EMAIL');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -103,6 +106,8 @@ class CompanyMiddleware {
         )
         : next();
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('COMPANY_PHONE');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -135,6 +140,8 @@ class CompanyMiddleware {
           })
         );
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('COMPANY_ID');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -168,6 +175,8 @@ class CompanyMiddleware {
         })
       );
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('COMPANY_PARAM_ID');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR

@@ -50,7 +50,6 @@ class UserController {
       });
       Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: CREATE_USER_ERROR }));
-      throw dbError;
     }
   }
 
@@ -72,6 +71,11 @@ class UserController {
         data
       });
     } catch (e) {
+      const dbError = new DBError({
+        status: ERROR_UPDATING_PASSWORD,
+        message: e.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: ERROR_UPDATING_PASSWORD }));
     }
   }
@@ -94,6 +98,11 @@ class UserController {
         data
       });
     } catch (e) {
+      const dbError = new DBError({
+        status: ERROR_UPDATING_PROFILE,
+        message: e.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: ERROR_UPDATING_PROFILE }));
     }
   }

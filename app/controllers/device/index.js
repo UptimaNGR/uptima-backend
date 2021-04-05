@@ -48,7 +48,6 @@ class DeviceController {
       });
       Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: CREATE_DEVICE_ERROR }));
-      throw dbError;
     }
   }
 
@@ -69,6 +68,11 @@ class DeviceController {
         data
       });
     } catch (error) {
+      const dbError = new DBError({
+        status: ERROR_FETCHING_DEVICE,
+        message: error.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: ERROR_FETCHING_DEVICE }));
     }
   }
@@ -91,6 +95,11 @@ class DeviceController {
         data
       });
     } catch (error) {
+      const dbError = new DBError({
+        status: ERROR_UPDATING_DEVICE,
+        message: error.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: ERROR_UPDATING_DEVICE }));
     }
   }

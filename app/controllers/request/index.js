@@ -43,7 +43,6 @@ class RequestController {
       });
       Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: CREATE_COMPLAINT_ERROR }));
-      throw dbError;
     }
   }
 
@@ -74,7 +73,6 @@ class RequestController {
       });
       Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: CREATE_EXPANSION_ERROR }));
-      throw dbError;
     }
   }
 }
