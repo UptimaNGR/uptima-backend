@@ -16,7 +16,8 @@ const {
   EMAIL_CONFLICT,
   GENERIC_ERROR,
   USER_NOT_FOUND,
-  USERNAME_ERROR
+  USERNAME_ERROR,
+  RESOURCE_EXIST_VERIFICATION_FAIL
 } = constants;
 
 /**
@@ -95,6 +96,8 @@ class UserMiddleware {
         )
         : next();
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('USER_EMAIL');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -127,6 +130,8 @@ class UserMiddleware {
         )
         : next();
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('USER_PHONE');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -159,6 +164,8 @@ class UserMiddleware {
         )
         : next();
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('USERNAME');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -192,6 +199,8 @@ class UserMiddleware {
           })
         );
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('USER_ID');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR

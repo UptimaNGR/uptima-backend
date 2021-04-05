@@ -80,35 +80,6 @@ class RoleMiddleware {
   }
 
   /**
-    * Checks that a created manager isn't trying
-    * to revoke the access of the app owner or any other manager
-    * @static
-    * @param { Object } req - The request from the endpoint.
-    * @param { Object } res - The response returned by the method.
-    * @param { function } next - Calls the next handle.
-    * @memberof RoleMiddleware
-    * @returns { JSON | Null } - Returns error response if validation fails
-    * or fires the next function if otherwise.
-    */
-  static appOwnerSecureAccessValidator(req, res, next) {
-    if (req.data.isOwner) {
-      if (req.data.id === req.params.userId) {
-        return errorResponse(req, res, new ApiError({
-          status: 403,
-          message: constants.OWNER_REMOVAL_NOT_SUPPORTED
-        }));
-      }
-    }
-    if (!req.data.isOwner && req.data.role === req.user.role) {
-      return errorResponse(req, res, new ApiError({
-        status: 403,
-        message: constants.ADMIN_TO_ADMIN_NOT_ALLOWED
-      }));
-    }
-    next();
-  }
-
-  /**
     * Verifies that user has the required role access for the resource.
     * @static
     * @param { Array } roles - A list of roles that can access the resource.

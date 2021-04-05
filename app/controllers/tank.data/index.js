@@ -47,7 +47,6 @@ class TankDataController {
       });
       Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: CREATE_TANK_DATA_ERROR }));
-      throw dbError;
     }
   }
 
@@ -73,13 +72,17 @@ class TankDataController {
           data: { data, staticData: req.staticData }
         });
       }
-      const mappedData = { data };
-      const mapData = await compute(mappedData);
+      const mapData = await compute({ data });
       successResponse(res, {
         message: FETCH_TANK_DATA_SUCCESSFULLY,
         data: { data: JSON.parse(mapData), staticData: req.staticData }
       });
     } catch (error) {
+      const dbError = new DBError({
+        status: ERROR_FETCHING_TANK_DATA,
+        message: error.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: ERROR_FETCHING_TANK_DATA }));
     }
   }

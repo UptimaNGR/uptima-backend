@@ -74,11 +74,6 @@ export default {
   VALIDATE_USER_ID_FAIL: 'Error validating USER id',
   ERROR_FETCHING_USERS: 'Error fetching users',
   ERROR_UPDATING_USER: 'Error updating USER',
-  FAILED_TO_START_END_OF_DAY: 'Error ending day',
-  SUCCESSFULLY_STARTED_END_OF_DAY:
-    'End of day has been initialized successfully',
-  SUCCESSFULLY_GRANT_ACCESS: 'Successfully granted USER access',
-  SUCCESSFULLY_REVOKED_ACCESS: 'Successfully revoked USER access',
   FETCH_FACILITIES_SUCCESSFULLY: 'Successfully retrieved Facilities',
   FETCH_FACILITY_SUCCESSFULLY: 'Successfully retrieved FACILITY',
   UPDATE_USER_PASSWORD_SUCCESSFULLY: 'Successfully changed password',
@@ -165,5 +160,6 @@ export default {
   CREATE_PRICE_ERROR: 'Error creating price',
   COULD_NOT_REMOVE_COMPLETED_JOB: 'COULD_NOT_REMOVE_COMPLETED_JOB',
   COULD_NOT_FETCH_COMPLETED_JOB: 'COULD_NOT_FETCH_COMPLETED_JOB',
-  EMAIL_WAS_NOT_SENT: 'Email could not be sent'
+  EMAIL_WAS_NOT_SENT: 'Email could not be sent',
+  RESOURCE_EXIST_VERIFICATION_FAIL: (resource) => `${resource}_EXIST_VERIFICATION_FAIL`,
 };

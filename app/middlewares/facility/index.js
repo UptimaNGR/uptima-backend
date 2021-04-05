@@ -3,7 +3,8 @@ import { Helper, ApiError, constants } from '../../utils';
 import validation from '../../validations/facility';
 
 const { errorResponse } = Helper;
-const { GENERIC_ERROR, FACILITY_NOT_FOUND, FACILITY_ID_ABSENT } = constants;
+const { GENERIC_ERROR, FACILITY_NOT_FOUND, FACILITY_ID_ABSENT,
+  RESOURCE_EXIST_VERIFICATION_FAIL } = constants;
 const { getFacilityByCompanyId, getFacilityById } = FacilityService;
 /**
  * A collection of middleware methods used to validates
@@ -56,6 +57,8 @@ class FacilityMiddleware {
       req.facility = data;
       return next();
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('FACILITY');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -88,6 +91,8 @@ class FacilityMiddleware {
           })
         );
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('FACILITY');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR
@@ -121,6 +126,8 @@ class FacilityMiddleware {
         })
       );
     } catch (error) {
+      error.status = RESOURCE_EXIST_VERIFICATION_FAIL('FACILITY_ID_PARAM');
+      Helper.moduleErrLogMessager(error);
       const apiError = new ApiError({
         status: 500,
         message: GENERIC_ERROR

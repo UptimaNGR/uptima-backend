@@ -61,7 +61,6 @@ class CompanyController {
       });
       Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: CREATE_COMPANY_ERROR }));
-      throw dbError;
     }
   }
 
@@ -88,7 +87,6 @@ class CompanyController {
       });
       Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: GET_ALL_COMPANY_ERROR }));
-      throw dbError;
     }
   }
 
@@ -111,6 +109,11 @@ class CompanyController {
         data
       });
     } catch (e) {
+      const dbError = new DBError({
+        status: ERROR_UPDATING_PROFILE,
+        message: e.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: ERROR_UPDATING_PROFILE }));
     }
   }
@@ -133,6 +136,11 @@ class CompanyController {
         data
       });
     } catch (e) {
+      const dbError = new DBError({
+        status: GET_ONE_COMPANY_ERROR,
+        message: e.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: GET_ONE_COMPANY_ERROR }));
     }
   }
@@ -155,6 +163,11 @@ class CompanyController {
         data
       });
     } catch (e) {
+      const dbError = new DBError({
+        status: GET_COMPANY_USER_ERROR,
+        message: e.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: GET_COMPANY_USER_ERROR }));
     }
   }
@@ -180,6 +193,11 @@ class CompanyController {
         message: SUCCESS_EDITING_USER_ROLE
       });
     } catch (e) {
+      const dbError = new DBError({
+        status: ERROR_EDITING_USER_ROLE,
+        message: e.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: ERROR_EDITING_USER_ROLE }));
     }
   }
@@ -201,6 +219,11 @@ class CompanyController {
         message: DELETE_USER_SUCCESS
       });
     } catch (e) {
+      const dbError = new DBError({
+        status: DELETE_USER_ERROR,
+        message: e.message
+      });
+      Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: DELETE_USER_ERROR }));
     }
   }
@@ -231,7 +254,6 @@ class CompanyController {
       });
       Helper.moduleErrLogMessager(dbError);
       next(new ApiError({ message: CREATE_PRICE_ERROR }));
-      throw dbError;
     }
   }
 }
