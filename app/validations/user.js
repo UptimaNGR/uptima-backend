@@ -8,7 +8,7 @@ const userSchema = Joi.object().keys({
   role: Joi.string().required(),
   companyId: Joi.string().guid().required(),
   email: Joi.string().email().required(),
-  middleName: Joi.string().min(1),
+  middleName: Joi.string().min(1).required(),
   facilityId: Joi.string().guid()
 });
 
