@@ -1,7 +1,7 @@
 import queries from '../../db/queries/user';
 import authQueries from '../../db/queries/auth';
 import db from '../../db';
-import { Helper, DBError, constants } from '../../utils';
+import { Helper } from '../../utils';
 
 const {
   fetchUserByEmail,
@@ -16,20 +16,13 @@ const {
   getUsersPaginated,
   countPages,
   fetchAllManagersWithLocation,
-  fetchUserByFacilityId,
-  updateRoleToManagerById
+  updateRoleToManagerById,
+  fetchCompanyOwner
 } = queries;
 
 const { fetchAdminById } = authQueries;
 
 const {
-  UPDATE_USER_FACILITY_FAIL,
-  DELETE_USER_FAIL,
-  FETCH_USERS_FAIL
-} = constants;
-
-const {
-  moduleErrLogMessager,
   hashPassword,
   fetchResourceByPage,
   calcPages
@@ -89,14 +82,14 @@ class UserService {
   }
 
   /**
-   * Fetches a User by facility id
+   * Fetches a User by Company id
    * @memberof UserService
    * @param {string} id - id of User
    * @returns { Promise<Array | Error> } A promise that resolves or rejects
    * with an Array of the User resource or a DB Error.
    */
-  static getUserByFacilityId(id) {
-    return db.oneOrNone(fetchUserByFacilityId, [id]);
+  static getOwnerByCompanyId(id) {
+    return db.oneOrNone(fetchCompanyOwner, [id]);
   }
 
   /**
@@ -132,16 +125,7 @@ class UserService {
    * with a User Object or a DB Error Object.
    */
   static async updateFacility(data, newFacilityId) {
-    try {
-      return db.one(updateUserFacility, [data.id, newFacilityId]);
-    } catch (error) {
-      const dbError = new DBError({
-        status: UPDATE_USER_FACILITY_FAIL,
-        message: error.message
-      });
-      moduleErrLogMessager(dbError);
-      throw dbError;
-    }
+    return db.one(updateUserFacility, [data.id, newFacilityId]);
   }
 
   /**
@@ -152,16 +136,7 @@ class UserService {
    * with a null value or a DB Error Object.
    */
   static async deleteUserById(data) {
-    try {
-      await db.none(deleteUser, [data.id]);
-    } catch (error) {
-      const dbError = new DBError({
-        status: DELETE_USER_FAIL,
-        message: error.message
-      });
-      moduleErrLogMessager(dbError);
-      throw dbError;
-    }
+    return db.none(deleteUser, [data.id]);
   }
 
   /**
@@ -173,16 +148,7 @@ class UserService {
    * with a null value or a DB Error Object.
    */
   static async updateUserRole(data, newRole) {
-    try {
-      await db.none(updateRoleToBasicById, [data, newRole.role, newRole.facilityId]);
-    } catch (error) {
-      const dbError = new DBError({
-        status: DELETE_USER_FAIL,
-        message: error.message
-      });
-      moduleErrLogMessager(dbError);
-      throw dbError;
-    }
+    return db.none(updateRoleToBasicById, [data, newRole.role, newRole.facilityId]);
   }
 
   /**
@@ -194,16 +160,7 @@ class UserService {
    * with a null value or a DB Error Object.
    */
   static async updateUserRoleToManager(data, newRole) {
-    try {
-      await db.none(updateRoleToManagerById, [data, newRole]);
-    } catch (error) {
-      const dbError = new DBError({
-        status: DELETE_USER_FAIL,
-        message: error.message
-      });
-      moduleErrLogMessager(dbError);
-      throw dbError;
-    }
+    return db.none(updateRoleToManagerById, [data, newRole]);
   }
 
   /**
@@ -213,29 +170,20 @@ class UserService {
    * with an Array of the User resource or a DB Error.
    */
   static async fetchAll({ page = 1, limit = 30, facilityId }) {
-    try {
-      const [count, resources] = await fetchResourceByPage({
-        page,
-        limit,
-        getCount: countPages,
-        getResources: getUsersPaginated,
-        params: [facilityId],
-        countParams: [facilityId]
-      });
-      return {
-        total: count.total,
-        currentPage: page,
-        totalPages: calcPages(count.total, limit),
-        resources
-      };
-    } catch (error) {
-      const dbError = new DBError({
-        status: FETCH_USERS_FAIL,
-        message: error.message
-      });
-      moduleErrLogMessager(dbError);
-      throw dbError;
-    }
+    const [count, resources] = await fetchResourceByPage({
+      page,
+      limit,
+      getCount: countPages,
+      getResources: getUsersPaginated,
+      params: [facilityId],
+      countParams: [facilityId]
+    });
+    return {
+      total: count.total,
+      currentPage: page,
+      totalPages: calcPages(count.total, limit),
+      resources
+    };
   }
 
   /**
