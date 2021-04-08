@@ -78,7 +78,8 @@ export default {
 
   countPages: 'SELECT COUNT(*) as total FROM user_info WHERE facility_id = $1;',
 
-  fetchUserByFacilityId: 'SELECT id, email, first_name, phone_number FROM user_info WHERE facility_id = $1;',
+  fetchUserByFacilityId:
+    'SELECT id, email, first_name, phone_number FROM user_info WHERE facility_id = $1;',
 
   fetchUserByUsername: `
     SELECT *
@@ -149,6 +150,9 @@ export default {
     facility_id=NULL,
     updated_at=now()
     WHERE id=$1
-  ;`
+  ;`,
 
+  fetchCompanyOwner: `
+  SELECT * FROM user_info WHERE company_id = $1 and role = 'owner';
+  `
 };

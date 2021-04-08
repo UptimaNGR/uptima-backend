@@ -23,7 +23,7 @@ const {
   getPriceByCompanyIdAndFluidType
 } = TankDataService;
 const { getTankById } = TankService;
-const { getUserByFacilityId } = UserService;
+const { getOwnerByCompanyId } = UserService;
 const { getFacilityCloseAndOpenTimeById } = FacilityService;
 
 /**
@@ -80,10 +80,10 @@ class TankDataMiddleware {
    */
   static async checkMinLevel(req, res, next) {
     try {
-      const { volumeLeft, volumeUsed, facility_id, tank_id } = req.tank;
+      const { volumeLeft, volumeUsed, company_id, tank_id } = req.tank;
       const { min_level } = await getTankById(tank_id);
       if (volumeLeft < min_level) {
-        const { email, first_name } = await getUserByFacilityId(facility_id);
+        const { email, first_name } = await getOwnerByCompanyId(company_id);
         Job.create({
           type: SEND_MIN_LEVEL_ALERT,
           data: { email, first_name, min_level, volumeLeft, volumeUsed }
@@ -117,9 +117,9 @@ class TankDataMiddleware {
       if (!opening_time) {
         return next();
       }
-      const { facility_id, volumeUsed, volumeLeft } = req.tank;
+      const { company_id, volumeUsed, volumeLeft } = req.tank;
       if (volumeUsed > 5 && (hour < opening_time || hour > closing_time)) {
-        const { email, first_name } = await getUserByFacilityId(facility_id);
+        const { email, first_name } = await getOwnerByCompanyId(company_id);
         Job.create({
           type: SEND_ACTIVITY_DURING_CLOSE,
           data: { email, first_name, volumeUsed, volumeLeft }
@@ -190,7 +190,10 @@ class TankDataMiddleware {
       const date = new Date();
       const hour = date.getHours();
       const tank = await calcTankDetailsByDeviceSn(req.body);
-      const data = await getPriceByCompanyIdAndFluidType(tank.company_id, tank.fluid_type);
+      const data = await getPriceByCompanyIdAndFluidType(
+        tank.company_id,
+        tank.fluid_type
+      );
       const {
         opening_time,
         closing_time
