@@ -23,13 +23,11 @@ class DeviceHelper {
    * @static
    * @param { Array } surfaceArea - Total surface area of a tank.
    * @param { Number } distance - The distance from sensor to device
-   * @param { Number } height - The height to the tank.
    * @memberof DeviceHelper
    * @returns { Number } - Returns the display page value.
    */
-  static calcVolumeLeft(surfaceArea, distance, height) {
-    const depth = height - distance;
-    return surfaceArea[0] * depth * 1000;
+  static calcVolumeLeft(surfaceArea, distance) {
+    return surfaceArea[0] * distance * 1000;
   }
 
   /**
@@ -48,7 +46,7 @@ class DeviceHelper {
       (1 / 3)
       * Math.PI
       * height
-      * ((bigRadius ** 2) + (bigRadius * smallRadius) + (smallRadius ** 2))
+      * (bigRadius ** 2 + bigRadius * smallRadius + smallRadius ** 2)
     );
   }
 
@@ -65,14 +63,12 @@ class DeviceHelper {
   static calcVolumeLeftVariableRadius(surfaceArea, distance, height) {
     const bigRadius = DeviceHelper.calcRadius(Math.max(...surfaceArea));
     const smallRadius = DeviceHelper.calcRadius(Math.min(...surfaceArea));
-    const depth = height - distance;
-    const radius = (depth * ((bigRadius - smallRadius) / height)) + smallRadius;
+    const radius = distance * ((bigRadius - smallRadius) / height) + smallRadius;
     return (
       (1 / 3)
       * Math.PI
-      * depth
-      * ((radius ** 2) + (radius * smallRadius) + (smallRadius ** 2)
-      * 1000)
+      * distance
+      * (radius ** 2 + radius * smallRadius + smallRadius ** 2 * 1000)
     );
   }
 
@@ -100,9 +96,9 @@ class DeviceHelper {
    */
   static calcHorizontalCylinderVolumeLeft(surfaceArea, distance, height) {
     const radius = DeviceHelper.calcRadius(surfaceArea[0]);
-    const depth = 2 * radius - distance;
-    const lhs = (radius ** 2) * Math.acos((radius - depth) / radius);
-    const rhs = (radius - depth) * Math.sqrt(2 * radius * depth - (depth ** 2));
+    const depth = distance;
+    const lhs = radius ** 2 * Math.acos((radius - depth) / radius);
+    const rhs = (radius - depth) * Math.sqrt(2 * radius * depth - depth ** 2);
     return height * (lhs - rhs) * 1000;
   }
 
@@ -119,11 +115,19 @@ class DeviceHelper {
   static async calcVolumeLeftByTankType(type, surfaceArea, distance, height) {
     switch (type) {
       case 'variable_radius':
-        return DeviceHelper.calcVolumeLeftVariableRadius(surfaceArea, distance, height);
+        return DeviceHelper.calcVolumeLeftVariableRadius(
+          surfaceArea,
+          distance,
+          height
+        );
       case 'horizontal_cylinder':
-        return DeviceHelper.calcHorizontalCylinderVolumeLeft(surfaceArea, distance, height);
+        return DeviceHelper.calcHorizontalCylinderVolumeLeft(
+          surfaceArea,
+          distance,
+          height
+        );
       default:
-        return DeviceHelper.calcVolumeLeft(surfaceArea, distance, height);
+        return DeviceHelper.calcVolumeLeft(surfaceArea, distance);
     }
   }
 
@@ -137,12 +141,9 @@ class DeviceHelper {
    * with volume of Tank.
    */
   static async calcTotalVolumeByTankType(type, surfaceArea, height) {
-    switch (type) {
-      case 'variable_radius':
-        return DeviceHelper.calcTotalVolumeVariableRadius(surfaceArea, height);
-      default:
-        return DeviceHelper.calcTotalVolume(surfaceArea, height);
-    }
+    return type === 'variable_radius'
+      ? DeviceHelper.calcTotalVolumeVariableRadius(surfaceArea, height)
+      : DeviceHelper.calcTotalVolume(surfaceArea, height);
   }
 }
 

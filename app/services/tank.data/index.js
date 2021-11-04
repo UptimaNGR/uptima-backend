@@ -72,7 +72,6 @@ class TankDataService {
       tank_id,
       total_volume,
       facility_id,
-      dist_to_device,
       height,
       structure_type,
       fluid_type
@@ -86,7 +85,7 @@ class TankDataService {
       longitude,
       latitude,
       facility_id,
-      distance: parseFloat(distance) - parseFloat(dist_to_device),
+      distance: parseFloat(distance),
       height,
       structure_type,
       fluid_type
@@ -124,8 +123,8 @@ class TankDataService {
       ? lastVolume.volume_left - volumeLeft
       : total_volume - volumeLeft;
     return {
-      volumeLeft: distance > height ? lastVolume.volume_left : volumeLeft,
-      volumeUsed: distance > height ? 0 : volumeUsed
+      volumeLeft,
+      volumeUsed
     };
   }
 

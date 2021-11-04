@@ -61,7 +61,6 @@ class DeviceService {
     return db.oneOrNone(updateDeviceById, [
       data.tank_id,
       data.serial_number,
-      data.dist_to_device,
       data.company_id,
       data.facility_id,
       oldData.id

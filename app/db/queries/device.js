@@ -6,10 +6,9 @@ export default {
           company_id,
           facility_id,
           tank_id,
-          serial_number,
-          dist_to_device
+          serial_number
         )
-    VALUES ($1, $2, $3, $4, $5, $6)
+    VALUES ($1, $2, $3, $4, $5)
     RETURNING *`,
 
   updateDeviceById: `
@@ -18,12 +17,11 @@ export default {
     SET
         tank_id=($1),
         serial_number=($2),
-        dist_to_device=($3),
-        company_id=($4),
-        facility_id=($5),
+        company_id=($3),
+        facility_id=($4),
         updated_at=NOW()
     WHERE
-        id=($6)
+        id=($5)
     RETURNING *
   `,
 

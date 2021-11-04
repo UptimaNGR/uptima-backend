@@ -24,7 +24,6 @@ class DeviceModel {
     this.facility_id = options.facilityId;
     this.tank_id = options.tankId;
     this.serial_number = options.serialNumber;
-    this.dist_to_device = options.distToDevice;
   }
 
   /**
@@ -40,8 +39,7 @@ class DeviceModel {
         this.company_id,
         this.facility_id,
         this.tank_id,
-        this.serial_number,
-        this.dist_to_device
+        this.serial_number
       ]);
     } catch (e) {
       const dbError = new DBError({
