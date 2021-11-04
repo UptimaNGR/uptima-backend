@@ -23,7 +23,6 @@ export default {
     tank_id,
     t.total_volume,
     t.facility_id,
-    d.dist_to_device,
     t.height,
     t.structure_type,
     t.fluid_type

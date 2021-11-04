@@ -1,0 +1,1 @@
+ALTER TABLE IF EXISTS device DROP COLUMN IF EXISTS dist_to_device;
