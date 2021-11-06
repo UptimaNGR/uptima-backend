@@ -82,6 +82,6 @@ export default class TankDataHelper {
    * @returns {Array} - A unique array.
    */
   static filterOutliers(data) {
-    return data.filter(el => el > 0 && el <= 400);
+    return data.filter(el => el > 0);
   }
 }
