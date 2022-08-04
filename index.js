@@ -20,7 +20,8 @@ if (cluster.isMaster) {
   }
 } else {
   // This is not the master process, so we spawn the express server.
-  appConfig(app).then(() => logger.info(`Worker ${process.pid} started`)).catch(err => logger.error(JSON.stringify(err)));
+  appConfig(app);
+  logger.info(`Worker ${process.pid} started`);
 }
 // creating a new process if a worker die.
 cluster.on('exit', (worker) => {

@@ -16,13 +16,7 @@ const { notFoundApi } = genericErrors;
 const { WELCOME, v1, REDIS_RUNNING } = constants;
 const ddos = new Ddos({ burst: 10, limit: 15 });
 
-const appConfig = async (app) => {
-  await scout.install({
-    allowShutdown: true, // allow shutting down spawned scout-agent processes from this program
-    monitor: true, // enable monitoring
-    name: '',
-    key: '',
-  });
+const appConfig = (app) => {
   app.use(scout.expressMiddleware());
   // integrate winston logger with morgan
   app.use(morgan('combined', { stream: logger.stream }));
