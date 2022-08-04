@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import scout from '@scout_apm/scout-apm';
 import morgan from 'morgan';
 import { json, urlencoded } from 'express';
 import cors from 'cors';
@@ -16,14 +15,7 @@ const { notFoundApi } = genericErrors;
 const { WELCOME, v1, REDIS_RUNNING } = constants;
 const ddos = new Ddos({ burst: 10, limit: 15 });
 
-const appConfig = async (app) => {
-  await scout.install({
-    allowShutdown: true, // allow shutting down spawned scout-agent processes from this program
-    monitor: true, // enable monitoring
-    name: '',
-    key: '',
-  });
-  app.use(scout.expressMiddleware());
+const appConfig = (app) => {
   // integrate winston logger with morgan
   app.use(morgan('combined', { stream: logger.stream }));
   // adds security middleware to handle potential attacks from HTTP requests
