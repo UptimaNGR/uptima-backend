@@ -13,7 +13,7 @@ export const sendPassword = (firstName, password) => {
         button: {
           color: '#22BC66',
           text: 'Click here to login',
-          link: 'https://utrackdashboard.uptima.ng/login'
+          link: 'https://utrackdashboard.uptima.co/login'
         }
       },
       outro:
