@@ -49,7 +49,7 @@ export default class TankDataHelper {
       }
     });
     const foundModeArray = TankDataHelper.findExactMode(count, maxIndex);
-    return TankDataHelper.getMode(foundModeArray) / 10000;
+    return (TankDataHelper.getMode(foundModeArray) + 60) / 1000;
   }
 
   /**
